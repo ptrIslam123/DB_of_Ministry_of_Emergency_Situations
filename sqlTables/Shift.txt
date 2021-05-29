@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Shift
     id_shift            INTEGER,        -- Номер смены
     event_type          TEXT,           -- Тип события (проишествия)
     last_name           TEXT,           -- Фамилия дежурного
-    firts_name           TEXT,           -- Имя дежурного
+    firts_name          TEXT,           -- Имя дежурного
     midle_name          TEXT,           -- Отчество дежурного
     visit_type          TEXT,           -- Вид выезда
 

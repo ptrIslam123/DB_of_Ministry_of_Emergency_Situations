@@ -1,0 +1,17 @@
+
+-- таблица техника
+CREATE TABLE IF NOT EXISTS Technic
+(
+    id_car              INTEGER,        -- Табельный номер ммашины
+    gov_car_number      INTEGER,        -- Гос номер ммашины
+    technic_type        TEXT,           -- Вид техники
+    last_name           TEXT,           -- Фамилия водителя
+    firts_name          TEXT,           -- Имя водителя
+    midle_name          TEXT,           -- Отчество водителя
+
+    CONSTRAINT technic_pk PRIMARY KEY(id_car),
+
+    CONSTRAINT fk_l_name FOREIGN KEY (last_name) REFERENCES Employees(last_name),
+    CONSTRAINT fk_f_name FOREIGN KEY (firts_name) REFERENCES Employees(firts_name),
+    CONSTRAINT fk_m_name FOREIGN KEY (midle_name) REFERENCES Employees(midle_name)
+);
