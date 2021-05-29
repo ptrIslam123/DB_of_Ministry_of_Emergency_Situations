@@ -4,5 +4,7 @@ CREATE TABLE IF NOT EXISTS Brigade
 (
     id_brigade              INTEGER,    -- Табельный номер бригады
     number_of_employyes     INTEGER,    -- Количество сотрудников
-    type_brigade            TEXT        -- Вид высылаемой бригады
+    type_brigade            TEXT,       -- Вид высылаемой бригады
+
+    CONSTRAINT brigade_pk PRIMARY KEY(id_brigade)
 );
