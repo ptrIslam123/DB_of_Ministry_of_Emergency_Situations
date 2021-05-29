@@ -27,7 +27,7 @@ class Technic:
     def print_table(self):
         self.__sqlDriver.exec_request(
             """
-            SELECT sql FROM sqlite_master WHERE name='Shift'
+            SELECT sql FROM sqlite_master WHERE name='Technic'
             """
         )
 

@@ -87,7 +87,6 @@ class Shift:
                 visit_type=visit_type
         )       
 
-        print(req)
         self.__sqlDriver.exec_request(
             req
         )

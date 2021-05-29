@@ -4,25 +4,22 @@
 
 from employees import Employees #
 from shift import Shift #
-from technic import Technic
-from brigade import Brigade
+from technic import Technic # 
+from brigade import Brigade #
 from geographLocation import GeographLocation
 from vars import *
 
 
 def main():
-    t = Technic()
+    b = Brigade()
 
-    t.insert(
+    b.insert(
         "1",
-        "12",
-        "type1",
-        "kardsnov",
-        "islam",
-        "ibragimovich"
+        "10",
+        "type1"
     )
 
-    print(t.select_all_records())
+    print(b.select_all_records())
 
     print("successful!")
     
