@@ -6,6 +6,7 @@ from employees import Employees
 from shift import Shift
 from technic import Technic
 from brigade import Brigade
+from geographLocation import GeographLocation
 from vars import *
 
 
@@ -14,6 +15,7 @@ def main():
     s = Shift()
     t = Technic()
     b = Brigade()
+    g = GeographLocation()
     print("successful!")
     
 
