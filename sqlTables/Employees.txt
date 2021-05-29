@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS Employees
 (
     id_employees        INTEGER         -- табельный номер
     last_name           TEXT,           -- Фамилия
-    firtsname           TEXT,           -- Имя
+    firts_name           TEXT,           -- Имя
     midle_name          TEXT,           -- Отчество
     gender              TEXT,           -- Пол
     date_of_burth       TEXT,           -- Дата рождения

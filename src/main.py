@@ -2,15 +2,14 @@
 #-*-coding: utf-8-*-
 
 
-from sqliteDriver import *
+from employees import Employees
+from shift import Shift
 from vars import *
 
 
 def main():
-    sql = SqlDriver("{SQL_TABLES_DIR_PATH}/Employees.db".format(
-        SQL_TABLES_DIR_PATH=SQL_TABLES_DIR_PATH
-    ))
-
+    e = Employees()
+    s = Shift()
     print("successful!")
     
 

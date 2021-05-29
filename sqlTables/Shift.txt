@@ -1,0 +1,17 @@
+
+-- таблица смена
+CREATE TABLE IF NOT EXISTS Shift
+(
+    id_shift            INTEGER,        -- Номер смены
+    event_type          TEXT,           -- Тип события (проишествия)
+    last_name           TEXT,           -- Фамилия дежурного
+    firts_name           TEXT,           -- Имя дежурного
+    midle_name          TEXT,           -- Отчество дежурного
+    visit_type          TEXT,           -- Вид выезда
+
+    CONSTRAINT shift_pk PRIMARY KEY(id_shift),
+
+    CONSTRAINT fk_l_name FOREIGN KEY (last_name) REFERENCES Employees(last_name),
+    CONSTRAINT fk_f_name FOREIGN KEY (firts_name) REFERENCES Employees(firts_name),
+    CONSTRAINT fk_m_name FOREIGN KEY (midle_name) REFERENCES Employees(midle_name)
+);
