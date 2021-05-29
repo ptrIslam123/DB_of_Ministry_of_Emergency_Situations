@@ -6,21 +6,17 @@ from employees import Employees #
 from shift import Shift #
 from technic import Technic # 
 from brigade import Brigade #
-from geographLocation import GeographLocation
+from geographLocation import GeographLocation #
 from vars import *
 
 
 def main():
+    e = Employees()
+    s = Shift()
     b = Brigade()
-
-    b.insert(
-        "1",
-        "10",
-        "type1"
-    )
-
-    print(b.select_all_records())
-
+    t = Technic()
+    g = GeographLocation()
+    
     print("successful!")
     
 
