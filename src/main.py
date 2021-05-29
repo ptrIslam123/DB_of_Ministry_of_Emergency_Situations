@@ -2,8 +2,8 @@
 #-*-coding: utf-8-*-
 
 
-from employees import Employees
-from shift import Shift
+from employees import Employees #
+from shift import Shift #
 from technic import Technic
 from brigade import Brigade
 from geographLocation import GeographLocation
@@ -11,26 +11,18 @@ from vars import *
 
 
 def main():
-    e = Employees()
-    s = Shift()
-    '''
-    e.insert(
+    t = Technic()
+
+    t.insert(
         "1",
-        "kardanov",
+        "12",
+        "type1",
+        "kardsnov",
         "islam",
-        "ibragimovich",
-        "M",
-        "12.34.45",
-        "89980909"
+        "ibragimovich"
     )
-    '''
 
-    
-    
-    
-    print(s.select_all_records())
-    print(e.select_all_records())
-
+    print(t.select_all_records())
 
     print("successful!")
     
