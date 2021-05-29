@@ -1,0 +1,14 @@
+
+-- таблица сотрудники
+CREATE TABLE IF NOT EXISTS Employees
+(
+    id_employees        INTEGER         -- табельный номер
+    last_name           TEXT,           -- Фамилия
+    firtsname           TEXT,           -- Имя
+    midle_name          TEXT,           -- Отчество
+    gender              TEXT,           -- Пол
+    date_of_burth       TEXT,           -- Дата рождения
+    number_phone        TEXT,           -- Номер телефона
+
+    CONSTRAINT employyes_pk PRIMARY KEY(id_employees)
+);
