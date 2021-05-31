@@ -9,9 +9,11 @@ class Employees:
     
     def __init__(self):
         self.__sqlDriver = sql.SqlDriver(
-            "{SQL_DB_DIR_PATH}/Employees.db".format(
-                SQL_DB_DIR_PATH=SQL_DB_DIR_PATH
-            )
+           MAIN_SQL_DB_FILE
+        )
+
+        self.__sqlDriver.exec_request(
+            "PRAGMA foreign_keys=on;"
         )
 
         self.__sqlDriver.exec_file(

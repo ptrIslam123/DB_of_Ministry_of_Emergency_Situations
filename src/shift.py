@@ -10,9 +10,12 @@ class Shift:
     
     def __init__(self):
         self.__sqlDriver = sql.SqlDriver(
-            "{SQL_DB_DIR_PATH}/Shift.db".format(
-                SQL_DB_DIR_PATH=SQL_DB_DIR_PATH
-            )
+            MAIN_SQL_DB_FILE
+        )
+
+
+        self.__sqlDriver.exec_request(
+            "PRAGMA foreign_keys=on;"
         )
 
         self.__sqlDriver.exec_file(
@@ -41,10 +44,8 @@ class Shift:
     def insert(
         self,
         id_shift,
+        id_employees,
         event_type,
-        last_name,
-        firts_name,
-        midle_name,
         visit_type
     ):
     
@@ -52,38 +53,30 @@ class Shift:
         CREATE TABLE IF NOT EXISTS Shift
         (
             id_shift            INTEGER,        -- Номер смены
+            id_employees        INTEGER,        -- идентивикатор сотрудника (является внешним ключом по отношений к таблице Employees)
             event_type          TEXT,           -- Тип события (проишествия)
-            last_name           TEXT,           -- Фамилия дежурного
-            firts_name          TEXT,           -- Имя дежурного
-            midle_name          TEXT,           -- Отчество дежурного
             visit_type          TEXT,           -- Вид выезда
 
-            CONSTRAINT shift_pk PRIMARY KEY(id_shift),
+            CONSTRAINT pk_shift PRIMARY KEY(id_shift),
 
-            CONSTRAINT fk_l_name FOREIGN KEY (last_name) REFERENCES Employees(last_name),
-            CONSTRAINT fk_f_name FOREIGN KEY (firts_name) REFERENCES Employees(firts_name),
-            CONSTRAINT fk_m_name FOREIGN KEY (midle_name) REFERENCES Employees(midle_name)
+            CONSTRAINT fk_id_employees FOREIGN KEY(id_employees) REFERENCES Employees(id_employees)
         );
         '''
 
         req = """
             INSERT INTO Shift
-            (id_shift, event_type, last_name, firts_name, midle_name, visit_type)
+            (id_shift, id_employees, event_type, visit_type)
             VALUES
             (
                 '{id_shift}',
+                '{id_employees}',
                 '{event_type}',
-                '{last_name}',
-                '{firts_name}',
-                '{midle_name}',
                 '{visit_type}'
             );
         """.format(
                 id_shift=id_shift,
+                id_employees=id_employees,
                 event_type=event_type,
-                last_name=last_name,
-                firts_name=firts_name,
-                midle_name=midle_name,
                 visit_type=visit_type
         )       
 

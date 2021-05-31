@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS Employees
     date_of_burth       TEXT,           -- Дата рождения
     number_phone        TEXT,           -- Номер телефона
 
-    CONSTRAINT employyes_pk PRIMARY KEY(id_employees)
+    CONSTRAINT pk_employyes PRIMARY KEY(id_employees)
 );
