@@ -127,7 +127,6 @@ class MainWindow(QtGui.QMainWindow):
 
     def __set_font(self):
         font, ok = QtGui.QFontDialog.getFont()
-
         if ok:
             pass
             #self.__textEdit.setFont(font)
