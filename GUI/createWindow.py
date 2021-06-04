@@ -3,6 +3,10 @@
 
 from widgetNames import *
 from window import *
+import sys
+
+sys.path.append('../src/')
+from record import Record
 
 class CreateWindow(BaseWindow):
 
@@ -15,24 +19,36 @@ class CreateWindow(BaseWindow):
             DEFAULT_M_WINDOW_HIGHT
         )
 
+        self.__record = Record()
+
         self.__district_departue_list = [
-            "district1", "district2", "district3"
+            "district1".decode('utf-8'), 
+            "district2".decode('utf-8'), 
+            "district3".decode('utf-8')
         ]
 
         self.____visit_type_list = [
-            "visit_t1", "visit_t2", "visit_t3"
+            "visit_t1".decode('utf-8'), 
+            "visit_t2".decode('utf-8'), 
+            "visit_t3".decode('utf-8')
         ]
 
         self.____additional_data_list = [
-            "additional1", "additional2", "additional3"
+            "additional1".decode('utf-8'), 
+            "additional2".decode('utf-8'), 
+            "additional3".decode('utf-8')
         ]
 
         self.____sender_technics_list = [
-            "sender1", "sender2"
+            "sender1".decode('utf-8'), 
+            "sender2".decode('utf-8')
         ]
 
         self.____rank_list = [
-            "rank1", "rank2"
+            "1".decode('utf-8'), 
+            "2".decode('utf-8'),
+            "3".decode('utf-8'),
+            "4".decode('utf-8')
         ]
 
         self.makeWindowDialog()
@@ -59,26 +75,33 @@ class CreateWindow(BaseWindow):
         self.__district_departue_ledit.addItems(
             self.__district_departue_list
         )
+        self.__district_departue_ledit.activated[str].connect(self.__district_departue_handler)
 
         self.__address_ledit             = QtGui.QLineEdit()
         self.__visit_type_ledit          = QtGui.QComboBox()
         self.__visit_type_ledit.addItems(
             self.____visit_type_list
         )
+        self.__visit_type_ledit.activated[str].connect(self.__visit_type_handler)
 
         self.__additional_data_ledit     = QtGui.QComboBox()
         self.__additional_data_ledit.addItems(
             self.____additional_data_list
         )
+        self.__additional_data_ledit.activated[str].connect(self.__additional_data_handler)
 
         self.__sender_technics_ledit     = QtGui.QComboBox()
         self.__sender_technics_ledit.addItems(
             self.____sender_technics_list
         )
+        self.__sender_technics_ledit.activated[str].connect(self.__sender_technics_handler)
+
         self.__rank_ledit                = QtGui.QComboBox()
         self.__rank_ledit.addItems(
             self.____rank_list
         )
+        self.__rank_ledit.activated[str].connect(self.__rank_handler)
+
         self.__message_ledit             = QtGui.QTextEdit()
 
 
@@ -111,6 +134,28 @@ class CreateWindow(BaseWindow):
 
 
     def write_record_in_the_db(self):
-        pass
+        self.__record.set_address(self.__address_ledit.text())
+        self.__record.set_message(self.__message_ledit.toPlainText())
+
+        
 
 
+
+    def __district_departue_handler(self, text):
+        self.__record.set_district_departue(text)
+
+
+    def __visit_type_handler(self, text):
+        self.__record.set_visit_type(text)
+
+
+    def __additional_data_handler(self, text):
+        self.__record.set_additional_data(text)
+
+
+    def __sender_technics_handler(self, text):
+        self.__record.set_sender_technics(text)
+
+
+    def __rank_handler(self, text):
+        self.__record.set_rank(text)
