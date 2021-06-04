@@ -37,20 +37,26 @@ class Record:
     def get_district_depatrue(self):
         return self.__district_departue
 
+
     def get_address(self):
         return self.__address
+
 
     def get_visit_type(self):
         return self.__visit_type
 
+
     def get_additional_data(self):
         return self.__additional_data
+
 
     def get_sender_technics(self):
         return self.__sender_technics
 
+
     def get_rank(self):
         return self.__rank
+
 
     def get_message(self):
         return self.__message
@@ -59,20 +65,27 @@ class Record:
     def set_district_departue(self, val):
         self.__district_departue = val
 
+
     def set_address(self, val):
         self.__address = val
+
 
     def set_visit_type(self, val):
         self.__visit_type = val
 
+
     def set_additional_data(self, val):
         self.__additional_data = val
+
 
     def set_sender_technics(self, val):
         self.__sender_technics = val
 
+
     def set_rank(self, val):
         self.__rank = val
 
+
     def set_message(self, val):
         self.__message = val
+        
