@@ -105,14 +105,12 @@ class MainWindow(QtGui.QMainWindow):
         print("save file!")
 
     def __edit_file(self):
-        print("edit file!")
         if self.__editWindow is None:
             self.__editWindow = EditWindow()
         
         self.__editWindow.show_window()
 
     def __create_file(self):
-        print("creaet file!")
         if self.__createWindow is None:
             self.__createWindow = CreateWindow()
         

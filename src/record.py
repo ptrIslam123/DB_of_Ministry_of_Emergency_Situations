@@ -18,6 +18,45 @@ class Record:
         self.__message              = None
 
 
+
+    def write_in_the_file(self, fname):
+        with open(fname, 'w') as file:
+            file.write("{__date}\n".format(__date=self.__date))
+            file.write("{__time}\n".format(__time=self.__time))
+            file.write("{__district_departue}\n".format(__district_departue=self.__district_departue))
+            file.write("{__address}\n".format(__address=self.__address))
+            file.write("{__visit_type}\n".format(__visit_type=self.__visit_type))
+            file.write("{__additional_data}\n".format(__additional_data=self.__additional_data))
+            file.write("{__sender_technics}\n".format(__sender_technics=self.__sender_technics))
+            file.write("{__rank}\n".format(__rank=self.__rank))
+            file.write("{__message}\n".format(__message=self.__message))
+
+
+    def __get_str_record(self):
+        reportData = """
+        {__date}
+        {__time}
+        {__district_departue}
+        {__address}
+        {__visit_type}
+        {__additional_data}
+        {__sender_technics}
+        {__rank}
+        {__message}""".format(
+            __date=self.__date,
+            __time=self.__time,
+            __district_departue=self.__district_departue,
+            __address=self.__address,
+            __visit_type=self.__visit_type,
+            __additional_data=self.__additional_data,
+            __sender_technics=self.__sender_technics,
+            __rank=self.__rank,
+            __message=self.__message
+        )
+
+        return reportData
+
+
     def print_fields(self):
         print(
             """

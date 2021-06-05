@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #-*-coding: utf-8-*-
 
-
+SUCCESSFULLY                        = "успешно".decode('utf-8')
 CANCLE_BTN_NAME                     = "cancel".decode('utf-8')
 
 # -- CreateWindow
@@ -11,6 +11,9 @@ DEFAULT_EWINDOW_POS_X               = 50
 DEFAULT_EWINDOW_POS_Y               = 50
 EDIT_WINDOW_TITLE                   = "the Edit Window".decode('utf-8')
 
+
+CWINDOW_STATUS_INF_LABEL            = "статус операции".decode('utf-8')
+CWINDOW_REPORT_FNAME_LABEL          = "выходной файл".decode('utf-8')
 CWINDOW_WRITE_BTN_NAME              = "write".decode('utf-8')
 CWINDOW_DISTRICT_DEPARTUE_LABEL     = "район выезда".decode('utf-8')
 CWINDOW_ADDRESS_LABEL               = "адрес".decode('utf-8')

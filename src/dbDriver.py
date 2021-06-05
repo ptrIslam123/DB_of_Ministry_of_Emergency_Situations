@@ -25,3 +25,9 @@ class DBDriver:
         )
 
         return 0, self.__recordT.get_table_name()
+
+
+    def edit_records(self):
+        pass
+
+        

@@ -66,7 +66,8 @@ class CreateWindow(BaseWindow):
         self.__cancel_btn = QtGui.QPushButton(CANCLE_BTN_NAME)
 
 
-
+        report_fname_lbl        = QtGui.QLabel(CWINDOW_REPORT_FNAME_LABEL)
+        status_inf_lbl          = QtGui.QLabel(CWINDOW_STATUS_INF_LABEL)
         district_departue_lbl   = QtGui.QLabel(CWINDOW_DISTRICT_DEPARTUE_LABEL)
         address_lbl             = QtGui.QLabel(CWINDOW_ADDRESS_LABEL)
         visit_type_lbl          = QtGui.QLabel(CWINDOW_VISIT_TYPE_LABEL)
@@ -76,6 +77,8 @@ class CreateWindow(BaseWindow):
         message_lbl             = QtGui.QLabel(CWINDOW_MESSAGE_LABEL)
 
 
+        self.__report_fname_ledit        = QtGui.QLineEdit()
+        self.__status_inf_ledit          = QtGui.QLineEdit()
         self.__district_departue_ledit   = QtGui.QComboBox()
         self.__district_departue_ledit.addItems(
             self.__district_departue_list
@@ -118,6 +121,8 @@ class CreateWindow(BaseWindow):
         self.__gridBox.addWidget(sender_technics_lbl, 5, 1)
         self.__gridBox.addWidget(rank_lbl, 6, 1)
         self.__gridBox.addWidget(message_lbl, 7, 1)
+        self.__gridBox.addWidget(report_fname_lbl, 9, 1)
+        self.__gridBox.addWidget(status_inf_lbl, 10, 1)
 
         self.__gridBox.addWidget(self.__district_departue_ledit, 1, 2)
         self.__gridBox.addWidget(self.__address_ledit, 2, 2)
@@ -127,8 +132,11 @@ class CreateWindow(BaseWindow):
         self.__gridBox.addWidget(self.__rank_ledit, 6, 2)
         self.__gridBox.addWidget(self.__message_ledit, 8, 1)
 
-        self.__gridBox.addWidget(self.__write_btn, 9, 3)
-        self.__gridBox.addWidget(self.__cancel_btn, 9, 4)
+
+        self.__gridBox.addWidget(self.__report_fname_ledit, 9, 2)
+        self.__gridBox.addWidget(self.__status_inf_ledit, 10, 2)
+        self.__gridBox.addWidget(self.__write_btn, 10, 3)
+        self.__gridBox.addWidget(self.__cancel_btn, 10, 4)
 
 
         self.setLayout(self.__gridBox)
@@ -139,6 +147,8 @@ class CreateWindow(BaseWindow):
 
 
     def write_record_in_the_db(self):
+        report_fname = self.__report_fname_ledit.text()
+
         self.__record.set_cur_date()
         self.__record.set_cur_time()
         self.__record.set_address(self.__address_ledit.text())
@@ -151,10 +161,20 @@ class CreateWindow(BaseWindow):
             self.__error_handler(res, table_name)
 
         else:
+            self.__status_inf_ledit.setText(SUCCESSFULLY)
+            self.__make_report_file(report_fname, self.__record)
             loger.write_log(vars.EVENT_LOG_TYPE, vars.INSERT_DATA_INTO_THE_TABLE + table_name)
-            self.close_window()
+            #self.close_window()
         
         
+
+    def __make_report_file(self, fname, record):
+        filePath = "{PATH_REPORTS_DIR}/{fname}".format(
+            PATH_REPORTS_DIR=vars.PATH_REPORTS_DIR,
+            fname=fname
+        )
+        
+        record.write_in_the_file(filePath)
 
 
     def __error_handler(self, err_code, obj):
