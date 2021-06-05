@@ -39,6 +39,9 @@ class MainWindow(QtGui.QMainWindow):
             self.__hight
         )
 
+        self.__textEdit = QtGui.QTextEdit()
+        self.setCentralWidget(self.__textEdit)
+
         self.setWindowTitle(self.__title)
 
 
@@ -96,13 +99,26 @@ class MainWindow(QtGui.QMainWindow):
 
     
     def __open_file(self):
-        print("open file!")
+        fname = self.__getWorkFileName()
+        
+        if fname.encode('utf-8') != "":
+            with open(fname, 'r') as file:
+                    text = file.read().decode("utf-8")
+                    self.__textEdit.setText(text)
+
 
     def __close_file(self):
-        print("close file!")
+        self.__textEdit.setText("")
+
 
     def __save_file(self):
-        print("save file!")
+        text    = self.__textEdit.toPlainText()
+        fname   = self.__getWorkFileName()
+
+        if fname.encode('utf-8') != "":
+            with open(fname, 'w') as file:
+                file.write(text)
+
 
     def __edit_file(self):
         if self.__editWindow is None:
@@ -127,11 +143,16 @@ class MainWindow(QtGui.QMainWindow):
         font, ok = QtGui.QFontDialog.getFont()
         if ok:
             pass
-            #self.__textEdit.setFont(font)
+            self.__textEdit.setFont(font)
 
+
+    def __getWorkFileName(self):
+        fname, _ = QtGui.QFileDialog.getOpenFileName(self, 'Open file', '../reports/')
+        return fname
 
     def close_window(self):
         QtCore.QCoreApplication.instance().quit()
+
 
     def show_window(self):
         self.show()
