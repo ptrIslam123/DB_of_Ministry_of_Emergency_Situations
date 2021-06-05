@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 #-*-coding: utf-8-*-
 
+from datetime import datetime
+
 
 class Record:
 
@@ -76,12 +78,12 @@ class Record:
         return self.__message
 
 
-    def set_date(self, val):
-        self.__date = val
+    def set_cur_date(self):
+        self.__date = datetime.now().date()
 
     
-    def set_time(self, val):
-        self.__time = val
+    def set_cur_time(self):
+        self.__time = datetime.now().time()
 
 
     def set_district_departue(self, val):

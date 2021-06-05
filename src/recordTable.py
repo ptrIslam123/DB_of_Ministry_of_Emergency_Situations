@@ -7,7 +7,7 @@ import sqliteDriver as sql
 from vars import *
 
 
-class Record:
+class RecordTable:
 
     def __init__(self):
         self.__table_name = "Record"
@@ -26,6 +26,11 @@ class Record:
                 __table_name=self.__table_name
             )
         )
+
+
+
+    def get_table_name(self):
+        return self.__table_name
 
 
     def commit(self):

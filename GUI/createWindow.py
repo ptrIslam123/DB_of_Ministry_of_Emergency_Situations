@@ -8,6 +8,9 @@ import sys
 sys.path.append('../src/')
 from record import Record
 from dbDriver import DBDriver
+import vars
+import loger
+
 
 class CreateWindow(BaseWindow):
 
@@ -136,11 +139,26 @@ class CreateWindow(BaseWindow):
 
 
     def write_record_in_the_db(self):
+        self.__record.set_cur_date()
+        self.__record.set_cur_time()
         self.__record.set_address(self.__address_ledit.text())
         self.__record.set_message(self.__message_ledit.toPlainText())
 
-        self.__dbDriver.write_new_record(self.__record)
 
+        res, table_name = self.__dbDriver.write_new_record(self.__record)
+
+        if res != 0:
+            self.__error_handler(res, table_name)
+
+        else:
+            loger.write_log(vars.EVENT_LOG_TYPE, vars.INSERT_DATA_INTO_THE_TABLE + table_name)
+            self.close_window()
+        
+        
+
+
+    def __error_handler(self, err_code, obj):
+        pass
 
 
     def __district_departue_handler(self, text):
@@ -161,3 +179,6 @@ class CreateWindow(BaseWindow):
 
     def __rank_handler(self, text):
         self.__record.set_rank(text)
+
+
+    

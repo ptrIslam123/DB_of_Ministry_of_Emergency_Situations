@@ -7,14 +7,16 @@ from shift import Shift
 from technic import Technic  
 from brigade import Brigade 
 from geographLocation import GeographLocation
-from recordTable import Record 
+from recordTable import RecordTable 
 from vars import *
 
 from sqliteDriver import *
 
 def main():
-    r = Record()
+    r = RecordTable()
     
+    print(r.select_all_records())
+    '''
     r.insert(
         "12.12.12",
         "12:34",
@@ -49,6 +51,7 @@ def main():
         "12.10.12","12:35"
     )
     print(r.select_all_records())
+    '''
     print("successful!")
     
 

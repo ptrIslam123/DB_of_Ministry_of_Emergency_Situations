@@ -9,12 +9,12 @@ def get_time():
     return str(datetime.now())
 
 
-def write_log(type_error, descr):
+def write_log(type_log, descr):
     with open(vars.SQL_SYSTEM_LOG_FILE_PATH, "a") as file:
         time = get_time()
-        log = "{time}\t[{type_error}\t{descr}]\n".format(
+        log = "{time}\t[{type_log}:\t{descr}]\n".format(
             time=time,
-            type_error=type_error,
+            type_log=type_log,
             descr=descr
         )
 

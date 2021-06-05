@@ -16,6 +16,7 @@ class SqlDriver:
 
     def exec_request(self, sqlRequest):
         self.__cursor.execute(sqlRequest)
+        self.commit()
         
 
 
