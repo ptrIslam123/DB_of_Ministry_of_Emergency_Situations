@@ -2,11 +2,13 @@
 #-*-coding: utf-8-*-
 
 from PySide import QtGui, QtCore
-from widgetNames import *
+from widgetAttribute import *
 import sys
 
 from createWindow import *
-from editWindow import *
+from updateWindow import *
+from findWindow import *
+from removeWindow import *
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -22,9 +24,10 @@ class MainWindow(QtGui.QMainWindow):
         self.__hight = hight
 
         
-        self.__findWindow           = None
-        self.__createWindow         = None
-        self.__editWindow           = None
+        self.__findRecordsWindow            = None
+        self.__createRecordsWindow          = None
+        self.__updateRecordsWindow          = None
+        self.__removeRecordsWindow          = None
 
         
         self.initUI()
@@ -51,14 +54,14 @@ class MainWindow(QtGui.QMainWindow):
         self.__action_close_file    = QtGui.QAction(MENU_FIELD_CLOSE_FILE, self)
         self.__action_save_file     = QtGui.QAction(MENU_FIELD_SAVE_AS_FILE, self)
         
-        self.__action_close_app     = QtGui.QAction(MENU_FIELD_EXIT_APP, self)
-        
-        self.__action_edit_record   = QtGui.QAction(MENU_FIELD_EDIT_RECORD, self)
-        self.__action_create_record = QtGui.QAction(MENU_FIELD_CREATE_RECORD, self)
-        
+        self.__action_close_app     = QtGui.QAction(MENU_FIELD_EXIT_APP, self)    
         self.__action_set_font      = QtGui.QAction(MENU_FIELD_EDIT_FONT, self)
 
-        self.__action_find_records  = QtGui.QAction(MENU_FIELD_FIND_RECORDS, self)
+
+        self.__action_find_records_by_date_and_time     = QtGui.QAction(CWINDOW_FIND_R_BY_DATE_ADN_TIME, self)
+        self.__action_update_records_by_date_adn_time   = QtGui.QAction(CWINDOW_UPDATE_R_BY_DATE_AND_TIME, self)
+        self.__action_remove_records_by_date_and_time   = QtGui.QAction(CWINDOW_REMOVE_R_BY_DATE_ADN_TIME, self) 
+        self.__action_create_new_record                 = QtGui.QAction(MENU_FIELD_CREATE_RECORD, self)
 
 
 
@@ -66,10 +69,15 @@ class MainWindow(QtGui.QMainWindow):
         self.__action_close_file.triggered.connect(self.__close_file)
         self.__action_save_file.triggered.connect(self.__save_file)
         self.__action_close_app.triggered.connect(self.close_window)
-        self.__action_edit_record.triggered.connect(self.__edit_file)
-        self.__action_create_record.triggered.connect(self.__create_file)
         self.__action_set_font.triggered.connect(self.__set_font)
-        self.__action_find_records.triggered.connect(self.__find_records)
+        
+
+        
+        self.__action_create_new_record.triggered.connect(self.__create_new_records)
+        self.__action_find_records_by_date_and_time.triggered.connect(self.__find_records_by_date_adn_time)
+        self.__action_update_records_by_date_adn_time.triggered.connect(self.__update_records_by_date_and_time)
+        self.__action_remove_records_by_date_and_time.triggered.connect(self.__remove_records_by_date_and_time)
+
 
 
         self.__menubar              = self.menuBar()
@@ -81,6 +89,7 @@ class MainWindow(QtGui.QMainWindow):
         self.__view                 = self.__menubar.addMenu(MENU_FIELD_ACTION_VIEW)
         self.__create               = self.__menubar.addMenu(MENU_FIELD_ACTION_CREATE)
         self.__find                 = self.__menubar.addMenu(MENU_FIELD_ACTION_FIND)
+        self.__remove               = self.__menubar.addMenu(MENU_FIELD_ACTION_REMOVE)
 
 
 
@@ -88,16 +97,50 @@ class MainWindow(QtGui.QMainWindow):
         self.__file.addAction(self.__action_save_file)
         self.__file.addAction(self.__action_close_file)
         self.__file.addAction(self.__action_close_app)
-
-        self.__edit.addAction(self.__action_edit_record)
-
-        self.__create.addAction(self.__action_create_record)
-
         self.__view.addAction(self.__action_set_font)
 
-        self.__find.addAction(self.__action_find_records)
+
+        self.__edit.addAction(self.__action_update_records_by_date_adn_time)
+        self.__create.addAction(self.__action_create_new_record)
+        self.__find.addAction(self.__action_find_records_by_date_and_time)
+        self.__remove.addAction(self.__action_remove_records_by_date_and_time)
 
     
+    
+
+
+    def __update_records_by_date_and_time(self):
+        if self.__updateRecordsWindow is None:
+            self.__updateRecordsWindow = UpdateRecordsWindow()
+        
+        self.__updateRecordsWindow.show_window()
+
+
+    def __create_new_records(self):
+        if self.__createRecordsWindow is None:
+            self.__createRecordsWindow = CreateRecordWindow()
+        
+        self.__createRecordsWindow.show_window()
+
+
+    def __find_records_by_date_adn_time(self):
+        if self.__findRecordsWindow is None:
+            self.__findRecordsWindow = FindRecordsWindow()
+
+        self.__findRecordsWindow.show_window()
+
+
+    def __remove_records_by_date_and_time(self):
+        if self.__removeRecordsWindow is None:
+            self.__removeRecordsWindow = RemoveRecordsWindow()
+
+        self.__removeRecordsWindow.show_window()
+
+
+    
+
+
+
     def __open_file(self):
         fname = self.__getWorkFileName()
         
@@ -111,6 +154,7 @@ class MainWindow(QtGui.QMainWindow):
         self.__textEdit.setText("")
 
 
+
     def __save_file(self):
         text    = self.__textEdit.toPlainText()
         fname   = self.__getWorkFileName()
@@ -118,26 +162,6 @@ class MainWindow(QtGui.QMainWindow):
         if fname.encode('utf-8') != "":
             with open(fname, 'w') as file:
                 file.write(text)
-
-
-    def __edit_file(self):
-        if self.__editWindow is None:
-            self.__editWindow = EditWindow()
-        
-        self.__editWindow.show_window()
-
-    def __create_file(self):
-        if self.__createWindow is None:
-            self.__createWindow = CreateWindow()
-        
-        self.__createWindow.show_window()
-
-    def __edit_font(self):
-        print("edit font!")
-
-
-    def __find_records(self):
-        print("find records!")
 
     def __set_font(self):
         font, ok = QtGui.QFontDialog.getFont()

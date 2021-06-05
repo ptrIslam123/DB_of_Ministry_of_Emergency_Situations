@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #-*-coding: utf-8-*-
 
-from widgetNames import *
+from widgetAttribute import *
 from window import *
 import sys
 
@@ -12,10 +12,10 @@ import vars
 import loger
 
 
-class CreateWindow(BaseWindow):
+class CreateRecordWindow(BaseWindow):
 
     def __init__(self):
-        super(CreateWindow, self).__init__(
+        super(CreateRecordWindow, self).__init__(
             CREATE_WINDOW_TITLE,
             DEFAULT_CWINDOW_POS_X,
             DEFAULT_CWINDOW_POS_Y,
@@ -169,10 +169,20 @@ class CreateWindow(BaseWindow):
         
 
     def __make_report_file(self, fname, record):
-        filePath = "{PATH_REPORTS_DIR}/{fname}".format(
-            PATH_REPORTS_DIR=vars.PATH_REPORTS_DIR,
-            fname=fname
-        )
+        if fname == "":
+            filePath = "{PATH_REPORTS_DIR}/{date}{time}.rd".format(
+                PATH_REPORTS_DIR=vars.PATH_REPORTS_DIR,
+                date=record.get_date(),
+                time=record.get_time()
+            )
+
+        else:    
+            filePath = "{PATH_REPORTS_DIR}/{date}{time}_{fname}.rd".format(
+                PATH_REPORTS_DIR=vars.PATH_REPORTS_DIR,
+                date=record.get_date(),
+                time=record.get_time(),
+                fname=fname
+            )
         
         record.write_in_the_file(filePath)
 
