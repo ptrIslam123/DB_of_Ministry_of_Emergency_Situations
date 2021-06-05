@@ -7,6 +7,7 @@ import sys
 
 sys.path.append('../src/')
 from record import Record
+from dbDriver import DBDriver
 
 class CreateWindow(BaseWindow):
 
@@ -19,7 +20,8 @@ class CreateWindow(BaseWindow):
             DEFAULT_M_WINDOW_HIGHT
         )
 
-        self.__record = Record()
+        self.__dbDriver             = DBDriver()
+        self.__record               = Record()
 
         self.__district_departue_list = [
             "district1".decode('utf-8'), 
@@ -137,7 +139,7 @@ class CreateWindow(BaseWindow):
         self.__record.set_address(self.__address_ledit.text())
         self.__record.set_message(self.__message_ledit.toPlainText())
 
-        
+        self.__dbDriver.write_new_record(self.__record)
 
 
 

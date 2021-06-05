@@ -1,0 +1,16 @@
+
+-- таблица запись
+CREATE TABLE IF NOT EXISTS Record
+(
+    date                TEXT,                               -- дата
+    time                TEXT,                               -- время
+    district_departue   TEXT,                               -- район выезда
+    address             TEXT,                               -- адресс выезда
+    visit_type          TEXT,                               -- вид выезда
+    additional_data     TEXT,                               -- дополнительные сведения
+    sender_technics     TEXT,                               -- высылаемая техника
+    rank                UNSIGNED INTEGER,                   -- уровень опасности
+    message             TEXT,                               -- сообщение диспетчера
+
+    CONSTRAINT pk_record PRIMARY KEY(date, time)
+);

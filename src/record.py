@@ -5,6 +5,8 @@
 class Record:
 
     def __init__(self):
+        self.__date                 = None
+        self.__time                 = None
         self.__district_departue    = None
         self.__address              = None
         self.__visit_type           = None
@@ -17,6 +19,8 @@ class Record:
     def print_fields(self):
         print(
             """
+            __date={__date}\n
+            __time={__time}\n
             __district_departue={__district_departue}\n
             __address={__address}\n
             __visit_type={__visit_type}\n
@@ -25,6 +29,8 @@ class Record:
             __rank={__rank}\n
             __message={__message}\n
             """.format(
+                __date=self.__date,
+                __time=self.__time,
                 __district_departue=self.__district_departue,
                 __address=self.__address,
                 __visit_type=self.__visit_type,
@@ -33,6 +39,14 @@ class Record:
                 __rank=self.__rank,
                 __message=self.__message
         ))
+
+    def get_date(self):
+        return self.__date
+
+
+    def get_time(self):
+        return self.__time
+
 
     def get_district_depatrue(self):
         return self.__district_departue
@@ -60,6 +74,14 @@ class Record:
 
     def get_message(self):
         return self.__message
+
+
+    def set_date(self, val):
+        self.__date = val
+
+    
+    def set_time(self, val):
+        self.__time = val
 
 
     def set_district_departue(self, val):

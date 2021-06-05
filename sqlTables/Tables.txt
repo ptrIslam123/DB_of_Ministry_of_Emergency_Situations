@@ -1,0 +1,64 @@
+-- таблица сотрудники
+CREATE TABLE IF NOT EXISTS Employees
+(
+    id_employees        INTEGER,        -- табельный номер
+    last_name           TEXT,           -- Фамилия
+    firts_name          TEXT,           -- Имя
+    midle_name          TEXT,           -- Отчество
+    gender              TEXT,           -- Пол
+    date_of_burth       TEXT,           -- Дата рождения
+    number_phone        TEXT,           -- Номер телефона
+
+    CONSTRAINT pk_employyes PRIMARY KEY(id_employees)
+);
+
+-- таблица бригада
+CREATE TABLE IF NOT EXISTS Brigade
+(
+    id_brigade              INTEGER,    -- Табельный номер бригады
+    number_of_employyes     INTEGER,    -- Количество сотрудников
+    type_brigade            TEXT,       -- Вид высылаемой бригады
+
+    CONSTRAINT brigade_pk PRIMARY KEY(id_brigade)
+);
+
+-- таблица географическое положение
+CREATE TABLE IF NOT EXISTS GeographLocation
+( 
+    district_number     INTEGER,    -- Номер района
+    address             TEXT,       -- Адрес
+    visit_type          TEXT,       -- Вид выезда
+    description         TEXT,       -- Дополнительные сведения
+
+    CONSTRAINT geographLocation_pk PRIMARY KEY(district_number)
+); 
+
+-- таблица смена
+CREATE TABLE IF NOT EXISTS Shift
+(
+    id_shift            INTEGER,        -- Номер смены
+    id_employees        INTEGER,        -- идентивикатор сотрудника (является внешним ключом по отношений к таблице Employees)
+    event_type          TEXT,           -- Тип события (проишествия)
+    visit_type          TEXT,           -- Вид выезда
+
+    CONSTRAINT pk_shift PRIMARY KEY(id_shift),
+
+    CONSTRAINT fk_shift FOREIGN KEY(id_employees) REFERENCES Employees(id_employees)
+);
+
+-- таблица техника
+CREATE TABLE IF NOT EXISTS Technic
+(
+    id_car              INTEGER,        -- Табельный номер ммашины
+    gov_car_number      INTEGER,        -- Гос номер ммашины
+    technic_type        TEXT,           -- Вид техники
+    last_name           TEXT,           -- Фамилия водителя
+    firts_name          TEXT,           -- Имя водителя
+    midle_name          TEXT,           -- Отчество водителя
+
+    CONSTRAINT technic_pk PRIMARY KEY(id_car),
+
+    CONSTRAINT fk_l_name FOREIGN KEY (last_name) REFERENCES Employees(last_name),
+    CONSTRAINT fk_f_name FOREIGN KEY (firts_name) REFERENCES Employees(firts_name),
+    CONSTRAINT fk_m_name FOREIGN KEY (midle_name) REFERENCES Employees(midle_name)
+);

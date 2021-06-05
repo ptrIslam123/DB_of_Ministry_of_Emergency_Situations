@@ -6,36 +6,49 @@ from employees import Employees
 from shift import Shift 
 from technic import Technic  
 from brigade import Brigade 
-from geographLocation import GeographLocation 
+from geographLocation import GeographLocation
+from recordTable import Record 
 from vars import *
 
 from sqliteDriver import *
 
 def main():
-    e = Employees()
-    s = Shift()
+    r = Record()
     
-    e.insert(
+    r.insert(
+        "12.12.12",
+        "12:34",
+        "Moscow",
+        "address1",
+        "visit_t1",
+        "new data1",
+        "technic1",
         "1",
-        "Kardanov",
-        "Islam",
-        "Ibragimovich",
-        "M",
-        "21.09.99",
-        "89909090"
+        "message1"
     )
 
-    s.insert(
-        "10",
-        "1",
-        "event1",
-        "type1"
+    r.insert(
+        "12.10.12",
+        "12:35",
+        "Moscow",
+        "address2",
+        "visit_t2",
+        "new data2",
+        "technic2",
+        "2",
+        "message2"
     )
-    
 
-    print(e.select_all_records())
-    print(s.select_all_records())
-
+    print(r.select_all_records())
+    print("-------- find_records_by_date_and_time ---------------\n")
+    print(r.find_records_by_date_and_time(
+        "12.10.12", "12:35"
+    ))
+    print("-------- remove_records_by_date_and_time ---------------\n")
+    r.remove_records_by_date_and_time(
+        "12.10.12","12:35"
+    )
+    print(r.select_all_records())
     print("successful!")
     
 
