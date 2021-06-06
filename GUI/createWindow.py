@@ -8,6 +8,7 @@ import sys
 sys.path.append('../src/')
 from record import Record
 from dbDriver import DBDriver
+from errorHandler import ErrorHandler
 import vars
 import loger
 
@@ -25,6 +26,7 @@ class CreateRecordWindow(BaseWindow):
 
         self.__dbDriver             = DBDriver()
         self.__record               = Record()
+        self.__errorHandler         = ErrorHandler()
 
         self.__district_departue_list = [
             "district1".decode('utf-8'), 
@@ -158,7 +160,7 @@ class CreateRecordWindow(BaseWindow):
         res, table_name = self.__dbDriver.write_new_record(self.__record)
 
         if res != 0:
-            self.__error_handler(res, table_name)
+            self.__errorHandler.handle(res, table_name)
 
         else:
             self.__status_inf_ledit.setText(SUCCESSFULLY)
@@ -187,8 +189,6 @@ class CreateRecordWindow(BaseWindow):
         record.write_in_the_file(filePath)
 
 
-    def __error_handler(self, err_code, obj):
-        pass
 
 
     def __district_departue_handler(self, text):

@@ -27,7 +27,20 @@ class DBDriver:
         return 0, self.__recordT.get_table_name()
 
 
-    def edit_records(self):
-        pass
+    def find_records_by_date_and_time(self, date, time):
+        # processing sql request error
+        # 2021-06-05        : test data
+        # 14:56:04.767042   : test data
+        tuple_res = self.__recordT.find_records_by_date_and_time(
+            date, time
+        )[0]
+        
+        return 0, self.__recordT.get_table_name(), self.__tupleTostr(tuple_res)
 
         
+    def __tupleTostr(self, tuple_res):
+        res = str("")
+        for item in tuple_res:
+            res += "{item}\n".format(item=str(item))
+
+        return res

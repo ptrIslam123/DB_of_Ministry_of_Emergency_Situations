@@ -13,11 +13,16 @@ REMOVE_WINDOW_TITLE                 = "the Remove Window".decode('utf-8')
 
 
 # -- FindWindow
-DEFAULT_FWINDOW_WIDTH               = 800
-DEFAULT_FWINDOW_HIGHT               = 700
-DEFAULT_FWINDOW_POS_X               = 50 
-DEFAULT_FWINDOW_POS_Y               = 50
+DEFAULT_FWINDOW_WIDTH               = 700
+DEFAULT_FWINDOW_HIGHT               = 600
+DEFAULT_FWINDOW_POS_X               = 150 
+DEFAULT_FWINDOW_POS_Y               = 150
 FIND_WINDOW_TITLE                   = "the Find Window".decode('utf-8')
+
+FWINDOW_FIND_BUTTON                 = "найти".decode('utf-8')
+FWINDOW_DATE_LABEL                  = "дата".decode('utf-8')
+FWINDOW_TIME_LABEL                  = "время".decode('utf-8')
+
 
 
 # -- UpdateWindow
