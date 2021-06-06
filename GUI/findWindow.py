@@ -9,7 +9,7 @@ import sys
 sys.path.append('../src/')
 from record import Record
 from dbDriver import DBDriver
-from errorHandler import ErrorHandler
+import errorHandler
 import vars
 import loger
 
@@ -26,7 +26,7 @@ class FindRecordsWindow(BaseWindow):
         )
 
         self.__dbDriver             = DBDriver()
-        self.__errHandler           = ErrorHandler()
+        self.__errHandler           = errorHandler.ErrorHandler()
 
         self.makeWindowDialog()
 
@@ -77,14 +77,18 @@ class FindRecordsWindow(BaseWindow):
         date = self.__date_ledit.text()
         time = self.__time_ledit.text()
 
-        res, table_name, records = self.__dbDriver.find_records_by_date_and_time(date, time)
+        res, table_name, tuple_records = self.__dbDriver.find_records_by_date_and_time(date, time)
 
         if res != 0:
-            self.__errHandler.handle(res, table_name)
+            self.__status_inf_ledit.setText(
+                    self.__errHandler.handle(res, table_name)
+            )
 
         else:
             self.__status_inf_ledit.setText(SUCCESSFULLY)
-            self.__res_tedit.setText(records)
+            self.__res_tedit.setText(
+                self.__dbDriver.tupleTostr(tuple_records)
+            )
             loger.write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
 
         

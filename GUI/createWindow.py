@@ -24,39 +24,15 @@ class CreateRecordWindow(BaseWindow):
             DEFAULT_M_WINDOW_HIGHT
         )
 
-        self.__dbDriver             = DBDriver()
-        self.__record               = Record()
-        self.__errorHandler         = ErrorHandler()
+        self.__dbDriver                 = DBDriver()
+        self.__record                   = Record()
+        self.__errorHandler             = ErrorHandler()
 
-        self.__district_departue_list = [
-            "district1".decode('utf-8'), 
-            "district2".decode('utf-8'), 
-            "district3".decode('utf-8')
-        ]
-
-        self.____visit_type_list = [
-            "visit_t1".decode('utf-8'), 
-            "visit_t2".decode('utf-8'), 
-            "visit_t3".decode('utf-8')
-        ]
-
-        self.____additional_data_list = [
-            "additional1".decode('utf-8'), 
-            "additional2".decode('utf-8'), 
-            "additional3".decode('utf-8')
-        ]
-
-        self.____sender_technics_list = [
-            "sender1".decode('utf-8'), 
-            "sender2".decode('utf-8')
-        ]
-
-        self.____rank_list = [
-            "1".decode('utf-8'), 
-            "2".decode('utf-8'),
-            "3".decode('utf-8'),
-            "4".decode('utf-8')
-        ]
+        self.__district_departue_list   = DISTRICT_DEPARTUE_LIST_VALUES
+        self.__visit_type_list          = VISIT_TYPE_LIST_VALUES
+        self.__additional_data_list     = ADDITIONAL_DATA_LIST_VALUES
+        self.__sender_technics_list     = SENDER_TECHNIC_LIST_VALUES
+        self.__rank_list                = RANK_LIST_VALUES
 
         self.makeWindowDialog()
 
@@ -90,25 +66,25 @@ class CreateRecordWindow(BaseWindow):
         self.__address_ledit             = QtGui.QLineEdit()
         self.__visit_type_ledit          = QtGui.QComboBox()
         self.__visit_type_ledit.addItems(
-            self.____visit_type_list
+            self.__visit_type_list
         )
         self.__visit_type_ledit.activated[str].connect(self.__visit_type_handler)
 
         self.__additional_data_ledit     = QtGui.QComboBox()
         self.__additional_data_ledit.addItems(
-            self.____additional_data_list
+            self.__additional_data_list
         )
         self.__additional_data_ledit.activated[str].connect(self.__additional_data_handler)
 
         self.__sender_technics_ledit     = QtGui.QComboBox()
         self.__sender_technics_ledit.addItems(
-            self.____sender_technics_list
+            self.__sender_technics_list
         )
         self.__sender_technics_ledit.activated[str].connect(self.__sender_technics_handler)
 
         self.__rank_ledit                = QtGui.QComboBox()
         self.__rank_ledit.addItems(
-            self.____rank_list
+            self.__rank_list
         )
         self.__rank_ledit.activated[str].connect(self.__rank_handler)
 
@@ -159,7 +135,9 @@ class CreateRecordWindow(BaseWindow):
         res, table_name = self.__dbDriver.write_new_record(self.__record)
 
         if res != 0:
-            self.__errorHandler.handle(res, table_name)
+            self.__status_inf_ledit.setText(
+                self.__errorHandler.handle(res, table_name)
+            )
 
         else:
             self.__status_inf_ledit.setText(SUCCESSFULLY)

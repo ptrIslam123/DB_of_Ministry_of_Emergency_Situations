@@ -131,8 +131,8 @@ class RecordTable:
         self,
         search_data,
         search_time,
-        date,
-        time,
+        #date,
+        #time,
         district_departue,
         address,
         visit_type,
@@ -144,8 +144,6 @@ class RecordTable:
         req = """
             UPDATE {__table_name}
             SET 
-                date='{date}',
-                time='{time}',
                 district_departue='{district_departue}',
                 address='{address}',
                 visit_type='{visit_type}',
@@ -159,8 +157,8 @@ class RecordTable:
             __table_name=self.__table_name,
             search_data=search_data,
             search_time=search_time,
-            date=date,
-            time=time,
+            #date=date,
+            #time=time,
             district_departue=district_departue,
             address=address,
             visit_type=visit_type,

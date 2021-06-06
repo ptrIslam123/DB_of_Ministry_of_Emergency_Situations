@@ -35,7 +35,7 @@ class DBDriver:
             date, time
         )[0]
         
-        return 0, self.__recordT.get_table_name(), self.__tupleTostr(tuple_res)
+        return 0, self.__recordT.get_table_name(), tuple_res
 
 
     def remove_records_by_date_and_time(self, date, time):
@@ -50,10 +50,24 @@ class DBDriver:
         return 0, self.__recordT.get_table_name()
 
 
-    def update_records_by_date_and_time(
-        self
-    ):
-        pass
+    def update_records_by_date_and_time(self, date, time, record):
+        # processing sql request error
+        # 2021-06-05
+        # 16:56:29.839173
+
+        self.__recordT.update_records_by_date_and_time(
+            date, 
+            time,
+            record.get_district_depatrue(),
+            record.get_address(),
+            record.get_visit_type(),
+            record.get_additional_data(),
+            record.get_sender_technics(),
+            record.get_rank(),
+            record.get_message()
+        )
+
+        return 0, self.__recordT.get_table_name()
 
 
 
@@ -61,7 +75,7 @@ class DBDriver:
         return "{date}{time}.rd".format(date=date, time=time)
 
 
-    def __tupleTostr(self, tuple_res):
+    def tupleTostr(self, tuple_res):
         res = str("")
 
         for item in tuple_res:

@@ -30,26 +30,30 @@ FWINDOW_TIME_LABEL                  = "время".decode('utf-8')
 
 # -- UpdateWindow
 DEFAULT_UWINDOW_WIDTH               = 800
-DEFAULT_UWINDOW_HIGHT               = 700
+DEFAULT_UWINDOW_HIGHT               = 800
 DEFAULT_UWINDOW_POS_X               = 50 
 DEFAULT_UWINDOW_POS_Y               = 50
 UPDATE_WINDOW_TITLE                 = "the Update Window".decode('utf-8')
 
 
-CWINDOW_STATUS_INF_LABEL            = "статус операции".decode('utf-8')
-CWINDOW_REPORT_FNAME_LABEL          = "выходной файл".decode('utf-8')
-CWINDOW_WRITE_BTN_NAME              = "write".decode('utf-8')
-CWINDOW_DISTRICT_DEPARTUE_LABEL     = "район выезда".decode('utf-8')
-CWINDOW_ADDRESS_LABEL               = "адрес".decode('utf-8')
-CWINDOW_VISIT_TYPE_LABEL            = "вид выезда".decode('utf-8')
-CWINDOW_ADDITIONAL_DATA_LABEL       = "дополнительные сведения".decode('utf-8')
-CWINDOW_SENDED_TECHNICS_LABEL       = "высылаемая техника".decode('utf-8')
-CWINDOW_RANK_LABEL                  = "раанг".decode('utf-8')
-CWINDOW_MESSAGE_LABEL               = "сообщения".decode('utf-8')
-CWINDOW_FIND_R_BY_DATE_ADN_TIME     = "пойск по дате и времени".decode('utf-8')
-CWINDOW_FIND_R_BY_DISTR_DEPARTUE    = "пойск по району и адресу".decode('utf-8')
-CWINDOW_UPDATE_R_BY_DATE_AND_TIME   = "изменить по дате и времени".decode('utf-8')
-CWINDOW_REMOVE_R_BY_DATE_ADN_TIME   = "удалить по дате и времени".decode('utf-8')
+UWINDOW_UPDATE_RECORD_BUTTON        = "обновить".decode('utf-8')
+UWINDOW_FIND_R_DATE_AND_TIME_BUTTON = "найти запись".decode('utf-8')
+UWINDOW_FIND_R_BY_DATE_LABEL        = "пойск по дате".decode('utf-8')
+UWINDOW_FIND_R_BY_TIME_LABEL        = "пойск по времени".decode('utf-8')
+UWINDOW_STATUS_INF_LABEL            = "статус операции".decode('utf-8')
+UWINDOW_REPORT_FNAME_LABEL          = "выходной файл".decode('utf-8')
+UWINDOW_WRITE_BTN_NAME              = "записать".decode('utf-8')
+UWINDOW_DISTRICT_DEPARTUE_LABEL     = "район выезда".decode('utf-8')
+UWINDOW_ADDRESS_LABEL               = "адрес".decode('utf-8')
+UWINDOW_VISIT_TYPE_LABEL            = "вид выезда".decode('utf-8')
+UWINDOW_ADDITIONAL_DATA_LABEL       = "дополнительные сведения".decode('utf-8')
+UWINDOW_SENDED_TECHNICS_LABEL       = "высылаемая техника".decode('utf-8')
+UWINDOW_RANK_LABEL                  = "ранг".decode('utf-8')
+UWINDOW_MESSAGE_LABEL               = "сообщения".decode('utf-8')
+UWINDOW_FIND_R_BY_DATE_ADN_TIME     = "пойск по дате и времени".decode('utf-8')
+UWINDOW_FIND_R_BY_DISTR_DEPARTUE    = "пойск по району и адресу".decode('utf-8')
+UWINDOW_UPDATE_R_BY_DATE_AND_TIME   = "изменить по дате и времени".decode('utf-8')
+UWINDOW_REMOVE_R_BY_DATE_ADN_TIME   = "удалить по дате и времени".decode('utf-8')
 
 
 DEFAULT_CWINDOW_WIDTH               = 800
@@ -83,5 +87,52 @@ MENU_FIELD_EDIT_RECORD              = "редактировать записи".
 MENU_FIELD_CREATE_RECORD            = "создать запись".decode('utf-8')
 MENU_FIELD_EDIT_FONT                = "Шрифт и размер".decode('utf-8')
 MENU_FIELD_FIND_RECORDS             = "пойск записей".decode('utf-8')
+
+
+# -- CreateWindow
+CWINDOW_FIND_R_BY_DATE_ADN_TIME     = "пойск по дате и времени".decode('utf-8')
+CWINDOW_UPDATE_R_BY_DATE_AND_TIME   = "изменение по дате и времени".decode('utf-8')
+CWINDOW_REMOVE_R_BY_DATE_ADN_TIME   = "удаление по дате и времени".decode('utf-8')
+CWINDOW_WRITE_BTN_NAME              = "записать".decode('utf-8')
+CWINDOW_STATUS_INF_LABEL            = "статус операций".decode('utf-8')
+CWINDOW_DISTRICT_DEPARTUE_LABEL     = "район выезда".decode('utf-8')
+CWINDOW_ADDRESS_LABEL               = "адрес".decode('utf-8')
+CWINDOW_VISIT_TYPE_LABEL            = "вид выезда".decode('utf-8')
+CWINDOW_ADDITIONAL_DATA_LABEL       = "дополнительные сведения".decode('utf-8')
+CWINDOW_SENDED_TECHNICS_LABEL       = "высылаемая техника".decode('utf-8')
+CWINDOW_RANK_LABEL                  = "ранг".decode('utf-8')
+CWINDOW_MESSAGE_LABEL               = "сообщения".decode('utf-8')
+
+
+
+DISTRICT_DEPARTUE_LIST_VALUES = [
+    "district1".decode('utf-8'), 
+    "district2".decode('utf-8'), 
+    "district3".decode('utf-8')
+]
+
+VISIT_TYPE_LIST_VALUES = [
+    "visit_t1".decode('utf-8'), 
+    "visit_t2".decode('utf-8'), 
+    "visit_t3".decode('utf-8')
+]
+
+ADDITIONAL_DATA_LIST_VALUES = [
+    "additional1".decode('utf-8'), 
+    "additional2".decode('utf-8'), 
+    "additional3".decode('utf-8')
+]
+
+SENDER_TECHNIC_LIST_VALUES = [
+    "sender1".decode('utf-8'), 
+    "sender2".decode('utf-8')
+]
+
+RANK_LIST_VALUES = [
+    "1".decode('utf-8'), 
+    "2".decode('utf-8'),
+    "3".decode('utf-8'),
+    "4".decode('utf-8')
+]
 
 

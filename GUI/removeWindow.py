@@ -76,7 +76,9 @@ class RemoveRecordsWindow(BaseWindow):
         res, table_name = self.__dbDriver.remove_records_by_date_and_time(date, time)
 
         if res != 0:
-            self.__errHandler.handle(res, table_name)
+            self.__status_inf_ledit.setText(
+                    self.__errHandler.handle(res, table_name)
+            )
 
         else:
             res = self.__remove_report_file(
