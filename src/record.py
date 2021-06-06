@@ -122,7 +122,10 @@ class Record:
 
     
     def set_cur_time(self):
-        self.__time = datetime.now().time()
+        hour    = datetime.now().time().hour
+        minute  = datetime.now().time().minute
+
+        self.__time = "{hour}:{minute}".format(hour=hour, minute=minute)
 
 
     def set_district_departue(self, val):
