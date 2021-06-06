@@ -5,11 +5,14 @@ SUCCESSFULLY                        = "успешно".decode('utf-8')
 CANCLE_BTN_NAME                     = "отмена".decode('utf-8')
 
 # -- RemoveWindow
-DEFAULT_RWINDOW_WIDTH               = 800
-DEFAULT_RWINDOW_HIGHT               = 700
-DEFAULT_RWINDOW_POS_X               = 50 
-DEFAULT_RWINDOW_POS_Y               = 50
+DEFAULT_RWINDOW_WIDTH               = 500
+DEFAULT_RWINDOW_HIGHT               = 300
+DEFAULT_RWINDOW_POS_X               = 150 
+DEFAULT_RWINDOW_POS_Y               = 150
 REMOVE_WINDOW_TITLE                 = "the Remove Window".decode('utf-8')
+RWINDOW_DATE_LABEL                  = "дата".decode('utf-8')
+RWINDOW_REMOVE_BAUTTON              = "удалить".decode('utf-8')
+RWINDOW_TIME_LABEL                  = "время".decode('utf-8')
 
 
 # -- FindWindow

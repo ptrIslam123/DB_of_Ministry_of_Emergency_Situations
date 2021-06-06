@@ -5,10 +5,12 @@
 from widgetAttribute import *
 from window import *
 import sys
+import os
 
 sys.path.append('../src/')
 from record import Record
 from dbDriver import DBDriver
+import errorHandler
 import vars
 import loger
 
@@ -23,3 +25,79 @@ class RemoveRecordsWindow(BaseWindow):
             DEFAULT_RWINDOW_WIDTH,
             DEFAULT_RWINDOW_HIGHT
         )
+
+        self.__dbDriver             = DBDriver()
+        self.__errHandler           = errorHandler.ErrorHandler()
+
+        self.makeWindowDialog()
+
+
+    def makeWindowDialog(self):
+        self.__gridBox  = QtGui.QGridLayout()
+
+
+        self.__remove_r_by_date_adn_time_btn = QtGui.QPushButton(RWINDOW_REMOVE_BAUTTON)
+        self.__cancel_btn = QtGui.QPushButton(CANCLE_BTN_NAME)
+
+
+        self.__date_lbl = QtGui.QLabel(RWINDOW_DATE_LABEL)
+        self.__time_lbl = QtGui.QLabel(RWINDOW_TIME_LABEL)
+
+        self.__date_ledit = QtGui.QLineEdit()
+        self.__time_ledit   = QtGui.QLineEdit()
+        self.__status_inf_ledit = QtGui.QLineEdit()
+
+
+
+        
+        self.__gridBox.addWidget(self.__date_lbl, 1, 1)
+        self.__gridBox.addWidget(self.__time_lbl, 2, 1)
+        self.__gridBox.addWidget(self.__date_ledit, 1, 2)
+        self.__gridBox.addWidget(self.__time_ledit, 2, 2)
+
+        
+        self.__gridBox.addWidget(self.__status_inf_ledit, 3, 1)
+        self.__gridBox.addWidget(self.__remove_r_by_date_adn_time_btn, 3, 2)
+        self.__gridBox.addWidget(self.__cancel_btn, 3, 3)
+
+
+
+        self.setLayout(self.__gridBox)
+
+
+        self.__remove_r_by_date_adn_time_btn.clicked.connect(self.__remove_r_by_date_and_time)
+        self.__cancel_btn.clicked.connect(self.close_window)
+
+
+    def __remove_r_by_date_and_time(self):
+        date = self.__date_ledit.text()
+        time = self.__time_ledit.text()
+
+        res, table_name = self.__dbDriver.remove_records_by_date_and_time(date, time)
+
+        if res != 0:
+            self.__errHandler.handle(res, table_name)
+
+        else:
+            res = self.__remove_report_file(
+                self.__dbDriver.make_report_file_name(date, time)
+            )
+            if res != 0:
+                self.__status_inf_ledit.setText(
+                    self.__errHandler.handle(res, "Remove repoprt file fail")
+                )
+                
+            else:
+                self.__status_inf_ledit.setText(SUCCESSFULLY)
+                loger.write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
+                #self.close_window()
+
+
+    def __remove_report_file(self, fname):
+        file = "{path}/{fname}".format(path=vars.PATH_REPORTS_DIR, fname=fname)
+
+        if os._exists(file) == False:
+            return errorHandler.ERROR_REPOPT_FILE_NOT_FOUND    
+        
+        os.remove(file)
+        return 0

@@ -68,7 +68,7 @@ class CreateRecordWindow(BaseWindow):
         self.__cancel_btn = QtGui.QPushButton(CANCLE_BTN_NAME)
 
 
-        report_fname_lbl        = QtGui.QLabel(CWINDOW_REPORT_FNAME_LABEL)
+        #report_fname_lbl        = QtGui.QLabel(CWINDOW_REPORT_FNAME_LABEL)
         status_inf_lbl          = QtGui.QLabel(CWINDOW_STATUS_INF_LABEL)
         district_departue_lbl   = QtGui.QLabel(CWINDOW_DISTRICT_DEPARTUE_LABEL)
         address_lbl             = QtGui.QLabel(CWINDOW_ADDRESS_LABEL)
@@ -79,7 +79,7 @@ class CreateRecordWindow(BaseWindow):
         message_lbl             = QtGui.QLabel(CWINDOW_MESSAGE_LABEL)
 
 
-        self.__report_fname_ledit        = QtGui.QLineEdit()
+        #self.__report_fname_ledit        = QtGui.QLineEdit()
         self.__status_inf_ledit          = QtGui.QLineEdit()
         self.__district_departue_ledit   = QtGui.QComboBox()
         self.__district_departue_ledit.addItems(
@@ -123,7 +123,7 @@ class CreateRecordWindow(BaseWindow):
         self.__gridBox.addWidget(sender_technics_lbl, 5, 1)
         self.__gridBox.addWidget(rank_lbl, 6, 1)
         self.__gridBox.addWidget(message_lbl, 7, 1)
-        self.__gridBox.addWidget(report_fname_lbl, 9, 1)
+        #self.__gridBox.addWidget(report_fname_lbl, 9, 1)
         self.__gridBox.addWidget(status_inf_lbl, 10, 1)
 
         self.__gridBox.addWidget(self.__district_departue_ledit, 1, 2)
@@ -135,7 +135,7 @@ class CreateRecordWindow(BaseWindow):
         self.__gridBox.addWidget(self.__message_ledit, 8, 1)
 
 
-        self.__gridBox.addWidget(self.__report_fname_ledit, 9, 2)
+        #self.__gridBox.addWidget(self.__report_fname_ledit, 9, 2)
         self.__gridBox.addWidget(self.__status_inf_ledit, 10, 2)
         self.__gridBox.addWidget(self.__write_btn, 10, 3)
         self.__gridBox.addWidget(self.__cancel_btn, 10, 4)
@@ -149,7 +149,6 @@ class CreateRecordWindow(BaseWindow):
 
 
     def write_record_in_the_db(self):
-        report_fname = self.__report_fname_ledit.text()
 
         self.__record.set_cur_date()
         self.__record.set_cur_time()
@@ -164,27 +163,18 @@ class CreateRecordWindow(BaseWindow):
 
         else:
             self.__status_inf_ledit.setText(SUCCESSFULLY)
-            self.__make_report_file(report_fname, self.__record)
+            self.__make_report_file(self.__record)
             loger.write_log(vars.EVENT_LOG_TYPE, vars.INSERT_DATA_INTO_THE_TABLE + table_name)
             #self.close_window()
         
         
 
-    def __make_report_file(self, fname, record):
-        if fname == "":
-            filePath = "{PATH_REPORTS_DIR}/{date}{time}.rd".format(
+    def __make_report_file(self, record):
+        filePath = "{PATH_REPORTS_DIR}/{date}{time}.rd".format(
                 PATH_REPORTS_DIR=vars.PATH_REPORTS_DIR,
                 date=record.get_date(),
                 time=record.get_time()
-            )
-
-        else:    
-            filePath = "{PATH_REPORTS_DIR}/{date}{time}_{fname}.rd".format(
-                PATH_REPORTS_DIR=vars.PATH_REPORTS_DIR,
-                date=record.get_date(),
-                time=record.get_time(),
-                fname=fname
-            )
+        )    
         
         record.write_in_the_file(filePath)
 
