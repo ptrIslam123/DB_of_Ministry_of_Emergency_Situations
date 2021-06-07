@@ -44,9 +44,9 @@ class UpdateRecordsWindow(BaseWindow):
     def makeWindowDialog(self):
         self.__gridBox  = QtGui.QGridLayout()
 
-        self.__find_r_by_date_and_time_btn  = QtGui.QPushButton(UWINDOW_FIND_R_DATE_AND_TIME_BUTTON)
-        self.__update_r_by_date_and_time_btn = QtGui.QPushButton(UWINDOW_UPDATE_RECORD_BUTTON)
-        self.__cancel_btn = QtGui.QPushButton(CANCLE_BTN_NAME)
+        self.__find_r_by_date_and_time_btn      = QtGui.QPushButton(UWINDOW_FIND_R_DATE_AND_TIME_BUTTON)
+        self.__update_r_by_date_and_time_btn    = QtGui.QPushButton(UWINDOW_UPDATE_RECORD_BUTTON)
+        self.__cancel_btn                       = QtGui.QPushButton(CANCLE_BTN_NAME)
 
 
         enter_date_lbl          = QtGui.QLabel(UWINDOW_FIND_R_BY_DATE_ADN_TIME)
@@ -63,39 +63,39 @@ class UpdateRecordsWindow(BaseWindow):
 
         self.__enter_date_ledit             = QtGui.QLineEdit()
         self.__enter_time_ledit             = QtGui.QLineEdit()
-        self.__status_inf_ledit          = QtGui.QLineEdit()
-        self.__district_departue_ledit   = QtGui.QComboBox()
+        self.__status_inf_ledit             = QtGui.QLineEdit()
+        self.__district_departue_ledit      = QtGui.QComboBox()
         self.__district_departue_ledit.addItems(
             self.__district_departue_list
         )
         self.__district_departue_ledit.activated[str].connect(self.__district_departue_handler)
 
-        self.__address_ledit             = QtGui.QLineEdit()
-        self.__visit_type_ledit          = QtGui.QComboBox()
+        self.__address_ledit                = QtGui.QLineEdit()
+        self.__visit_type_ledit             = QtGui.QComboBox()
         self.__visit_type_ledit.addItems(
             self.__visit_type_list
         )
         self.__visit_type_ledit.activated[str].connect(self.__visit_type_handler)
 
-        self.__additional_data_ledit     = QtGui.QComboBox()
+        self.__additional_data_ledit        = QtGui.QComboBox()
         self.__additional_data_ledit.addItems(
             self.__additional_data_list
         )
         self.__additional_data_ledit.activated[str].connect(self.__additional_data_handler)
 
-        self.__sender_technics_ledit     = QtGui.QComboBox()
+        self.__sender_technics_ledit        = QtGui.QComboBox()
         self.__sender_technics_ledit.addItems(
             self.__sender_technics_list
         )
         self.__sender_technics_ledit.activated[str].connect(self.__sender_technics_handler)
 
-        self.__rank_ledit                = QtGui.QComboBox()
+        self.__rank_ledit                   = QtGui.QComboBox()
         self.__rank_ledit.addItems(
             self.__rank_list
         )
         self.__rank_ledit.activated[str].connect(self.__rank_handler)
 
-        self.__message_ledit             = QtGui.QTextEdit()
+        self.__message_ledit                = QtGui.QTextEdit()
 
 
 
@@ -179,6 +179,16 @@ class UpdateRecordsWindow(BaseWindow):
             self.__set_old_values_for_fileds(tuple_records)
             self.__status_inf_ledit.setText(SUCCESSFULLY)
         
+
+    def __clean_and_close_window(self):
+        self.__enter_date_ledit.setText("")
+        self.__enter_time_ledit.setText("")
+        self.__status_inf_ledit.setText("")
+        self.__address_ledit.setText("")
+        self.__message_ledit.setText("")
+
+        self.close_window()
+
 
     def __set_old_values_for_fileds(self, tuple_data):
         old_address_val = tuple_data[3] # 3

@@ -12,4 +12,4 @@ class ErrorHandler:
 
 
     def handle(self, err_code, obj, descrt=""):
-        return "Error message"
+        return "Error"

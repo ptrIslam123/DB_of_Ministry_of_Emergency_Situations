@@ -36,16 +36,16 @@ class RemoveRecordsWindow(BaseWindow):
         self.__gridBox  = QtGui.QGridLayout()
 
 
-        self.__remove_r_by_date_adn_time_btn = QtGui.QPushButton(RWINDOW_REMOVE_BAUTTON)
-        self.__cancel_btn = QtGui.QPushButton(CANCLE_BTN_NAME)
+        self.__remove_r_by_date_adn_time_btn    = QtGui.QPushButton(RWINDOW_REMOVE_BAUTTON)
+        self.__cancel_btn                       = QtGui.QPushButton(CANCLE_BTN_NAME)
 
 
-        self.__date_lbl = QtGui.QLabel(RWINDOW_DATE_LABEL)
-        self.__time_lbl = QtGui.QLabel(RWINDOW_TIME_LABEL)
+        self.__date_lbl                     = QtGui.QLabel(RWINDOW_DATE_LABEL)
+        self.__time_lbl                     = QtGui.QLabel(RWINDOW_TIME_LABEL)
 
-        self.__date_ledit = QtGui.QLineEdit()
-        self.__time_ledit   = QtGui.QLineEdit()
-        self.__status_inf_ledit = QtGui.QLineEdit()
+        self.__date_ledit                   = QtGui.QLineEdit()
+        self.__time_ledit                   = QtGui.QLineEdit()
+        self.__status_inf_ledit             = QtGui.QLineEdit()
 
 
 
@@ -66,7 +66,7 @@ class RemoveRecordsWindow(BaseWindow):
 
 
         self.__remove_r_by_date_adn_time_btn.clicked.connect(self.__remove_r_by_date_and_time)
-        self.__cancel_btn.clicked.connect(self.close_window)
+        self.__cancel_btn.clicked.connect(self.__clean_and_close_window)
 
 
     def __remove_r_by_date_and_time(self):
@@ -95,7 +95,16 @@ class RemoveRecordsWindow(BaseWindow):
                 #self.close_window()
 
 
+    def __clean_and_close_window(self):
+        self.__date_ledit.setText("")
+        self.__time_ledit.setText("")
+        self.__status_inf_ledit.setText("")
+
+        self.close_window()
+
+
     def __remove_report_file(self, fname):
+        #! file = "{path}/{fname}.rd".format(path=vars.PATH_REPORTS_DIR, fname=fname)
         file = "{path}/{fname}".format(path=vars.PATH_REPORTS_DIR, fname=fname)
 
         if os._exists(file) == False:
@@ -103,3 +112,6 @@ class RemoveRecordsWindow(BaseWindow):
         
         os.remove(file)
         return 0
+
+
+    

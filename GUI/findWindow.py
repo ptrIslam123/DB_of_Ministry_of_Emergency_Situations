@@ -36,15 +36,17 @@ class FindRecordsWindow(BaseWindow):
         self.__gridBox  = QtGui.QGridLayout()
 
 
-        self.__find_r_by_date_adn_time_btn = QtGui.QPushButton(FWINDOW_FIND_BUTTON)
-        self.__cancel_btn = QtGui.QPushButton(CANCLE_BTN_NAME)
+        self.__find_r_by_date_adn_time_btn  = QtGui.QPushButton(FWINDOW_FIND_BUTTON)
+        self.__cancel_btn                   = QtGui.QPushButton(CANCLE_BTN_NAME)
 
 
-        self.__date_lbl = QtGui.QLabel(FWINDOW_DATE_LABEL)
-        self.__time_lbl = QtGui.QLabel(FWINDOW_TIME_LABEL)
+        self.__date_lbl         = QtGui.QLabel(FWINDOW_DATE_LABEL)
+        self.__time_lbl         = QtGui.QLabel(FWINDOW_TIME_LABEL)
 
-        self.__date_ledit = QtGui.QLineEdit()
-        self.__time_ledit   = QtGui.QLineEdit()
+
+
+        self.__date_ledit       = QtGui.QLineEdit()
+        self.__time_ledit       = QtGui.QLineEdit()
         self.__status_inf_ledit = QtGui.QLineEdit()
 
 
@@ -69,7 +71,7 @@ class FindRecordsWindow(BaseWindow):
 
 
         self.__find_r_by_date_adn_time_btn.clicked.connect(self.__find_records_by_date_adn_time)
-        self.__cancel_btn.clicked.connect(self.close_window)
+        self.__cancel_btn.clicked.connect(self.__clean_and_close_window)
 
 
     
@@ -90,6 +92,15 @@ class FindRecordsWindow(BaseWindow):
                 self.__dbDriver.tupleTostr(tuple_records)
             )
             loger.write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
+
+
+    def __clean_and_close_window(self):
+        self.__date_ledit.setText("")
+        self.__time_ledit.setText("")
+        self.__status_inf_ledit.setText("")
+        self.__res_tedit.setText("")
+
+        self.close_window()
 
         
 

@@ -120,7 +120,7 @@ class CreateRecordWindow(BaseWindow):
         self.setLayout(self.__gridBox)
 
         self.__write_btn.clicked.connect(self.write_record_in_the_db)
-        self.__cancel_btn.clicked.connect(self.close_window)
+        self.__cancel_btn.clicked.connect(self.__clean_and_close_window)
 
 
 
@@ -145,7 +145,14 @@ class CreateRecordWindow(BaseWindow):
             loger.write_log(vars.EVENT_LOG_TYPE, vars.INSERT_DATA_INTO_THE_TABLE + table_name)
             #self.close_window()
         
-        
+    
+    def __clean_and_close_window(self):
+        self.__status_inf_ledit.setText("")
+        self.__address_ledit.setText("")
+        self.__message_ledit.setText("")
+
+        self.close_window()
+
 
     def __make_report_file(self, record):
         filePath = "{PATH_REPORTS_DIR}/{date}{time}.rd".format(
