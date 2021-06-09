@@ -102,6 +102,15 @@ CWINDOW_ADDITIONAL_DATA_LABEL       = "дополнительные сведен
 CWINDOW_SENDED_TECHNICS_LABEL       = "высылаемая техника".decode('utf-8')
 CWINDOW_RANK_LABEL                  = "ранг".decode('utf-8')
 CWINDOW_MESSAGE_LABEL               = "сообщения".decode('utf-8')
+CWINDOW_DATE_LABEL                  = "дата".decode('utf-8')
+CWINDOW_TIME_LABEL                  = "время".decode('utf-8')
+
+CWINDOW_ENTRANCE_LABEL              = "подъезд".decode('utf-8')
+CWINDOW_FLAT_LABEL                  = "квартира".decode('utf-8')
+CWINDOW_FLOOR_LABEL                 = "этаж".decode('utf-8')
+CWINDOW_PHONE_NUMBER_LABEL          = "номер телефона".decode('utf-8')
+CWINDOW_REPORTED_LABEL              = "сообщил".decode('utf-8')
+
 
 
 

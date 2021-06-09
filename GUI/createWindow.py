@@ -44,7 +44,17 @@ class CreateRecordWindow(BaseWindow):
         self.__cancel_btn = QtGui.QPushButton(CANCLE_BTN_NAME)
 
 
-        #report_fname_lbl        = QtGui.QLabel(CWINDOW_REPORT_FNAME_LABEL)
+        
+        date_lbl                = QtGui.QLabel(CWINDOW_DATE_LABEL)
+        time_lbl                = QtGui.QLabel(CWINDOW_TIME_LABEL)
+
+        entrance_lbl            = QtGui.QLabel(CWINDOW_ENTRANCE_LABEL)    # подъезд
+        flat_lbl                = QtGui.QLabel(CWINDOW_FLAT_LABEL)    # квартира
+        floor_lbl               = QtGui.QLabel(CWINDOW_FLOOR_LABEL)    # этаж
+        phone_number_lbl        = QtGui.QLabel(CWINDOW_PHONE_NUMBER_LABEL)    # номер телефона
+        reported_lbl            = QtGui.QLabel(CWINDOW_REPORTED_LABEL)    # сообщил (доложил)
+
+
         status_inf_lbl          = QtGui.QLabel(CWINDOW_STATUS_INF_LABEL)
         district_departue_lbl   = QtGui.QLabel(CWINDOW_DISTRICT_DEPARTUE_LABEL)
         address_lbl             = QtGui.QLabel(CWINDOW_ADDRESS_LABEL)
@@ -55,66 +65,95 @@ class CreateRecordWindow(BaseWindow):
         message_lbl             = QtGui.QLabel(CWINDOW_MESSAGE_LABEL)
 
 
-        #self.__report_fname_ledit        = QtGui.QLineEdit()
-        self.__status_inf_ledit          = QtGui.QLineEdit()
-        self.__district_departue_ledit   = QtGui.QComboBox()
+        self.__date_ledit                   = QtGui.QLineEdit()
+        self.__time_ledit                   = QtGui.QLineEdit()
+
+
+        self.__entrance_ledit               = QtGui.QLineEdit()
+        self.__flat_ledit                   = QtGui.QLineEdit()
+        self.__floor_ledit                  = QtGui.QLineEdit()
+        self.__phone_number_ledit           = QtGui.QLineEdit()
+        self.__reported_ledit               = QtGui.QLineEdit()
+
+
+        self.__status_inf_ledit             = QtGui.QLineEdit()
+        self.__district_departue_ledit      = QtGui.QComboBox()
         self.__district_departue_ledit.addItems(
             self.__district_departue_list
         )
         self.__district_departue_ledit.activated[str].connect(self.__district_departue_handler)
 
-        self.__address_ledit             = QtGui.QLineEdit()
-        self.__visit_type_ledit          = QtGui.QComboBox()
+        self.__address_ledit                = QtGui.QLineEdit()
+        self.__visit_type_ledit             = QtGui.QComboBox()
         self.__visit_type_ledit.addItems(
             self.__visit_type_list
         )
         self.__visit_type_ledit.activated[str].connect(self.__visit_type_handler)
 
-        self.__additional_data_ledit     = QtGui.QComboBox()
+        self.__additional_data_ledit        = QtGui.QComboBox()
         self.__additional_data_ledit.addItems(
             self.__additional_data_list
         )
         self.__additional_data_ledit.activated[str].connect(self.__additional_data_handler)
 
-        self.__sender_technics_ledit     = QtGui.QComboBox()
+        self.__sender_technics_ledit        = QtGui.QComboBox()
         self.__sender_technics_ledit.addItems(
             self.__sender_technics_list
         )
         self.__sender_technics_ledit.activated[str].connect(self.__sender_technics_handler)
 
-        self.__rank_ledit                = QtGui.QComboBox()
+        self.__rank_ledit                   = QtGui.QComboBox()
         self.__rank_ledit.addItems(
             self.__rank_list
         )
         self.__rank_ledit.activated[str].connect(self.__rank_handler)
 
-        self.__message_ledit             = QtGui.QTextEdit()
+        self.__message_ledit                = QtGui.QTextEdit()
 
 
 
-        self.__gridBox.addWidget(district_departue_lbl, 1, 1)
-        self.__gridBox.addWidget(address_lbl, 2, 1)
-        self.__gridBox.addWidget(visit_type_lbl, 3, 1)
-        self.__gridBox.addWidget(additional_data_lbl, 4, 1)
-        self.__gridBox.addWidget(sender_technics_lbl, 5, 1)
-        self.__gridBox.addWidget(rank_lbl, 6, 1)
-        self.__gridBox.addWidget(message_lbl, 7, 1)
-        #self.__gridBox.addWidget(report_fname_lbl, 9, 1)
-        self.__gridBox.addWidget(status_inf_lbl, 10, 1)
+        self.__gridBox.addWidget(date_lbl, 1, 1)
+        self.__gridBox.addWidget(time_lbl, 2, 1)
+        self.__gridBox.addWidget(district_departue_lbl, 3, 1)
+        self.__gridBox.addWidget(address_lbl, 4, 1)
 
-        self.__gridBox.addWidget(self.__district_departue_ledit, 1, 2)
-        self.__gridBox.addWidget(self.__address_ledit, 2, 2)
-        self.__gridBox.addWidget(self.__visit_type_ledit, 3, 2)
-        self.__gridBox.addWidget(self.__additional_data_ledit, 4,  2)
-        self.__gridBox.addWidget(self.__sender_technics_ledit, 5, 2)
-        self.__gridBox.addWidget(self.__rank_ledit, 6, 2)
-        self.__gridBox.addWidget(self.__message_ledit, 8, 1)
+        self.__gridBox.addWidget(entrance_lbl, 5, 1)
+        self.__gridBox.addWidget(flat_lbl, 6, 1)
+        self.__gridBox.addWidget(floor_lbl, 7, 1)
+        self.__gridBox.addWidget(phone_number_lbl, 8, 1)
+        self.__gridBox.addWidget(reported_lbl, 9, 1)
+
+        self.__gridBox.addWidget(visit_type_lbl, 10, 1)
+        self.__gridBox.addWidget(additional_data_lbl, 11, 1)
+        self.__gridBox.addWidget(sender_technics_lbl, 12, 1)
+        self.__gridBox.addWidget(rank_lbl, 13, 1)
+        self.__gridBox.addWidget(message_lbl, 14, 1)
+        self.__gridBox.addWidget(status_inf_lbl, 15, 1)
 
 
-        #self.__gridBox.addWidget(self.__report_fname_ledit, 9, 2)
-        self.__gridBox.addWidget(self.__status_inf_ledit, 10, 2)
-        self.__gridBox.addWidget(self.__write_btn, 10, 3)
-        self.__gridBox.addWidget(self.__cancel_btn, 10, 4)
+
+        self.__gridBox.addWidget(self.__date_ledit, 1, 2)
+        self.__gridBox.addWidget(self.__time_ledit, 2, 2)
+        self.__gridBox.addWidget(self.__district_departue_ledit, 3, 2)
+        self.__gridBox.addWidget(self.__address_ledit, 4, 2)
+
+        self.__gridBox.addWidget(self.__entrance_ledit, 5, 2)
+        self.__gridBox.addWidget(self.__flat_ledit, 6, 2)
+        self.__gridBox.addWidget(self.__floor_ledit, 7, 2)
+        self.__gridBox.addWidget(self.__phone_number_ledit, 8, 2)
+        self.__gridBox.addWidget(self.__reported_ledit, 9, 2)
+
+
+        self.__gridBox.addWidget(self.__visit_type_ledit, 10, 2)
+        self.__gridBox.addWidget(self.__additional_data_ledit, 11,  2)
+        self.__gridBox.addWidget(self.__sender_technics_ledit, 12, 2)
+        self.__gridBox.addWidget(self.__rank_ledit, 13, 2)
+        self.__gridBox.addWidget(self.__message_ledit, 14, 1)
+
+
+        self.__gridBox.addWidget(self.__status_inf_ledit, 15, 2)
+        self.__gridBox.addWidget(self.__write_btn, 15, 3)
+        self.__gridBox.addWidget(self.__cancel_btn, 15, 4)
 
 
         self.setLayout(self.__gridBox)
