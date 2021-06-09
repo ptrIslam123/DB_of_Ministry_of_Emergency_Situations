@@ -20,6 +20,10 @@ class RecordTable:
             "PRAGMA foreign_keys=on;"
         )
 
+        self.__sqlDriver.exec_request(
+            'PRAGMA encoding="UTF-8";'
+        )
+
         self.__sqlDriver.exec_file(
             "{SQL_TABLES_DIR_PATH}/{__table_name}.txt".format(
                 SQL_TABLES_DIR_PATH=SQL_TABLES_DIR_PATH,

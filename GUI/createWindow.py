@@ -176,7 +176,7 @@ class CreateRecordWindow(BaseWindow):
     def write_record_in_the_db(self):
 
         self.__record.set_date(self.__date_ledit.text())
-        self.__record.set_time(self.__date_ledit.text())
+        self.__record.set_time(self.__time_ledit.text())
 
         self.__record.set__entrance(self.__entrance_ledit.text())
         self.__record.set_flat(self.__flat_ledit.text())

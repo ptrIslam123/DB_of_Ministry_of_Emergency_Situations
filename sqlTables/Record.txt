@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS Record
     visit_type          TEXT,                               -- вид выезда
     additional_data     TEXT,                               -- дополнительные сведения
     sender_technics     TEXT,                               -- высылаемая техника
-    rank                UNSIGNED INTEGER,                   -- уровень опасности
+    rank                TEXT,                   -- уровень опасности
     message             TEXT,                               -- сообщение диспетчера
 
     CONSTRAINT pk_record PRIMARY KEY(date, time)

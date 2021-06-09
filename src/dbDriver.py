@@ -36,11 +36,11 @@ class DBDriver:
         # processing sql request error
         # 2021-06-05        : test data
         # 14:56:04.767042   : test data
-        tuple_res = self.__recordT.find_records_by_date_and_time(
+        res_list = self.__recordT.find_records_by_date_and_time(
             date, time
-        )[0]
+        )
         
-        return 0, self.__recordT.get_table_name(), tuple_res
+        return 0, self.__recordT.get_table_name(), self.listTostr(res_list).decode('utf-8')
 
 
     def remove_records_by_date_and_time(self, date, time):
@@ -77,9 +77,9 @@ class DBDriver:
 
 
     def get_all_records_into_table(self):
-        return self.tupleTostr(
+        return self.listTostr(
             self.__recordT.select_all_records()
-        )
+        ).decode('utf-8')
 
 
     def make_report_file_name(self, date, time):
@@ -93,3 +93,12 @@ class DBDriver:
             res += "{item}\n".format(item=str(item))
 
         return res
+
+    def listTostr(self, list_data):
+        res_str = str()
+        for i in list_data:
+            for j in i:
+                j = j.encode('utf-8')
+                res_str = "{str1}\n{str2}".format(str1=res_str, str2=j)
+
+        return res_str

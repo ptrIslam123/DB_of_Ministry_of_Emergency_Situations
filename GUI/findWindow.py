@@ -67,12 +67,12 @@ class FindRecordsWindow(BaseWindow):
         self.__gridBox.addWidget(self.__time_ledit, 2, 2)
         
 
-        self.__gridBox.addWidget(self.__res_tedit, 3, 2)
-        self.__gridBox.addWidget(self.__records_tedit, 4, 2)
+        self.__gridBox.addWidget(self.__res_tedit, 4, 2)
+        self.__gridBox.addWidget(self.__records_tedit, 5, 2)
         
-        self.__gridBox.addWidget(self.__status_inf_ledit, 5, 1)
-        self.__gridBox.addWidget(self.__find_r_by_date_adn_time_btn, 5, 2)
-        self.__gridBox.addWidget(self.__cancel_btn, 5, 3)
+        self.__gridBox.addWidget(self.__status_inf_ledit, 6, 1)
+        self.__gridBox.addWidget(self.__find_r_by_date_adn_time_btn, 3, 2)
+        self.__gridBox.addWidget(self.__cancel_btn, 6, 2)
 
 
 
@@ -91,7 +91,7 @@ class FindRecordsWindow(BaseWindow):
         date = self.__date_ledit.text()
         time = self.__time_ledit.text()
 
-        res, table_name, tuple_records = self.__dbDriver.find_records_by_date_and_time(date, time)
+        res, table_name, data = self.__dbDriver.find_records_by_date_and_time(date, time)
 
         if res != 0:
             self.__status_inf_ledit.setText(
@@ -101,7 +101,7 @@ class FindRecordsWindow(BaseWindow):
         else:
             self.__status_inf_ledit.setText(SUCCESSFULLY)
             self.__res_tedit.setText(
-                self.__dbDriver.tupleTostr(tuple_records)
+                data
             )
             loger.write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
 
