@@ -76,6 +76,12 @@ class DBDriver:
 
 
 
+    def get_all_records_into_table(self):
+        return self.tupleTostr(
+            self.__recordT.select_all_records()
+        )
+
+
     def make_report_file_name(self, date, time):
         return "{date}{time}.rd".format(date=date, time=time)
 

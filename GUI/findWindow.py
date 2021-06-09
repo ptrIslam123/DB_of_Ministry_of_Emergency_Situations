@@ -82,9 +82,12 @@ class FindRecordsWindow(BaseWindow):
         self.__find_r_by_date_adn_time_btn.clicked.connect(self.__find_records_by_date_adn_time)
         self.__cancel_btn.clicked.connect(self.__clean_and_close_window)
 
+        self.__write_all_records_in_the_textEdit()
+
 
     
     def __find_records_by_date_adn_time(self):
+        
         date = self.__date_ledit.text()
         time = self.__time_ledit.text()
 
@@ -101,6 +104,12 @@ class FindRecordsWindow(BaseWindow):
                 self.__dbDriver.tupleTostr(tuple_records)
             )
             loger.write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
+
+
+
+    def __write_all_records_in_the_textEdit(self):
+        records = self.__dbDriver.get_all_records_into_table()
+        self.__records_tedit.setText(records)
 
 
     def __clean_and_close_window(self):

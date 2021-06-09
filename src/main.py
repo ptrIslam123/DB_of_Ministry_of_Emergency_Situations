@@ -10,7 +10,7 @@ from sqliteDriver import *
 def main():
     r = RecordTable()
     
-    print(r.select_all_records())
+    
     #r.print_table()
     '''
     r.insert(
@@ -30,6 +30,23 @@ def main():
         "message1"
     )
     '''
+
+    r.insert(
+        "12.12.22",
+        "12:36",
+        "москва".encode('utf-8'),
+        "адресс1",
+        "подъезд1",
+        "квартра1",
+        "этаж1",
+        "номер1",
+        "персон1",
+        "вид выезда1",
+        "описание1",
+        "техника1",
+        "1",
+        "сообщение1"
+    )
 
     print(r.select_all_records())
     print("successful!")
