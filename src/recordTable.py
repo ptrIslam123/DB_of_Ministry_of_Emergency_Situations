@@ -56,6 +56,11 @@ class RecordTable:
         time,
         district_departue,
         address,
+        entrance,
+        flat,
+        floor,
+        phone_number,
+        reported,
         visit_type,
         additional_data,
         sender_technics,
@@ -69,6 +74,12 @@ class RecordTable:
             time                TEXT,                               -- время
             district_departue   TEXT,                               -- район выезда
             address             TEXT,                               -- адресс выезда
+            entrance            TEXT,                               -- подъезд
+            flat                TEXT,                               -- квартира
+            floor               TEXT,                               -- этаж
+            phone_number        TEXT,                               -- номер телефона
+            reported            TEXT,                               -- сообщил (доложил)
+            
             visit_type          TEXT,                               -- вид выезда
             additional_data     TEXT,                               -- дополнительные сведения
             sender_technics     TEXT,                               -- высылаемая техника
@@ -81,13 +92,19 @@ class RecordTable:
 
         req = """
             INSERT INTO {__table_name}
-            (date, time, district_departue, address, visit_type, additional_data, sender_technics, rank, message)
+            (
+                date, time, district_departue, address, entrance, flat, floor, phone_number, reported, visit_type, additional_data, sender_technics, rank, message)
             VALUES
             (
                 '{date}',
                 '{time}',
                 '{district_departue}',
                 '{address}',
+                '{entrance}',
+                '{flat}',
+                '{floor}',
+                '{phone_number}',
+                '{reported}',
                 '{visit_type}',
                 '{additional_data}',
                 '{sender_technics}',
@@ -100,6 +117,11 @@ class RecordTable:
             time=time,
             district_departue=district_departue,
             address=address,
+            entrance=entrance,
+            flat=flat,
+            floor=floor,
+            phone_number=phone_number,
+            reported=reported,
             visit_type=visit_type,
             additional_data=additional_data,
             sender_technics=sender_technics,

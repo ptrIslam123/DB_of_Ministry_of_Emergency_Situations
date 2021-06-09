@@ -1,9 +1,9 @@
 06.09.2021
 06.09.2021
-district1
-address1
+подъезд 1
+а1
 None
 None
 None
 None
-message
+сообщение1

@@ -187,7 +187,6 @@ class CreateRecordWindow(BaseWindow):
         self.__record.set_address(self.__address_ledit.text())
         self.__record.set_message(self.__message_ledit.toPlainText())
 
-        self.__record.print_fields()
 
         res, table_name = self.__dbDriver.write_new_record(self.__record)
 

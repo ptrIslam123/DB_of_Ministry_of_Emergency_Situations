@@ -110,9 +110,7 @@ class MainWindow(QtGui.QMainWindow):
 
 
     def __update_records_by_date_and_time(self):
-        if self.__updateRecordsWindow is None:
-            self.__updateRecordsWindow = UpdateRecordsWindow()
-        
+        self.__updateRecordsWindow = UpdateRecordsWindow()
         self.__updateRecordsWindow.show_window()
 
 
@@ -122,16 +120,12 @@ class MainWindow(QtGui.QMainWindow):
 
 
     def __find_records_by_date_adn_time(self):
-        if self.__findRecordsWindow is None:
-            self.__findRecordsWindow = FindRecordsWindow()
-
+        self.__findRecordsWindow = FindRecordsWindow()
         self.__findRecordsWindow.show_window()
 
 
     def __remove_records_by_date_and_time(self):
-        if self.__removeRecordsWindow is None:
-            self.__removeRecordsWindow = RemoveRecordsWindow()
-
+        self.__removeRecordsWindow = RemoveRecordsWindow()
         self.__removeRecordsWindow.show_window()
 
 
