@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #-*-coding: utf-8-*-
 
-from datetime import datetime
+import datetime
 
 
 class Record:
@@ -11,6 +11,13 @@ class Record:
         self.__time                 = None
         self.__district_departue    = None
         self.__address              = None
+
+        self.__entrance             = None
+        self.__flat                 = None
+        self.__floor                = None
+        self.__phone_number         = None
+        self.__reported             = None
+
         self.__visit_type           = None
         self.__additional_data      = None
         self.__sender_technics      = None
@@ -64,6 +71,11 @@ class Record:
             __time={__time}\n
             __district_departue={__district_departue}\n
             __address={__address}\n
+            __entrance={__entrance}\n
+            __flat={__flat}\n
+            __floor={__floor}\n
+            __phone_number={__phone_number}\n
+            __reported={__reported}\n
             __visit_type={__visit_type}\n
             __additional_data={__additional_data}\n
             __sender_technics={__sender_technics}\n
@@ -74,12 +86,19 @@ class Record:
                 __time=self.__time,
                 __district_departue=self.__district_departue,
                 __address=self.__address,
+                __entrance=self.__entrance,
+                __flat=self.__flat,
+                __floor=self.__floor,
+                __phone_number=self.__phone_number,
+                __reported=self.__reported,
                 __visit_type=self.__visit_type,
                 __additional_data=self.__additional_data,
                 __sender_technics=self.__sender_technics,
                 __rank=self.__rank,
                 __message=self.__message
         ))
+
+
 
     def get_date(self):
         return self.__date
@@ -95,6 +114,26 @@ class Record:
 
     def get_address(self):
         return self.__address
+
+
+    def get__entrance(self):
+        return self.__entrance
+
+    
+    def get_flat(self):
+        return self.__flat
+
+
+    def get_floor(self):
+        return self.__floor
+
+
+    def get_phone_number(self):
+        return self.__phone_number
+
+
+    def get_reported(self):
+        return self.__reported
 
 
     def get_visit_type(self):
@@ -116,42 +155,66 @@ class Record:
     def get_message(self):
         return self.__message
 
+    def set_date(self, date):
+        self.__date = date
 
-    def set_cur_date(self):
-        self.__date = datetime.now().date()
+
+    def set_time(self, time):
+        self.__time = time
+
+
+    def get_cur_date_str(self):
+        return "{:%m.%d.%Y}".format(datetime.datetime.now().date())
 
     
-    def set_cur_time(self):
-        hour    = datetime.now().time().hour
-        minute  = datetime.now().time().minute
-
-        self.__time = "{hour}:{minute}".format(hour=hour, minute=minute)
+    def get_cur_time_str(self):
+        return "{:%H:%M}".format(datetime.datetime.now().time())
 
 
     def set_district_departue(self, val):
-        self.__district_departue = val
+        self.__district_departue = val.encode('utf-8')
 
 
     def set_address(self, val):
-        self.__address = val
+        self.__address = val.encode('utf-8')
+
+
+    def set__entrance(self, entrance):
+        self.__entrance = entrance.encode('utf-8')
+
+
+    def set_flat(self, flat):
+        self.__flat = flat.encode('utf-8')
+
+
+    def set_floor(self, floor):
+        self.__floor = floor.encode('utf-8')
+
+
+    def set_phone_number(self, phone_number):
+        self.__phone_number = phone_number.encode('utf-8')
+
+
+    def set_reported(self, reported):
+        self.__reported = reported.encode('utf-8')
 
 
     def set_visit_type(self, val):
-        self.__visit_type = val
+        self.__visit_type = val.encode('utf-8')
 
 
     def set_additional_data(self, val):
-        self.__additional_data = val
+        self.__additional_data = val.encode('utf-8')
 
 
     def set_sender_technics(self, val):
-        self.__sender_technics = val
+        self.__sender_technics = val.encode('utf-8')
 
 
     def set_rank(self, val):
-        self.__rank = val
+        self.__rank = val.encode('utf-8')
 
 
     def set_message(self, val):
-        self.__message = val
+        self.__message = val.encode('utf-8')
         

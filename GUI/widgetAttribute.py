@@ -115,26 +115,26 @@ CWINDOW_REPORTED_LABEL              = "сообщил".decode('utf-8')
 
 
 DISTRICT_DEPARTUE_LIST_VALUES = [
-    "district1".decode('utf-8'), 
-    "district2".decode('utf-8'), 
-    "district3".decode('utf-8')
+    "подъезд 1".decode('utf-8'), 
+    "подъезд 2".decode('utf-8'), 
+    "подъезд 3".decode('utf-8')
 ]
 
 VISIT_TYPE_LIST_VALUES = [
-    "visit_t1".decode('utf-8'), 
-    "visit_t2".decode('utf-8'), 
-    "visit_t3".decode('utf-8')
+    "тип выезда 1".decode('utf-8'), 
+    "тип выезда 2".decode('utf-8'), 
+    "тип выезда 3".decode('utf-8')
 ]
 
 ADDITIONAL_DATA_LIST_VALUES = [
-    "additional1".decode('utf-8'), 
-    "additional2".decode('utf-8'), 
-    "additional3".decode('utf-8')
+    "добавочная информация 1".decode('utf-8'), 
+    "добавочная информация 2".decode('utf-8'), 
+    "добавочная информация 3".decode('utf-8')
 ]
 
 SENDER_TECHNIC_LIST_VALUES = [
-    "sender1".decode('utf-8'), 
-    "sender2".decode('utf-8')
+    "высылаемоя техника 1".decode('utf-8'), 
+    "высылаемоя техника 2".decode('utf-8')
 ]
 
 RANK_LIST_VALUES = [

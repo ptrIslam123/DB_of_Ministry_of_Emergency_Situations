@@ -117,9 +117,7 @@ class MainWindow(QtGui.QMainWindow):
 
 
     def __create_new_records(self):
-        if self.__createRecordsWindow is None:
-            self.__createRecordsWindow = CreateRecordWindow()
-        
+        self.__createRecordsWindow = CreateRecordWindow()
         self.__createRecordsWindow.show_window()
 
 

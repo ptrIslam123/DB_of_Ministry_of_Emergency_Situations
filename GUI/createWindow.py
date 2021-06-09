@@ -37,6 +37,10 @@ class CreateRecordWindow(BaseWindow):
         self.makeWindowDialog()
 
     
+        
+
+
+    
     def makeWindowDialog(self):
         self.__gridBox  = QtGui.QGridLayout()
 
@@ -84,6 +88,12 @@ class CreateRecordWindow(BaseWindow):
         self.__district_departue_ledit.activated[str].connect(self.__district_departue_handler)
 
         self.__address_ledit                = QtGui.QLineEdit()
+
+
+        self.__date_ledit.setText(self.__record.get_cur_date_str())
+        self.__time_ledit.setText(self.__record.get_cur_time_str())
+
+
         self.__visit_type_ledit             = QtGui.QComboBox()
         self.__visit_type_ledit.addItems(
             self.__visit_type_list
@@ -165,11 +175,19 @@ class CreateRecordWindow(BaseWindow):
 
     def write_record_in_the_db(self):
 
-        self.__record.set_cur_date()
-        self.__record.set_cur_time()
+        self.__record.set_date(self.__date_ledit.text())
+        self.__record.set_time(self.__date_ledit.text())
+
+        self.__record.set__entrance(self.__entrance_ledit.text())
+        self.__record.set_flat(self.__flat_ledit.text())
+        self.__record.set_floor(self.__floor_ledit.text())
+        self.__record.set_phone_number(self.__phone_number_ledit.text())
+        self.__record.set_reported(self.__reported_ledit.text())
+        
         self.__record.set_address(self.__address_ledit.text())
         self.__record.set_message(self.__message_ledit.toPlainText())
 
+        self.__record.print_fields()
 
         res, table_name = self.__dbDriver.write_new_record(self.__record)
 
