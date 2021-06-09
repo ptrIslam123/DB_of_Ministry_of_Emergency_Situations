@@ -6,6 +6,12 @@ CREATE TABLE IF NOT EXISTS Record
     time                TEXT,                               -- время
     district_departue   TEXT,                               -- район выезда
     address             TEXT,                               -- адресс выезда
+    entrance            TEXT,                               -- подъезд
+    flat                TEXT,                               -- квартира
+    floor               TEXT,                               -- этаж
+    phone_number        TEXT,                               -- номер телефона
+    reported            TEXT,                               -- сообщил (доложил)
+
     visit_type          TEXT,                               -- вид выезда
     additional_data     TEXT,                               -- дополнительные сведения
     sender_technics     TEXT,                               -- высылаемая техника
