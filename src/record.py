@@ -179,7 +179,7 @@ class Record:
         self.__address = val.encode('utf-8')
 
 
-    def set__entrance(self, entrance):
+    def set_entrance(self, entrance):
         self.__entrance = entrance.encode('utf-8')
 
 

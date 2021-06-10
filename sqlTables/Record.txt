@@ -2,21 +2,21 @@
 -- таблица запись
 CREATE TABLE IF NOT EXISTS Record
 (
-    date                TEXT,                               -- дата
-    time                TEXT,                               -- время
-    district_departue   TEXT,                               -- район выезда
-    address             TEXT,                               -- адресс выезда
-    entrance            TEXT,                               -- подъезд
-    flat                TEXT,                               -- квартира
-    floor               TEXT,                               -- этаж
-    phone_number        TEXT,                               -- номер телефона
-    reported            TEXT,                               -- сообщил (доложил)
+    date                TEXT,                               -- дата 0
+    time                TEXT,                               -- время    1
+    district_departue   TEXT,                               -- район выезда 2
+    address             TEXT,                               -- адресс выезда    3
+    entrance            TEXT,                               -- подъезд  4
+    flat                TEXT,                               -- квартира 5
+    floor               TEXT,                               -- этаж 6
+    phone_number        TEXT,                               -- номер телефона   7
+    reported            TEXT,                               -- сообщил (доложил)    8
 
-    visit_type          TEXT,                               -- вид выезда
-    additional_data     TEXT,                               -- дополнительные сведения
-    sender_technics     TEXT,                               -- высылаемая техника
-    rank                TEXT,                   -- уровень опасности
-    message             TEXT,                               -- сообщение диспетчера
+    visit_type          TEXT,                               -- вид выезда       9
+    additional_data     TEXT,                               -- дополнительные сведения  10
+    sender_technics     TEXT,                               -- высылаемая техника   11
+    rank                TEXT,                               -- уровень опасности    12
+    message             TEXT,                               -- сообщение диспетчера 13
 
     CONSTRAINT pk_record PRIMARY KEY(date, time)
 );

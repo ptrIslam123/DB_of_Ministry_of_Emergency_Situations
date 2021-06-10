@@ -49,7 +49,7 @@ class FindRecordsWindow(BaseWindow):
         self.__time_ledit       = QtGui.QLineEdit()
         self.__status_inf_ledit = QtGui.QLineEdit()
         
-        records_tedit_width     = 400
+        records_tedit_width     = 550
         records_tedit_higth     = 350
         self.__records_tedit    = QtGui.QTextEdit()
         self.__records_tedit.setFixedSize(records_tedit_width, records_tedit_higth)
@@ -70,9 +70,9 @@ class FindRecordsWindow(BaseWindow):
         self.__gridBox.addWidget(self.__res_tedit, 4, 2)
         self.__gridBox.addWidget(self.__records_tedit, 5, 2)
         
-        self.__gridBox.addWidget(self.__status_inf_ledit, 6, 1)
-        self.__gridBox.addWidget(self.__find_r_by_date_adn_time_btn, 3, 2)
-        self.__gridBox.addWidget(self.__cancel_btn, 6, 2)
+        self.__gridBox.addWidget(self.__status_inf_ledit, 6, 2)
+        self.__gridBox.addWidget(self.__find_r_by_date_adn_time_btn, 3, 3)
+        self.__gridBox.addWidget(self.__cancel_btn, 6, 3)
 
 
 

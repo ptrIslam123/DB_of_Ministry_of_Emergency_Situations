@@ -178,7 +178,7 @@ class CreateRecordWindow(BaseWindow):
         self.__record.set_date(self.__date_ledit.text())
         self.__record.set_time(self.__time_ledit.text())
 
-        self.__record.set__entrance(self.__entrance_ledit.text())
+        self.__record.set_entrance(self.__entrance_ledit.text())
         self.__record.set_flat(self.__flat_ledit.text())
         self.__record.set_floor(self.__floor_ledit.text())
         self.__record.set_phone_number(self.__phone_number_ledit.text())

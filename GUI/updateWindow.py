@@ -49,11 +49,21 @@ class UpdateRecordsWindow(BaseWindow):
         self.__cancel_btn                       = QtGui.QPushButton(CANCLE_BTN_NAME)
 
 
-        enter_date_lbl          = QtGui.QLabel(UWINDOW_FIND_R_BY_DATE_ADN_TIME)
+        enter_date_lbl          = QtGui.QLabel(UWINDOW_FIND_R_BY_DATE_LABEL)
         enter_time_lbl          = QtGui.QLabel(UWINDOW_FIND_R_BY_TIME_LABEL)
         status_inf_lbl          = QtGui.QLabel(UWINDOW_STATUS_INF_LABEL)
+
         district_departue_lbl   = QtGui.QLabel(UWINDOW_DISTRICT_DEPARTUE_LABEL)
         address_lbl             = QtGui.QLabel(UWINDOW_ADDRESS_LABEL)
+
+
+        entrance_lbl            = QtGui.QLabel(CWINDOW_ENTRANCE_LABEL)    # подъезд
+        flat_lbl                = QtGui.QLabel(CWINDOW_FLAT_LABEL)    # квартира
+        floor_lbl               = QtGui.QLabel(CWINDOW_FLOOR_LABEL)    # этаж
+        phone_number_lbl        = QtGui.QLabel(CWINDOW_PHONE_NUMBER_LABEL)    # номер телефона
+        reported_lbl            = QtGui.QLabel(CWINDOW_REPORTED_LABEL)    # сообщил (доложил)
+
+
         visit_type_lbl          = QtGui.QLabel(UWINDOW_VISIT_TYPE_LABEL)
         additional_data_lbl     = QtGui.QLabel(UWINDOW_ADDITIONAL_DATA_LABEL)
         sender_technics_lbl     = QtGui.QLabel(UWINDOW_SENDED_TECHNICS_LABEL)
@@ -71,6 +81,15 @@ class UpdateRecordsWindow(BaseWindow):
         self.__district_departue_ledit.activated[str].connect(self.__district_departue_handler)
 
         self.__address_ledit                = QtGui.QLineEdit()
+
+        
+        self.__entrance_ledit               = QtGui.QLineEdit()
+        self.__flat_ledit                   = QtGui.QLineEdit()
+        self.__floor_ledit                  = QtGui.QLineEdit()
+        self.__phone_number_ledit           = QtGui.QLineEdit()
+        self.__reported_ledit               = QtGui.QLineEdit()
+
+
         self.__visit_type_ledit             = QtGui.QComboBox()
         self.__visit_type_ledit.addItems(
             self.__visit_type_list
@@ -107,27 +126,46 @@ class UpdateRecordsWindow(BaseWindow):
         self.__gridBox.addWidget(self.__find_r_by_date_and_time_btn, 3, 4)
 
 
+
         self.__gridBox.addWidget(district_departue_lbl, 4, 1)
         self.__gridBox.addWidget(address_lbl, 5, 1)
-        self.__gridBox.addWidget(visit_type_lbl, 6, 1)
-        self.__gridBox.addWidget(additional_data_lbl, 7, 1)
-        self.__gridBox.addWidget(sender_technics_lbl, 8, 1)
-        self.__gridBox.addWidget(rank_lbl, 9, 1)
-        self.__gridBox.addWidget(message_lbl, 10, 1)
-        self.__gridBox.addWidget(status_inf_lbl, 11, 1)
+
+
+        self.__gridBox.addWidget(entrance_lbl, 6, 1)
+        self.__gridBox.addWidget(flat_lbl, 7, 1)
+        self.__gridBox.addWidget(floor_lbl, 8, 1)
+        self.__gridBox.addWidget(phone_number_lbl, 9, 1)
+        self.__gridBox.addWidget(reported_lbl, 10, 1)
+
+
+        self.__gridBox.addWidget(visit_type_lbl, 11, 1)
+        self.__gridBox.addWidget(additional_data_lbl, 12, 1)
+        self.__gridBox.addWidget(sender_technics_lbl, 13, 1)
+        self.__gridBox.addWidget(rank_lbl, 14, 1)
+        self.__gridBox.addWidget(message_lbl, 15, 1)
+        self.__gridBox.addWidget(status_inf_lbl, 16, 1)
 
         self.__gridBox.addWidget(self.__district_departue_ledit, 4, 2)
         self.__gridBox.addWidget(self.__address_ledit, 5, 2)
-        self.__gridBox.addWidget(self.__visit_type_ledit, 6, 2)
-        self.__gridBox.addWidget(self.__additional_data_ledit, 7,  2)
-        self.__gridBox.addWidget(self.__sender_technics_ledit, 8, 2)
-        self.__gridBox.addWidget(self.__rank_ledit, 9, 2)
-        self.__gridBox.addWidget(self.__message_ledit, 10, 1)
 
 
-        self.__gridBox.addWidget(self.__status_inf_ledit, 11, 2)
-        self.__gridBox.addWidget(self.__update_r_by_date_and_time_btn, 11, 3)
-        self.__gridBox.addWidget(self.__cancel_btn, 11, 4)
+        self.__gridBox.addWidget(self.__entrance_ledit, 6, 2)
+        self.__gridBox.addWidget(self.__flat_ledit, 7, 2)
+        self.__gridBox.addWidget(self.__floor_ledit, 8, 2)
+        self.__gridBox.addWidget(self.__phone_number_ledit, 9, 2)
+        self.__gridBox.addWidget(self.__reported_ledit, 10, 2)
+
+
+        self.__gridBox.addWidget(self.__visit_type_ledit, 11, 2)
+        self.__gridBox.addWidget(self.__additional_data_ledit, 12,  2)
+        self.__gridBox.addWidget(self.__sender_technics_ledit, 13, 2)
+        self.__gridBox.addWidget(self.__rank_ledit, 14, 2)
+        self.__gridBox.addWidget(self.__message_ledit, 15, 2)
+
+
+        self.__gridBox.addWidget(self.__status_inf_ledit, 16, 2)
+        self.__gridBox.addWidget(self.__update_r_by_date_and_time_btn, 16, 3)
+        self.__gridBox.addWidget(self.__cancel_btn, 16, 4)
 
 
         self.setLayout(self.__gridBox)
@@ -141,8 +179,15 @@ class UpdateRecordsWindow(BaseWindow):
 
     def __update_records_by_date_and_time(self):
         
-        self.__record.set_cur_date()
-        self.__record.set_cur_time()
+        self.__record.set_date(self.__enter_date_ledit.text())
+        self.__record.set_time(self.__enter_time_ledit.text())
+
+        self.__record.set_entrance(self.__entrance_ledit.text())
+        self.__record.set_flat(self.__flat_ledit.text())
+        self.__record.set_floor(self.__floor_ledit.text())
+        self.__record.set_phone_number(self.__phone_number_ledit.text())
+        self.__record.set_reported(self.__reported_ledit.text())
+        
         self.__record.set_address(self.__address_ledit.text())
         self.__record.set_message(self.__message_ledit.toPlainText())
 
@@ -166,7 +211,7 @@ class UpdateRecordsWindow(BaseWindow):
         self.__entered_date = self.__enter_date_ledit.text()
         self.__entered_time = self.__enter_time_ledit.text()
 
-        res, table_name, tuple_records = self.__dbDriver.find_records_by_date_and_time(
+        res, table_name, data = self.__dbDriver.find_records_by_date_and_time(
             self.__entered_date, self.__entered_time
         )
 
@@ -176,7 +221,9 @@ class UpdateRecordsWindow(BaseWindow):
             )
 
         else:
-            self.__set_old_values_for_fileds(tuple_records)
+            self.__set_old_values_for_fileds(
+                self.__dbDriver.strRecordToListStrData(data)
+            )
             self.__status_inf_ledit.setText(SUCCESSFULLY)
         
 
@@ -190,12 +237,23 @@ class UpdateRecordsWindow(BaseWindow):
         self.close_window()
 
 
-    def __set_old_values_for_fileds(self, tuple_data):
-        old_address_val = tuple_data[3] # 3
-        old_message_val = tuple_data[8] # 8
+    def __set_old_values_for_fileds(self, list_data):
+        old_address_val                = list_data[3]
+        old_entrance_val               = list_data[4]
+        old_flat_val                   = list_data[5]
+        old_floor_val                  = list_data[6]
+        old_phone_number_val           = list_data[7]
+        old_reported_val               = list_data[8]
+        old_message_val                = list_data[13]
 
         self.__address_ledit.setText(old_address_val)
+        self.__entrance_ledit.setText(old_entrance_val)
+        self.__flat_ledit.setText(old_flat_val)
+        self.__floor_ledit.setText(old_floor_val)
+        self.__phone_number_ledit.setText(old_phone_number_val)
+        self.__reported_ledit.setText(old_reported_val)
         self.__message_ledit.setText(old_message_val)
+        
 
 
     def __update_report_file(self, record):

@@ -2,6 +2,7 @@
 #-*-coding: utf-8-*-
 
 from recordTable import RecordTable 
+from record import Record
 
 
 class DBDriver:
@@ -34,19 +35,15 @@ class DBDriver:
 
     def find_records_by_date_and_time(self, date, time):
         # processing sql request error
-        # 2021-06-05        : test data
-        # 14:56:04.767042   : test data
         res_list = self.__recordT.find_records_by_date_and_time(
             date, time
         )
-        
+
         return 0, self.__recordT.get_table_name(), self.listTostr(res_list).decode('utf-8')
 
 
     def remove_records_by_date_and_time(self, date, time):
         # processing sql request error
-        # 2021-06-05        : test data
-        # 16:55:13.710367   : test data
 
         self.__recordT.remove_records_by_date_and_time(
             date, time
@@ -57,8 +54,6 @@ class DBDriver:
 
     def update_records_by_date_and_time(self, date, time, record):
         # processing sql request error
-        # 2021-06-05
-        # 16:56:29.839173
 
         self.__recordT.update_records_by_date_and_time(
             date, 
@@ -75,6 +70,14 @@ class DBDriver:
         return 0, self.__recordT.get_table_name()
 
 
+    def strRecordToListStrData(self, strRecord):
+        list_data = strRecord.split("\n")
+        list_data.pop(0)
+
+        return list_data
+
+        
+            
 
     def get_all_records_into_table(self):
         return self.listTostr(
