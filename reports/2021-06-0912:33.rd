@@ -1,9 +1,0 @@
-2021-06-09
-12:33
-district2
-adddewss11
-visit_t1
-additional1
-sender1
-1
-message!

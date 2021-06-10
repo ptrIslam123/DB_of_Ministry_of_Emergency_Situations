@@ -104,8 +104,7 @@ class RemoveRecordsWindow(BaseWindow):
 
 
     def __remove_report_file(self, fname):
-        #! file = "{path}/{fname}.rd".format(path=vars.PATH_REPORTS_DIR, fname=fname)
-        file = "{path}/{fname}".format(path=vars.PATH_REPORTS_DIR, fname=fname)
+        file = "{path}/{fname}.rd".format(path=vars.PATH_REPORTS_DIR, fname=fname)
 
         if os._exists(file) == False:
             return errorHandler.ERROR_REPOPT_FILE_NOT_FOUND    
