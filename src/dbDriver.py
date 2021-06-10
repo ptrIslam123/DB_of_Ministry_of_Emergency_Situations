@@ -103,5 +103,5 @@ class DBDriver:
             for j in i:
                 j = j.encode('utf-8')
                 res_str = "{str1}\n{str2}".format(str1=res_str, str2=j)
-
+        
         return res_str

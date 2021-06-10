@@ -39,7 +39,7 @@ class Record:
             file.write("{__message}\n".format(__message=self.__message))
 
 
-    def __get_str_record(self):
+    def get_str_record(self):
         reportData = """
         {__date}
         {__time}
