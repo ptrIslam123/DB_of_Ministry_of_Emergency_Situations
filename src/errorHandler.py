@@ -2,7 +2,8 @@
 #-*-coding: utf-8-*-
 
 
-ERROR_REPOPT_FILE_NOT_FOUND = 1
+ERROR_REPOPT_FILE_NOT_FOUND         = 1
+ERROR_UNDEFINE_REQUEST_METHOD_TYPE  = 2
 
 
 class ErrorHandler:
