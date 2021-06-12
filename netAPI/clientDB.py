@@ -10,7 +10,7 @@ from package import *
 
 
 sys.path.append('../src/')
-from record import Record
+
 
 
 class TCPClinet:
@@ -67,7 +67,7 @@ def main():
     else:
         print(res_pkg.get_data())
         client.send_data(
-            make_close_connect_package()
+            make_close_app_package()
         )
 
         print("__close connection__") 

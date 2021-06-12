@@ -1,18 +1,23 @@
 #! /usr/bin/env python
 #-*-coding: utf-8-*-
 
+
 from recordTable import RecordTable 
 from record import Record
+
+
 
 
 class DBDriver:
 
     def __init__(self):
         self.__recordT = RecordTable()
+        
 
 
     def write_new_record(self, record):
         # processing sql request error
+
         self.__recordT.insert(
             record.get_date(),
             record.get_time(),

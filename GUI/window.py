@@ -30,6 +30,9 @@ class BaseWindow(QtGui.QWidget, object):
         self.setWindowTitle(self.__title)
 
 
+    def get_table_name(self):
+        return "Record"
+
 
     def show_window(self):
         self.show()

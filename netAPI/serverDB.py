@@ -10,13 +10,19 @@ from package import *
 
 sys.path.append('../src/')
 from record import Record
-from errorHandler import *
+from dbDriver import DBDriver
+from errorHandler import ErrorHandler
+import vars
+import loger
+
 
 
 class TCPServer:
 
     def __init__(self):
-        self.__errHandler = ErrorHandler()
+        self.__errHandler   = ErrorHandler()
+        self.__record       = Record()
+        self.__dbDriver     = DBDriver()
 
         self.__sock = socket.socket(
             socket.AF_INET,
@@ -69,21 +75,29 @@ class TCPServer:
         method_type = package.get_method_type()
     
         if method_type == CREATE_RECORD_PACKAGE_METHOD_TYPE:
-            print("__создать_запись__")
-            print 'данные: ', package.get_data()
-            return Package(RESULT_REQUEST_PAKCAGE_TYPE, package.get_data())
+            strRecod    = package.get_data()
+            data        = strRecod.split('\n')
+
+            self.__record.convListToRecord(data)
+            res = self.__dbDriver.write_new_record(self.__record)
+
+            return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+
 
         elif method_type == FIND_RECORDS_PACKAGE_METHOD_TYPE:
             #
             return Package(RESULT_REQUEST_PAKCAGE_TYPE)
 
+
         elif method_type == UPDATE_RECORD_PACKAGE_METHOD_TYPE:
             #
             return Package(RESULT_REQUEST_PAKCAGE_TYPE)
 
+
         elif method_type == REMOVE_RECORD_PACKAGE_METHOD_TYPE:
             #
             return Package(RESULT_REQUEST_PAKCAGE_TYPE)
+
 
         else:
             return Package(

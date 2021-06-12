@@ -40,20 +40,29 @@ class Record:
 
 
     def get_str_record(self):
-        reportData = """
-        {__date}
-        {__time}
-        {__district_departue}
-        {__address}
-        {__visit_type}
-        {__additional_data}
-        {__sender_technics}
-        {__rank}
-        {__message}""".format(
+        reportData = """{__date}
+{__time}
+{__district_departue}
+{__address}
+{__entrance}
+{__flat}
+{__floor}
+{__phone_number}
+{__reported}
+{__visit_type}
+{__additional_data}
+{__sender_technics}
+{__rank}
+{__message}""".format(
             __date=self.__date,
             __time=self.__time,
             __district_departue=self.__district_departue,
             __address=self.__address,
+            __entrance=self.__entrance,
+            __flat=self.__flat,
+            __floor=self.__floor,
+            __phone_number=self.__phone_number,
+            __reported=self.__reported,
             __visit_type=self.__visit_type,
             __additional_data=self.__additional_data,
             __sender_technics=self.__sender_technics,
@@ -98,6 +107,25 @@ class Record:
                 __message=self.__message
         ))
 
+    def convListToRecord(self, list_data):
+
+        self.__date = list_data[0]
+        self.__time = list_data[1]
+        self.__district_departue = list_data[2]
+        self.__address = list_data[3]
+        self.__entrance = list_data[4]
+        self.__flat = list_data[5]
+        self.__floor = list_data[6]
+        self.__phone_number = list_data[7]
+        self.__reported = list_data[8]
+        self.__visit_type = list_data[9]
+        self.__additional_data = list_data[10]
+        self.__sender_technics = list_data[11]
+        self.__rank = list_data[12]
+        self.__message = list_data[13]
+
+        return self
+        
 
 
     def get_date(self):

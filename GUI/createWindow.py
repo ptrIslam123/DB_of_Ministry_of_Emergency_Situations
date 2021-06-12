@@ -13,6 +13,12 @@ import vars
 import loger
 
 
+sys.path.append('../netAPI/')
+from clientDB import TCPClinet
+from package import *
+from newtVars import SERVER_IP_ADDRESS, SERVER_PORT
+
+
 class CreateRecordWindow(BaseWindow):
 
     def __init__(self):
@@ -24,6 +30,8 @@ class CreateRecordWindow(BaseWindow):
             DEFAULT_M_WINDOW_HIGHT
         )
 
+        self.__client                   = TCPClinet(SERVER_IP_ADDRESS, SERVER_PORT)
+        self.__package                  = Package()
         self.__dbDriver                 = DBDriver()
         self.__record                   = Record()
         self.__errorHandler             = ErrorHandler()
@@ -188,7 +196,7 @@ class CreateRecordWindow(BaseWindow):
         self.__record.set_message(self.__message_ledit.toPlainText())
 
 
-        res, table_name = self.__dbDriver.write_new_record(self.__record)
+        res, table_name = self.__send_record_ont_server(self.__record)
 
         if res != 0:
             self.__status_inf_ledit.setText(
@@ -198,16 +206,36 @@ class CreateRecordWindow(BaseWindow):
         else:
             self.__status_inf_ledit.setText(SUCCESSFULLY)
             self.__make_report_file(self.__record)
-            loger.write_log(vars.EVENT_LOG_TYPE, vars.INSERT_DATA_INTO_THE_TABLE + table_name)
+            loger.sys_write_log(vars.EVENT_LOG_TYPE, vars.INSERT_DATA_INTO_THE_TABLE + table_name)
             #self.close_window()
         
     
+
+    def __send_record_ont_server(self, record):
+        self.__package.set_method_type(CREATE_RECORD_PACKAGE_METHOD_TYPE)
+        self.__package.set_data(record.get_str_record())
+
+        self.__client.send_data(
+            self.__package
+        )
+
+        res_type = self.__client.recive_data().get_method_type()
+
+        if res_type != SUCCESSFUL_PACKAGE_RESULT:
+            return ERROR_REQUEST_PACKAGE_TYPE, self.get_table_name()
+
+        return 0, self.get_table_name()
+
+
+
     def __clean_and_close_window(self):
         self.__status_inf_ledit.setText("")
         self.__address_ledit.setText("")
         self.__message_ledit.setText("")
 
         self.close_window()
+
+        
 
 
     def __make_report_file(self, record):

@@ -11,8 +11,8 @@ REMOVE_RECORD_PACKAGE_METHOD_TYPE   = 3
 UPDATE_RECORD_PACKAGE_METHOD_TYPE   = 4
 CLOSE_CONNECT_PAKCAGE_METHOD_TYPE   = 5
 RESULT_REQUEST_PAKCAGE_TYPE         = 6
-ERROR_REQUEST_PACKAGE_TYPE          = 7
-CLOSE_APPLICATION_PACKAGE_TYPE      = 8
+CLOSE_APPLICATION_PACKAGE_TYPE      = 7
+SUCCESSFUL_PACKAGE_RESULT           = 8
 
 
 
@@ -32,7 +32,9 @@ def make_close_connect_package():
 def make_close_app_package():
     return Package(CLOSE_APPLICATION_PACKAGE_TYPE)
 
-
+def make_package(package, method_type, data):
+    package.set_method_type(method_type)
+    package.set_date(data)
 
 class Package:
 
