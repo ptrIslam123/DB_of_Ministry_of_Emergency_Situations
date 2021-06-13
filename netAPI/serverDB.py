@@ -43,7 +43,8 @@ class TCPServer:
         while True:
             try:
                 clinet_sock, addr = self.__sock.accept()
-
+                print("___NEW_CONNECT___\n")
+                    
             except KeyboardInterrupt:
                 clinet_sock.close()
                 break
@@ -52,13 +53,14 @@ class TCPServer:
                 pkg = self.__recive_data(clinet_sock)
 
                 if pkg.get_method_type() == CLOSE_CONNECT_PAKCAGE_METHOD_TYPE:
+                    print("___CLOSE CONNECTION___\n")
                     clinet_sock.close()
                     continue
 
                 elif pkg.get_method_type() == CLOSE_APPLICATION_PACKAGE_TYPE:
                     clinet_sock.close()
                     self.__sock.close()
-                    print("__exit__")
+                    print("___EXIT APP__\n")
                     exit(0)
 
                 else:
@@ -69,10 +71,14 @@ class TCPServer:
                         response_pkg
                     )
 
+                    print("___CLOSE CONNECTION___\n")
+
 
 
     def __exec_request(self, package):
         method_type = package.get_method_type()
+        print('method_type: ',method_type)
+        strRecord = ""
     
         if method_type == CREATE_RECORD_PACKAGE_METHOD_TYPE:
             strRecod    = package.get_data()
@@ -82,11 +88,26 @@ class TCPServer:
             res = self.__dbDriver.write_new_record(self.__record)
 
             return Package(SUCCESSFUL_PACKAGE_RESULT, res)
-
+        
+        elif method_type == GET_ALL_RECORDS_FROM_DB_PACKAGE_TYPE:
+            res = self.__dbDriver.get_all_records_into_table()
+        
+            return Package(SUCCESSFUL_PACKAGE_RESULT, res)
 
         elif method_type == FIND_RECORDS_PACKAGE_METHOD_TYPE:
-            #
-            return Package(RESULT_REQUEST_PAKCAGE_TYPE)
+            strRecod    = package.get_data()
+            data        = strRecod.split('\n')
+
+            status, _ , res = self.__dbDriver.find_records_by_date_and_time(data[0], data[1])
+            if status != 0:
+                loger.sys_write_log(
+                    vars.ERROR_LOG_TYPE ,
+                    self.__errHandler.handle(ERROR_FIND_RECORDS_IN_DB_TYPE)
+                )
+                return make_erorr_package("Server: error find records")
+            
+            else:
+                return Package(SUCCESSFUL_PACKAGE_RESULT, res)
 
 
         elif method_type == UPDATE_RECORD_PACKAGE_METHOD_TYPE:
@@ -100,10 +121,7 @@ class TCPServer:
 
 
         else:
-            return Package(
-                        ERROR_REQUEST_PACKAGE_TYPE,
-                        self.__errHandler.handle(ERROR_REQUEST_PACKAGE_TYPE, "__server__")
-                    ) 
+            return make_erorr_package("Undefine method type")
 
 
 

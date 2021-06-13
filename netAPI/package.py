@@ -3,16 +3,20 @@
 
 
 import pickle
+import sys
 
+sys.path.append('../src/')
+from errorHandler import *
 
-CREATE_RECORD_PACKAGE_METHOD_TYPE   = 1
-FIND_RECORDS_PACKAGE_METHOD_TYPE    = 2
-REMOVE_RECORD_PACKAGE_METHOD_TYPE   = 3
-UPDATE_RECORD_PACKAGE_METHOD_TYPE   = 4
-CLOSE_CONNECT_PAKCAGE_METHOD_TYPE   = 5
-RESULT_REQUEST_PAKCAGE_TYPE         = 6
-CLOSE_APPLICATION_PACKAGE_TYPE      = 7
-SUCCESSFUL_PACKAGE_RESULT           = 8
+CREATE_RECORD_PACKAGE_METHOD_TYPE       = 1
+FIND_RECORDS_PACKAGE_METHOD_TYPE        = 2
+REMOVE_RECORD_PACKAGE_METHOD_TYPE       = 3
+UPDATE_RECORD_PACKAGE_METHOD_TYPE       = 4
+CLOSE_CONNECT_PAKCAGE_METHOD_TYPE       = 5
+RESULT_REQUEST_PAKCAGE_TYPE             = 6
+CLOSE_APPLICATION_PACKAGE_TYPE          = 7
+SUCCESSFUL_PACKAGE_RESULT               = 8
+GET_ALL_RECORDS_FROM_DB_PACKAGE_TYPE    = 9
 
 
 
@@ -32,9 +36,15 @@ def make_close_connect_package():
 def make_close_app_package():
     return Package(CLOSE_APPLICATION_PACKAGE_TYPE)
 
+
 def make_package(package, method_type, data):
     package.set_method_type(method_type)
     package.set_date(data)
+
+
+def make_erorr_package(message_err):
+    return Package(ERROR_REQUEST_PACKAGE_TYPE, message_err)
+
 
 class Package:
 

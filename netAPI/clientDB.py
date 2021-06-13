@@ -49,6 +49,14 @@ class TCPClinet:
 
 
 
+def make_TCPClient():
+    return TCPClinet(
+        nvars.SERVER_IP_ADDRESS, 
+        nvars.SERVER_PORT
+    )
+
+
+
 def main():
     client = TCPClinet(
         nvars.SERVER_IP_ADDRESS,

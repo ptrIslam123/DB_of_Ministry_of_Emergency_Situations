@@ -11,6 +11,9 @@ from findWindow import *
 from removeWindow import *
 
 
+
+
+
 class MainWindow(QtGui.QMainWindow):
 
     def __init__(self, titile, pos_x, pos_y, \

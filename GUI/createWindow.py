@@ -14,7 +14,7 @@ import loger
 
 
 sys.path.append('../netAPI/')
-from clientDB import TCPClinet
+from clientDB import TCPClinet, make_TCPClient, make_close_connect_package
 from package import *
 from newtVars import SERVER_IP_ADDRESS, SERVER_PORT
 
@@ -30,7 +30,7 @@ class CreateRecordWindow(BaseWindow):
             DEFAULT_M_WINDOW_HIGHT
         )
 
-        self.__client                   = TCPClinet(SERVER_IP_ADDRESS, SERVER_PORT)
+        self.__client                   = None
         self.__package                  = Package()
         self.__dbDriver                 = DBDriver()
         self.__record                   = Record()
@@ -196,7 +196,7 @@ class CreateRecordWindow(BaseWindow):
         self.__record.set_message(self.__message_ledit.toPlainText())
 
 
-        res, table_name = self.__send_record_ont_server(self.__record)
+        res, table_name = self.__send_record_on_server(self.__record)
 
         if res != 0:
             self.__status_inf_ledit.setText(
@@ -211,20 +211,23 @@ class CreateRecordWindow(BaseWindow):
         
     
 
-    def __send_record_ont_server(self, record):
-        self.__package.set_method_type(CREATE_RECORD_PACKAGE_METHOD_TYPE)
-        self.__package.set_data(record.get_str_record())
+    def __send_record_on_server(self, record):
+        client = make_TCPClient()
 
-        self.__client.send_data(
-            self.__package
-        )
+        package = Package()
+        package.set_method_type(CREATE_RECORD_PACKAGE_METHOD_TYPE)
+        package.set_data(record.get_str_record())
+        
+        client.send_data(package)
 
-        res_type = self.__client.recive_data().get_method_type()
+        res_type = client.recive_data().get_method_type()
 
         if res_type != SUCCESSFUL_PACKAGE_RESULT:
             return ERROR_REQUEST_PACKAGE_TYPE, self.get_table_name()
 
-        return 0, self.get_table_name()
+        else:
+            client.destroy_connect()
+            return 0, self.get_table_name()
 
 
 

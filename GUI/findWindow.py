@@ -14,9 +14,15 @@ import vars
 import loger
 
 
+sys.path.append('../netAPI/')
+from clientDB import TCPClinet, make_TCPClient
+from package import *
+from newtVars import *
+
+
 class FindRecordsWindow(BaseWindow):
 
-    def __init__(self):
+    def __init__(self, clientTCP):
         super(FindRecordsWindow, self).__init__(
             FIND_WINDOW_TITLE,
             DEFAULT_FWINDOW_POS_X,
@@ -25,6 +31,8 @@ class FindRecordsWindow(BaseWindow):
             DEFAULT_FWINDOW_HIGHT
         )
 
+        #self.__clinet               = make_TCPClient()
+        self.__package              = Package() 
         self.__dbDriver             = DBDriver()
         self.__errHandler           = errorHandler.ErrorHandler()
 
@@ -91,7 +99,7 @@ class FindRecordsWindow(BaseWindow):
         date = self.__date_ledit.text()
         time = self.__time_ledit.text()
 
-        res, table_name, data = self.__dbDriver.find_records_by_date_and_time(date, time)
+        res, table_name, data = self.__find_records_in_server(date, time)
 
         if res != 0:
             self.__status_inf_ledit.setText(
@@ -103,14 +111,60 @@ class FindRecordsWindow(BaseWindow):
             self.__res_tedit.setText(
                 data
             )
-            loger.write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
+            loger.sys_write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
 
+
+    def __find_records_in_server(self, date, time):
+        clinet = make_TCPClient()
+
+        self.__package.set_method_type(FIND_RECORDS_PACKAGE_METHOD_TYPE)
+        self.__package.set_data("{date}\n{time}".format(date=date, time=time))
+
+        clinet.send_data(
+            self.__package
+        )
+
+        res_pkg = clinet.recive_data()
+
+        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
+            err = self.__errHandler.handle(res_pkg.get_method_type())
+            self.__status_inf_ledit.setText(err)
+            loger.net_write_log(vars.ERROR_LOG_TYPE ,err)
+            return "None"
+
+        else:
+            clinet.send_data(make_close_connect_package())
+            clinet.destroy_connect()
+            return 0, self.get_table_name(), res_pkg.get_data()
 
 
     def __write_all_records_in_the_textEdit(self):
-        records = self.__dbDriver.get_all_records_into_table()
+        records = self.__get_all_records_on_server()
         self.__records_tedit.setText(records)
 
+
+    def __get_all_records_on_server(self):
+        client = make_TCPClient()
+        package = Package()
+        package.set_method_type(GET_ALL_RECORDS_FROM_DB_PACKAGE_TYPE)
+        
+        client.send_data(
+            package    
+        )
+
+        res_pkg = client.recive_data()
+        
+        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
+            err = self.__errHandler.handle(res_pkg.get_method_type())
+            self.__status_inf_ledit.setText(err)
+            loger.net_write_log(vars.ERROR_LOG_TYPE ,err)
+            return "None"
+
+        else:
+            #self.__clinet.send_data(make_close_connect_package())    
+            #self.__clinet.destroy_connect()
+            #client.send_data(make_close_connect_package())
+            return res_pkg.get_data()
 
     def __clean_and_close_window(self):
         self.__date_ledit.setText("")
