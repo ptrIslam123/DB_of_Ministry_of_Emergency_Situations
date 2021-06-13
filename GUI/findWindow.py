@@ -97,7 +97,7 @@ class FindRecordsWindow(BaseWindow):
         date = self.__date_ledit.text()
         time = self.__time_ledit.text()
 
-        res, table_name, data = self.__find_records_in_server(date, time)
+        res, table_name, data = self.__find_records_on_server(date, time)
 
         if res != 0:
             self.__status_inf_ledit.setText(
@@ -112,7 +112,7 @@ class FindRecordsWindow(BaseWindow):
             loger.sys_write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
 
 
-    def __find_records_in_server(self, date, time):
+    def __find_records_on_server(self, date, time):
         clinet = make_TCPClient()
 
         package = Package()
@@ -127,10 +127,7 @@ class FindRecordsWindow(BaseWindow):
         res_pkg = clinet.recive_data()
 
         if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
-            err = self.__errHandler.handle(res_pkg.get_method_type())
-            self.__status_inf_ledit.setText(err)
-            loger.net_write_log(vars.ERROR_LOG_TYPE ,err)
-            return "None"
+            return res_pkg.get_method_type(), self.get_table_name(), None
 
         else:
             clinet.destroy_connect()

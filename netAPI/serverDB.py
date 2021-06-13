@@ -112,8 +112,16 @@ class TCPServer:
 
 
         elif method_type == UPDATE_RECORD_PACKAGE_METHOD_TYPE:
-            #
-            return Package(RESULT_REQUEST_PAKCAGE_TYPE)
+            srtRecord   = package.get_data()
+            data        = srtRecord.split('\n')
+            
+            
+            res = self.__dbDriver.update_records_by_date_and_time(data)
+
+            if res != 0:
+                return make_erorr_package("Server: eror updating records")
+
+            return Package(SUCCESSFUL_PACKAGE_RESULT)
 
 
         elif method_type == REMOVE_RECORD_PACKAGE_METHOD_TYPE:

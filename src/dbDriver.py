@@ -57,19 +57,26 @@ class DBDriver:
         return 0, self.__recordT.get_table_name()
 
 
-    def update_records_by_date_and_time(self, date, time, record):
+    def update_records_by_date_and_time(self, list_data):
         # processing sql request error
 
         self.__recordT.update_records_by_date_and_time(
-            date, 
-            time,
-            record.get_district_depatrue(),
-            record.get_address(),
-            record.get_visit_type(),
-            record.get_additional_data(),
-            record.get_sender_technics(),
-            record.get_rank(),
-            record.get_message()
+            list_data[0],
+            list_data[1],
+            list_data[2],
+            list_data[3],
+            list_data[4],
+            list_data[5],
+            list_data[6],
+            list_data[7],
+            list_data[8],
+            list_data[9],
+            list_data[10],
+            list_data[11],
+            list_data[12],
+            list_data[13],
+            list_data[14],
+            list_data[15]
         )
 
         return 0, self.__recordT.get_table_name()

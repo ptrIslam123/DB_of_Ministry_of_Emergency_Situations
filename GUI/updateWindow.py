@@ -14,6 +14,12 @@ import vars
 import loger
 
 
+sys.path.append('../netAPI/')
+from clientDB import TCPClinet, make_TCPClient
+from newtVars import *
+from package import *
+
+
 class UpdateRecordsWindow(BaseWindow):
 
     def __init__(self):
@@ -191,8 +197,8 @@ class UpdateRecordsWindow(BaseWindow):
         self.__record.set_address(self.__address_ledit.text())
         self.__record.set_message(self.__message_ledit.toPlainText())
 
-        res, table_name = self.__dbDriver.update_records_by_date_and_time(
-            self.__entered_date, self.__entered_time ,self.__record
+        res, table_name = self.__update_record_on_server(
+            self.__entered_date, self.__entered_time, self.__record
         )
 
         if res != 0:
@@ -207,11 +213,45 @@ class UpdateRecordsWindow(BaseWindow):
             #self.close_window()
 
 
+    def __update_record_on_server(self, enterd_date, entered_time, record):
+        strRecord = self.__join_record_with_date_and_time(enterd_date, entered_time, record)
+
+        client = make_TCPClient()
+
+        package = Package()
+        package.set_method_type(UPDATE_RECORD_PACKAGE_METHOD_TYPE)
+        package.set_data(strRecord)
+
+        client.send_data(
+            package
+        )
+
+        res_pkg = client.recive_data()
+
+        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
+            return res_pkg.get_method_type(), self.get_table_name()
+
+        else:
+            client.destroy_connect()
+            return 0, self.get_table_name()
+
+
+    def __join_record_with_date_and_time(self, date, time, record):
+        srtRecord = record.get_str_record()
+        data = "{entered_date}\n{entered_time}\n{recor_datad}".format(
+                     entered_date=date,
+                     entered_time=time,
+                     recor_datad=srtRecord   
+        )
+
+        return data
+
+
     def __find_need_record_by_date_and_time(self):
         self.__entered_date = self.__enter_date_ledit.text()
         self.__entered_time = self.__enter_time_ledit.text()
 
-        res, table_name, data = self.__dbDriver.find_records_by_date_and_time(
+        res, table_name, data = self.__find_record_on_server(
             self.__entered_date, self.__entered_time
         )
 
@@ -226,6 +266,27 @@ class UpdateRecordsWindow(BaseWindow):
             )
             self.__status_inf_ledit.setText(SUCCESSFULLY)
         
+
+    def __find_record_on_server(self, date, time):
+        client = make_TCPClient()
+
+        package = Package()
+        package.set_method_type(FIND_RECORDS_PACKAGE_METHOD_TYPE)
+        package.set_data("{date}\n{time}".format(date=date, time=time))
+
+        client.send_data(
+            package
+        )
+
+        res_pkg = client.recive_data()
+
+        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
+            return res_pkg.get_method_type(), self.get_table_name(), None
+
+        else:
+            client.destroy_connect()
+            return 0, self.get_table_name(), res_pkg.get_data()
+
 
     def __clean_and_close_window(self):
         self.__enter_date_ledit.setText("")
