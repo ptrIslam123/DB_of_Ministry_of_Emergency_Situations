@@ -5,6 +5,7 @@
 from widgetAttribute import *
 from window import *
 import sys
+import os
 
 sys.path.append('../src/')
 from record import Record
@@ -208,8 +209,12 @@ class UpdateRecordsWindow(BaseWindow):
 
         else:
             self.__status_inf_ledit.setText(SUCCESSFULLY)
-            self.__update_report_file(self.__record)
-            loger.write_log(vars.EVENT_LOG_TYPE, vars.INSERT_DATA_INTO_THE_TABLE + table_name)
+            self.__update_report_file(
+                self.__entered_date, 
+                self.__entered_time, 
+                self.__record
+            )
+            loger.sys_write_log(vars.EVENT_LOG_TYPE, vars.INSERT_DATA_INTO_THE_TABLE + table_name)
             #self.close_window()
 
 
@@ -317,8 +322,19 @@ class UpdateRecordsWindow(BaseWindow):
         
 
 
-    def __update_report_file(self, record):
-        pass
+    def __update_report_file(self, date, time, record):
+        fname = "{path}/{date}{time}.rd".format(
+            path=vars.PATH_REPORTS_DIR,
+            date=date,
+            time=time
+        )
+
+        record.write_in_the_file(fname)
+        loger.sys_write_log(vars.EVENT_LOG_TYPE, "Update report file: {date}{time}.rd".format(
+            date=date,
+            time=time
+        ))
+        
 
 
     def __district_departue_handler(self, text):

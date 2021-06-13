@@ -116,7 +116,7 @@ class TCPServer:
             data        = srtRecord.split('\n')
             
             
-            res = self.__dbDriver.update_records_by_date_and_time(data)
+            res, _ = self.__dbDriver.update_records_by_date_and_time(data)
 
             if res != 0:
                 return make_erorr_package("Server: error updating records")
