@@ -30,8 +30,6 @@ class CreateRecordWindow(BaseWindow):
             DEFAULT_M_WINDOW_HIGHT
         )
 
-        self.__client                   = None
-        self.__package                  = Package()
         self.__dbDriver                 = DBDriver()
         self.__record                   = Record()
         self.__errorHandler             = ErrorHandler()

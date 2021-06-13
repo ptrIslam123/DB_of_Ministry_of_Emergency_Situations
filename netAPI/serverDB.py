@@ -70,7 +70,8 @@ class TCPServer:
                         clinet_sock, 
                         response_pkg
                     )
-
+                    
+                    clinet_sock.close()
                     print("___CLOSE CONNECTION___\n")
 
 

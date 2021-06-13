@@ -22,7 +22,7 @@ from newtVars import *
 
 class FindRecordsWindow(BaseWindow):
 
-    def __init__(self, clientTCP):
+    def __init__(self):
         super(FindRecordsWindow, self).__init__(
             FIND_WINDOW_TITLE,
             DEFAULT_FWINDOW_POS_X,
@@ -31,8 +31,6 @@ class FindRecordsWindow(BaseWindow):
             DEFAULT_FWINDOW_HIGHT
         )
 
-        #self.__clinet               = make_TCPClient()
-        self.__package              = Package() 
         self.__dbDriver             = DBDriver()
         self.__errHandler           = errorHandler.ErrorHandler()
 
@@ -117,11 +115,13 @@ class FindRecordsWindow(BaseWindow):
     def __find_records_in_server(self, date, time):
         clinet = make_TCPClient()
 
-        self.__package.set_method_type(FIND_RECORDS_PACKAGE_METHOD_TYPE)
-        self.__package.set_data("{date}\n{time}".format(date=date, time=time))
+        package = Package()
+        package.set_method_type(FIND_RECORDS_PACKAGE_METHOD_TYPE)
+        package.set_data("{date}\n{time}".format(date=date, time=time))
+        
 
         clinet.send_data(
-            self.__package
+            package
         )
 
         res_pkg = clinet.recive_data()
@@ -133,7 +133,6 @@ class FindRecordsWindow(BaseWindow):
             return "None"
 
         else:
-            clinet.send_data(make_close_connect_package())
             clinet.destroy_connect()
             return 0, self.get_table_name(), res_pkg.get_data()
 
@@ -145,6 +144,7 @@ class FindRecordsWindow(BaseWindow):
 
     def __get_all_records_on_server(self):
         client = make_TCPClient()
+        
         package = Package()
         package.set_method_type(GET_ALL_RECORDS_FROM_DB_PACKAGE_TYPE)
         
@@ -161,9 +161,7 @@ class FindRecordsWindow(BaseWindow):
             return "None"
 
         else:
-            #self.__clinet.send_data(make_close_connect_package())    
-            #self.__clinet.destroy_connect()
-            #client.send_data(make_close_connect_package())
+            client.destroy_connect()
             return res_pkg.get_data()
 
     def __clean_and_close_window(self):
