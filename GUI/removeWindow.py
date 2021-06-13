@@ -15,6 +15,13 @@ import vars
 import loger
 
 
+sys.path.append('../netAPI/')
+from clientDB import TCPClinet, make_TCPClient
+from newtVars import *
+from package import *
+
+
+
 class RemoveRecordsWindow(BaseWindow):
 
     def __init__(self):
@@ -73,7 +80,7 @@ class RemoveRecordsWindow(BaseWindow):
         date = self.__date_ledit.text()
         time = self.__time_ledit.text()
 
-        res, table_name = self.__dbDriver.remove_records_by_date_and_time(date, time)
+        res, table_name = self.__remove_record_on_server(date, time)
 
         if res != 0:
             self.__status_inf_ledit.setText(
@@ -91,8 +98,29 @@ class RemoveRecordsWindow(BaseWindow):
                 
             else:
                 self.__status_inf_ledit.setText(SUCCESSFULLY)
-                loger.write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
+                loger.sys_write_log(vars.EVENT_LOG_TYPE, vars.SEARCH_DATA_INTO_THE_TABLE + table_name)
                 #self.close_window()
+
+
+    def __remove_record_on_server(self, date, time):
+        client = make_TCPClient()
+
+        package = Package()
+        package.set_method_type(REMOVE_RECORD_PACKAGE_METHOD_TYPE)
+        package.set_data("{date}\n{time}".format(date=date, time=time))
+        
+        client.send_data(
+            package
+        )
+
+        res_pkg = client.recive_data()
+
+        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
+            return res_pkg.get_method_type(), self.get_table_name()
+
+        else:
+            client.destroy_connect()
+            return 0, self.get_table_name()
 
 
     def __clean_and_close_window(self):
