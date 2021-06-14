@@ -40,6 +40,7 @@ class TCPServer:
 
         
 
+    
 
     def main_loop(self):
         self.__sock.listen(nvars.SERVER_MAX_CONNECTIONS)
@@ -72,7 +73,7 @@ class TCPServer:
                     print("main_thread : {thread_id}".format(thread_id=current_thread()))
                     new_task = Thread(
                         target=self.__processing_request, 
-                        args=(clinet_sock, self.__dbLock, pkg)
+                        args=(clinet_sock, pkg)
                     )
 
                     new_task.start()
@@ -82,11 +83,11 @@ class TCPServer:
                     print("___CLOSE CONNECTION___\n")
 
 
-    def __processing_request(self, client_sock, dbLock, package):
+    def __processing_request(self, client_sock, package):
 
         print("___NEW_TASK___ : {thread_id}".format(thread_id=current_thread()))
 
-        response_pkg = self.__exec_request(dbLock, package)
+        response_pkg = self.__exec_request(package)
         
         self.__send_data(
             client_sock,
@@ -97,8 +98,7 @@ class TCPServer:
         exit(0)
 
 
-    def __exec_request(self, dbLock, package):
-        #dbLock.acquire()
+    def __exec_request(self, package):
         
         self.__dbDriver = DBDriver()
 
@@ -109,21 +109,29 @@ class TCPServer:
 
     
         if method_type == CREATE_RECORD_PACKAGE_METHOD_TYPE:
-            return self.__create_new_record_request(package)
-        
+            return self.__exec_task_to_safely_mode(
+                self.__create_new_record_request, package
+            )()
+
         elif method_type == GET_ALL_RECORDS_FROM_DB_PACKAGE_TYPE:
-            return self.__get_all_record_request()
+             return self.__get_all_record_request()
 
         elif method_type == FIND_RECORDS_PACKAGE_METHOD_TYPE:
-            return self.__find_record_request(package)
+            return self.__exec_task_to_safely_mode(
+                self.__find_record_request, package
+            )()
 
 
         elif method_type == UPDATE_RECORD_PACKAGE_METHOD_TYPE:
-            return self.__update_record_request(package)
+            return self.__exec_task_to_safely_mode(
+                self.__update_record_request, package
+            )()
 
 
         elif method_type == REMOVE_RECORD_PACKAGE_METHOD_TYPE:
-            return self.__remove_record_request(package)
+            return self.__exec_task_to_safely_mode(
+                self.__remove_record_request, package
+            )()
 
         elif method_type == ICMP_PACKAGE_TYPE:
             return Package(SUCCESSFUL_PACKAGE_RESULT, package.get_data())
@@ -131,10 +139,8 @@ class TCPServer:
         else:
             return make_erorr_package("Undefine method type")
 
-        #dbLock.release()
 
-
-
+    
     def __create_new_record_request(self, package):
         strRecod    = package.get_data()
         data        = strRecod.split('\n')
@@ -145,7 +151,7 @@ class TCPServer:
         return Package(SUCCESSFUL_PACKAGE_RESULT, res)
 
 
-
+    
     def __find_record_request(self, package):
         strRecod    = package.get_data()
         data        = strRecod.split('\n')
@@ -174,7 +180,7 @@ class TCPServer:
 
         return Package(SUCCESSFUL_PACKAGE_RESULT)
 
-
+    
     def __remove_record_request(self, package):
         srtRecord   = package.get_data()
         data        = srtRecord.split('\n')
@@ -193,6 +199,30 @@ class TCPServer:
         res = self.__dbDriver.get_all_records_into_table()
         
         return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+
+
+
+    def __exec_task_to_safely_mode(self, cur_task, *args):
+        def run_task():
+            self.__lock_db()
+            res = cur_task(*args)
+            self.__unlock_db()
+            
+            return res
+
+        return run_task
+        
+
+
+    def __lock_db(self):
+        self.__dbLock.acquire()
+        print("lock_db")
+
+
+    def __unlock_db(self):
+        self.__dbLock.release()
+        print("unlock_db")
+
 
 
 

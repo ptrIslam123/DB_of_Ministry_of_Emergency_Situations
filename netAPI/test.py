@@ -1,31 +1,31 @@
-from threading import Thread, Lock
-
-glob_counter = 0
-lock_counter = Lock()
 
 
-def foo():
-    global glob_counter
+class Widget:
 
-    for i in range(0, 10000):
-        lock_counter.acquire()
-        glob_counter += 1
-        lock_counter.release()
+        def __wrapre(self, func, *args):
+                def foo():
+                        print("__begin")
+                        res = func(*args)
+                        print("__end")
+
+                        return res
+
+                return foo
+
+        def eval(self, v1, v2):
+                return self.__wrapre(self.sum, v1, v2)()
+
+        
+        def sum(self, v1, v2):
+                return v1 + v2
+        
+
 
 
 def main():
-
-    t1 = Thread(target=foo, args=())
-    t2 = Thread(target=foo, args=())
-
-    t1.start()
-    t2.start()
-
-    t1.join()
-    t2.join()
-
-    print(glob_counter)
-
+        w = Widget()
+        res = w.eval(10, 20)
+        print("res = ", res)        
 
 if __name__ == "__main__":
     main()
