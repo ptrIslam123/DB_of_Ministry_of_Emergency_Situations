@@ -58,31 +58,24 @@ def make_TCPClient():
 
 
 def main():
-    client = TCPClinet(
-        nvars.SERVER_IP_ADDRESS,
-        nvars.SERVER_PORT
-    )
+    client = make_TCPClient()
 
     client.send_data(
-        Package(CREATE_RECORD_PACKAGE_METHOD_TYPE, "тестовые данные!")
+        Package(ICMP_PACKAGE_TYPE, "тестовые данные!")
     )
 
+    
     res_pkg = client.recive_data()
 
-    if res_pkg.get_method_type() != RESULT_REQUEST_PAKCAGE_TYPE:
+    if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
         print("__error response__!!!")
 
     else:
         print(res_pkg.get_data())
-        client.send_data(
-            make_close_app_package()
-        )
 
-        print("__close connection__") 
-
-
-
+ 
     client.destroy_connect()
+    print("__close connection__")
 
 
 if __name__ == "__main__":

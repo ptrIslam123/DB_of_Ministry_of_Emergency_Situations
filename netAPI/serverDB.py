@@ -2,6 +2,7 @@
 #-*-coding: utf-8-*-
 
 import socket
+from threading import Thread, Lock, current_thread
 import sys
 
 import newtVars as nvars
@@ -20,9 +21,12 @@ import loger
 class TCPServer:
 
     def __init__(self):
+
+        self.__dbLock       = Lock()
+
         self.__errHandler   = ErrorHandler()
         self.__record       = Record()
-        self.__dbDriver     = DBDriver()
+        self.__dbDriver     = None
 
         self.__sock = socket.socket(
             socket.AF_INET,
@@ -63,83 +67,132 @@ class TCPServer:
                     print("___EXIT APP__\n")
                     exit(0)
 
+
                 else:
-                    response_pkg = self.__exec_request(pkg)
-                        
-                    self.__send_data(
-                        clinet_sock, 
-                        response_pkg
+                    print("main_thread : {thread_id}".format(thread_id=current_thread()))
+                    new_task = Thread(
+                        target=self.__processing_request, 
+                        args=(clinet_sock, self.__dbLock, pkg)
                     )
+
+                    new_task.start()
+                    new_task.join()
                     
                     clinet_sock.close()
                     print("___CLOSE CONNECTION___\n")
 
 
+    def __processing_request(self, client_sock, dbLock, package):
 
-    def __exec_request(self, package):
+        print("___NEW_TASK___ : {thread_id}".format(thread_id=current_thread()))
+
+        response_pkg = self.__exec_request(dbLock, package)
+        
+        self.__send_data(
+            client_sock,
+            response_pkg
+        )
+
+        print("___EXIT_TASK___\n")
+        exit(0)
+
+
+    def __exec_request(self, dbLock, package):
+        #dbLock.acquire()
+        
+        self.__dbDriver = DBDriver()
+
         method_type = package.get_method_type()
-        print('method_type: ',method_type)
         strRecord = ""
+
+        print('method_type: ',method_type)
+
     
         if method_type == CREATE_RECORD_PACKAGE_METHOD_TYPE:
-            strRecod    = package.get_data()
-            data        = strRecod.split('\n')
-
-            self.__record.convListToRecord(data)
-            res = self.__dbDriver.write_new_record(self.__record)
-
-            return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+            return self.__create_new_record_request(package)
         
         elif method_type == GET_ALL_RECORDS_FROM_DB_PACKAGE_TYPE:
-            res = self.__dbDriver.get_all_records_into_table()
-        
-            return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+            return self.__get_all_record_request()
 
         elif method_type == FIND_RECORDS_PACKAGE_METHOD_TYPE:
-            strRecod    = package.get_data()
-            data        = strRecod.split('\n')
-
-            status, _ , res = self.__dbDriver.find_records_by_date_and_time(data[0], data[1])
-            if status != 0:
-                loger.sys_write_log(
-                    vars.ERROR_LOG_TYPE ,
-                    self.__errHandler.handle(ERROR_FIND_RECORDS_IN_DB_TYPE)
-                )
-                return make_erorr_package("Server: error find records")
-            
-            else:
-                return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+            return self.__find_record_request(package)
 
 
         elif method_type == UPDATE_RECORD_PACKAGE_METHOD_TYPE:
-            srtRecord   = package.get_data()
-            data        = srtRecord.split('\n')
-            
-            
-            res, _ = self.__dbDriver.update_records_by_date_and_time(data)
-
-            if res != 0:
-                return make_erorr_package("Server: error updating records")
-
-            return Package(SUCCESSFUL_PACKAGE_RESULT)
+            return self.__update_record_request(package)
 
 
         elif method_type == REMOVE_RECORD_PACKAGE_METHOD_TYPE:
-            srtRecord   = package.get_data()
-            data        = srtRecord.split('\n')
-            
-            res, _ = self.__dbDriver.remove_records_by_date_and_time(
-                data[0], data[1]
-            )
+            return self.__remove_record_request(package)
 
-            if res != 0:
-                return make_erorr_package("Server: error remove records")
-            
-            return Package(SUCCESSFUL_PACKAGE_RESULT)
-
+        elif method_type == ICMP_PACKAGE_TYPE:
+            return Package(SUCCESSFUL_PACKAGE_RESULT, package.get_data())
 
         else:
             return make_erorr_package("Undefine method type")
+
+        #dbLock.release()
+
+
+
+    def __create_new_record_request(self, package):
+        strRecod    = package.get_data()
+        data        = strRecod.split('\n')
+
+        self.__record.convListToRecord(data)
+        res = self.__dbDriver.write_new_record(self.__record)
+
+        return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+
+
+
+    def __find_record_request(self, package):
+        strRecod    = package.get_data()
+        data        = strRecod.split('\n')
+
+        status, _ , res = self.__dbDriver.find_records_by_date_and_time(data[0], data[1])
+        if status != 0:
+            loger.sys_write_log(
+                vars.ERROR_LOG_TYPE ,
+                self.__errHandler.handle(ERROR_FIND_RECORDS_IN_DB_TYPE)
+            )
+            return make_erorr_package("Server: error find records")
+            
+        else:
+            return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+
+
+    def __update_record_request(self, package):
+        srtRecord   = package.get_data()
+        data        = srtRecord.split('\n')
+            
+            
+        res, _ = self.__dbDriver.update_records_by_date_and_time(data)
+
+        if res != 0:
+            return make_erorr_package("Server: error updating records")
+
+        return Package(SUCCESSFUL_PACKAGE_RESULT)
+
+
+    def __remove_record_request(self, package):
+        srtRecord   = package.get_data()
+        data        = srtRecord.split('\n')
+            
+        res, _ = self.__dbDriver.remove_records_by_date_and_time(
+            data[0], data[1]
+        )
+
+        if res != 0:
+            return make_erorr_package("Server: error remove records")
+            
+        return Package(SUCCESSFUL_PACKAGE_RESULT)
+
+
+    def __get_all_record_request(self):
+        res = self.__dbDriver.get_all_records_into_table()
+        
+        return Package(SUCCESSFUL_PACKAGE_RESULT, res)
 
 
 
@@ -163,6 +216,7 @@ class TCPServer:
 
 
 def main():
+    print("___RUN_SERVER___\n\n")
     server = TCPServer()
     server.main_loop()
 
