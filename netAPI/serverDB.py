@@ -5,7 +5,7 @@ import socket
 from threading import Thread, Lock, current_thread
 import sys
 
-import newtVars as nvars
+import netVars as nvars
 from package import *
 
 
@@ -32,6 +32,8 @@ class TCPServer:
             socket.AF_INET,
             socket.SOCK_STREAM
         )
+
+        self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         self.__sock.bind((
             nvars.SERVER_IP_ADDRESS,

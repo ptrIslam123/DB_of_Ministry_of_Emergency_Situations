@@ -5,7 +5,7 @@
 import socket
 import sys
 
-import newtVars as nvars
+import netVars as nvars
 from package import *
 
 

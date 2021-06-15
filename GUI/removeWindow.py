@@ -17,7 +17,7 @@ import loger
 
 sys.path.append('../netAPI/')
 from clientDB import TCPClinet, make_TCPClient
-from newtVars import *
+from netVars import *
 from package import *
 
 

@@ -17,7 +17,7 @@ import loger
 sys.path.append('../netAPI/')
 from clientDB import TCPClinet, make_TCPClient
 from package import *
-from newtVars import *
+from netVars import *
 
 
 class FindRecordsWindow(BaseWindow):

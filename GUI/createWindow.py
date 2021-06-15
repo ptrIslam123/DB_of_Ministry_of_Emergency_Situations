@@ -16,7 +16,7 @@ import loger
 sys.path.append('../netAPI/')
 from clientDB import TCPClinet, make_TCPClient, make_close_connect_package
 from package import *
-from newtVars import SERVER_IP_ADDRESS, SERVER_PORT
+from netVars import SERVER_IP_ADDRESS, SERVER_PORT
 
 
 class CreateRecordWindow(BaseWindow):
