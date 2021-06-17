@@ -4,6 +4,18 @@
 SUCCESSFULLY                        = "успешно".decode('utf-8')
 CANCLE_BTN_NAME                     = "отмена".decode('utf-8')
 
+
+# -- AutorizationWindow
+AUTORIZATION_WINDOW_TITLE           = "the Autorization Window"
+DEFAULT_AWINDOW_POS_X               = 250
+DEFAULT_AWINDOW_POS_Y               = 250
+DEFAULT_AWINDOW_WIDTH               = 300
+DEFAULT_AWINDOW_HIGHT               = 200
+AWINDOW_USER_LOGIN_LABEL            = "логин".decode('utf-8')
+AWINDOW_USER_PASSWORD_LABEL         = "пароль".decode('utf-8')
+AWINDOW_AUTORIZATION_BUTTON         = "войти".decode('utf-8')
+
+
 # -- RemoveWindow
 DEFAULT_RWINDOW_WIDTH               = 500
 DEFAULT_RWINDOW_HIGHT               = 300

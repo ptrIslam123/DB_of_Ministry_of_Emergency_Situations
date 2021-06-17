@@ -9,7 +9,11 @@ from createWindow import *
 from updateWindow import *
 from findWindow import *
 from removeWindow import *
+from autorizationWindow import *
 
+
+sys.path.append('../src/')
+from autointoxication import Passwd, write_passwd_in_file, read_passwd_from_file
 
 
 
@@ -180,22 +184,36 @@ class MainWindow(QtGui.QMainWindow):
     
 
 
+
+def initialization_application(app):
+
+    autorizWind = AutorizationWindow()
+    autorizWind.show_window()
+    app.exec_()
+
+    return autorizWind.is_autorization_successfully()
        
 
 
 def main():
     app = QtGui.QApplication(sys.argv)
+
+    if initialization_application(app) is False:
+        sys.exit(-1)
+
     
+
     mainW = MainWindow(
         MAIN_WINDOW_TITLE, 
         DEFAULT_M_WINDOW_POS_Y,
         DEFAULT_M_WINDOW_POS_X
     )
 
-    mainW.show_window() 
+    mainW.show_window()
     
     sys.exit(app.exec_())
 
 
 if __name__ == '__main__':
     main()
+    

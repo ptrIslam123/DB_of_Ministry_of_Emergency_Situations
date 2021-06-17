@@ -1,0 +1,16 @@
+(i__main__
+Passwd
+p0
+(dp1
+S'_Passwd__user_login'
+p2
+S'root'
+p3
+sS'_Passwd__is_registrated_user'
+p4
+I01
+sS'_Passwd__user_passwd_hash'
+p5
+S'827ccb0eea8a706c4c34a16891f84e7b'
+p6
+sb.

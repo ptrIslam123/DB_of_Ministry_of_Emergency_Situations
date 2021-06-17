@@ -67,15 +67,23 @@ def read_passwd_from_file():
 
 
 
-def main():
+def make_first_user(login, password):
     user = Passwd()
 
-    user.registration_new_user('islam', '12345')
+    user.registration_new_user(login, passwd)
+    write_passwd_in_file(user)
 
-    if user.autorization_user('islam', '12345') is True:
-        print("successful!")
-    else:
+    return 0
+
+
+
+def main():
+    if make_first_user('root', '12345') != 0:
         print("fail!")
+        exit(-1)
+    
+    print("User created successfully!")
+    exit(0)
 
 
 if __name__ == "__main__":

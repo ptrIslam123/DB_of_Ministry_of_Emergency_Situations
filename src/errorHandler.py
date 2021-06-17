@@ -8,6 +8,7 @@ ERROR_SEND_PACKAGE_ON_THE_SERVER                = 3
 ERROR_RECIVE_POACKAGE_FROM_SERVER               = 5
 ERROR_REQUEST_PACKAGE_TYPE                      = 7
 ERROR_FIND_RECORDS_IN_DB_TYPE                   = 8
+AUTORIZATION_ERORR                              = 9
 
 
 class ErrorHandler:
