@@ -75,7 +75,7 @@ MENU_FIELD_ACTION_FILE              = "Файл".decode('utf-8')
 MENU_FIELD_ACTION_EDIT              = "Редактировать".decode('utf-8')
 MENU_FIELD_ACTION_VIEW              = "Вид".decode('utf-8')
 MENU_FIELD_ACTION_CREATE            = "Создать".decode('utf-8')
-MENU_FIELD_ACTION_FIND              = "Пойск".decode('utf-8')
+MENU_FIELD_ACTION_FIND              = "Поиск".decode('utf-8')
 MENU_FIELD_ACTION_REMOVE            = "удаление".decode('utf-8')
 
 
@@ -90,7 +90,7 @@ MENU_FIELD_FIND_RECORDS             = "пойск записей".decode('utf-8'
 
 
 # -- CreateWindow
-CWINDOW_FIND_R_BY_DATE_ADN_TIME     = "пойск по дате и времени".decode('utf-8')
+CWINDOW_FIND_R_BY_DATE_ADN_TIME     = "поиск по дате и времени".decode('utf-8')
 CWINDOW_UPDATE_R_BY_DATE_AND_TIME   = "изменение по дате и времени".decode('utf-8')
 CWINDOW_REMOVE_R_BY_DATE_ADN_TIME   = "удаление по дате и времени".decode('utf-8')
 CWINDOW_WRITE_BTN_NAME              = "записать".decode('utf-8')

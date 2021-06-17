@@ -4,6 +4,7 @@
 SQL_DB_DIR_PATH                 = "../sqlDB"
 SQL_TABLES_DIR_PATH             = "../sqlTables"
 SQL_SYSTEM_LOG_FILE_PATH        = "../sys/syslog.txt"
+PASSWD_FILE_PATH                = "../sys/passwd.txt"
 NET_SYSTEM_LOG_FILE_PATH        = "../SYS/netsyslog.txt"
 MAIN_SQL_DB_FILE                = "../sqlDB/main.db"
 PATH_REPORTS_DIR                = "../reports"
