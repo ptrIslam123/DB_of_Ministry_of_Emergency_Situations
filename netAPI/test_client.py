@@ -2,10 +2,12 @@
 #-*-coding: utf-8-*-
 
 import socket
+import package as pk
 
 
 host = "192.168.0.12"
 port = 12000
+
 
 client = socket.socket(
     socket.AF_INET,
@@ -13,13 +15,16 @@ client = socket.socket(
 )
 
 client.connect((
-    host,
-    port
+    host, port
 ))
 
-client.send("hello world")
-data = client.recv(1024)
 
-print("response from server: ", data)
+def make_msg(msg):
+    return pk.serialization(
+        pk.make_icmp_packaget(msg)
+    )
 
-client.close()
+
+data = pk.make_icmp_packaget("hello")
+
+pk.split_packages(data)
