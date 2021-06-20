@@ -53,7 +53,7 @@ def make_icmp_packaget(msg):
 
 
 
-def split_str_data(iterable, n, fillvalue=''):
+def split_str_data(iterable, n, fillvalue=' '):
     iterable = iterable.decode('utf-8') # опционально!
     args = [iter(iterable)] * n
 
@@ -67,21 +67,22 @@ def split_str_data(iterable, n, fillvalue=''):
 
 
 
-def split_to_set_packages(package):
+def split_to_list_packages(package, size_package):
     packages = []
 
     method_type = package.get_method_type()
     data        = package.get_data() # type(str)
    
-    list_data = split_str_data(data, 5)
-    size_list_data = len(list_data)
+    list_data = split_str_data(data, size_package)
 
     for data in list_data:
         packages.append(
             Package(method_type=method_type, data=data)
         )
 
-    packages[size_list_data - 1].set_method_type(LAST_PACKAGE_TYPE) 
+    packages.append(
+        Package(LAST_PACKAGE_TYPE, "XXXXX".decode('utf-8'))
+    ) 
     return packages
 
     
@@ -89,7 +90,7 @@ def split_to_set_packages(package):
 
 
 
-def join_to_one_packages(packages):
+def join_to_one_package(packages):
     method_type = packages[0].get_method_type()
     data = str("")
 
@@ -131,13 +132,13 @@ class Package:
 
 def main():
 
-    res = split_to_set_packages(make_icmp_packaget(
-        "привет мир!|"
-    ))
-
-    pack = join_to_one_packages(res)
-    print("method_type: ", pack.get_method_type())
-    print(pack.get_data())
+    res = split_to_list_packages(
+        make_icmp_packaget("hello"), 
+        5
+    )
+    
+    pkg = serialization(res[0])
+    print(len(pkg.encode()))
         
 
 

@@ -5,7 +5,7 @@
 from itertools import izip_longest
 
 
-def grouper(iterable, n, fillvalue='x'):
+def grouper(iterable, n, fillvalue=' '):
     iterable = iterable.decode('utf-8')
     args = [iter(iterable)] * n
 
@@ -21,11 +21,11 @@ def grouper(iterable, n, fillvalue='x'):
 
 
 #s = "апапрпрп".decode('utf-8')
-s = "апапрпрп"
+s = "abcdefg"
 k = 3
 
 res = grouper(s, k)
 
 print(type(res))
 for i in res:
-    print(i)
+    print("[{i}] {len_str}".format(i=i, len_str=len(i)))
