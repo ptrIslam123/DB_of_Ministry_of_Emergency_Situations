@@ -52,9 +52,12 @@ def make_icmp_packaget(msg):
     return Package(ICMP_PACKAGE_TYPE, msg)
 
 
+def make_successful_package(data=str("")):
+    return Package(SUCCESSFUL_PACKAGE_RESULT, data=data)
 
-def split_str_data(iterable, n, fillvalue=' '):
-    iterable = iterable.decode('utf-8') # опционально!
+
+def split_str_data(iterable, n, fillvalue=''):
+    #iterable = iterable.decode('utf-8') # опционально!
     args = [iter(iterable)] * n
 
     ans = list(izip_longest(fillvalue=fillvalue, *args))
@@ -81,7 +84,7 @@ def split_to_list_packages(package, size_package):
         )
 
     packages.append(
-        Package(LAST_PACKAGE_TYPE, "XXXXX".decode('utf-8'))
+        Package(LAST_PACKAGE_TYPE, "")
     ) 
     return packages
 

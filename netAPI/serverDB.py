@@ -49,40 +49,38 @@ class TCPServer:
 
         while True:
             try:
-                clinet_sock, addr = self.__sock.accept()
+                client_sock, addr = self.__sock.accept()
                 print("___NEW_CONNECT___\n")
                     
             except KeyboardInterrupt:
-                clinet_sock.close()
+                client_sock.close()
                 break
 
             else:
-                pkg = self.__recive_data(clinet_sock)
+                
+                request_pkg, res = self.__recive_package(client_sock)
 
-                if pkg.get_method_type() == CLOSE_CONNECT_PAKCAGE_METHOD_TYPE:
-                    print("___CLOSE CONNECTION___\n")
-                    clinet_sock.close()
-                    continue
+                if res != 0:
+                    print("recive error")
+                    exit(-1)
 
-                elif pkg.get_method_type() == CLOSE_APPLICATION_PACKAGE_TYPE:
-                    clinet_sock.close()
-                    self.__sock.close()
-                    print("___EXIT APP__\n")
-                    exit(0)
+                self.__create_new_task(client_sock, request_pkg)
 
 
-                else:
-                    print("main_thread : {thread_id}".format(thread_id=current_thread()))
-                    new_task = Thread(
-                        target=self.__processing_request, 
-                        args=(clinet_sock, pkg)
-                    )
 
-                    new_task.start()
-                    new_task.join()
+    def __create_new_task(self, client_sock, request_pkg):
+        print("main_thread : {thread_id}".format(thread_id=current_thread()))
+        new_task = Thread(
+            target=self.__processing_request, 
+            args=(client_sock, request_pkg)
+        )
+
+        new_task.start()
+        new_task.join()
                     
-                    clinet_sock.close()
-                    print("___CLOSE CONNECTION___\n")
+        client_sock.close()
+        print("___CLOSE CONNECTION___\n")
+
 
 
     def __processing_request(self, client_sock, package):
@@ -90,11 +88,7 @@ class TCPServer:
         print("___NEW_TASK___ : {thread_id}".format(thread_id=current_thread()))
 
         response_pkg = self.__exec_request(package)
-        
-        self.__send_data(
-            client_sock,
-            response_pkg
-        )
+        self.__send_package(client_sock, response_pkg) 
 
         print("___EXIT_TASK___\n")
         exit(0)
@@ -136,11 +130,60 @@ class TCPServer:
             )()
 
         elif method_type == ICMP_PACKAGE_TYPE:
-            return Package(SUCCESSFUL_PACKAGE_RESULT, package.get_data())
+            return make_successful_package(package.get_data())
 
         else:
             return make_erorr_package("Undefine method type")
 
+
+
+    def __send_package(self, client, package):
+        packages = split_to_list_packages(package, nvars.PACKAGE_STD_SIZE)
+
+        for pkg in packages:
+            self.__send_package_to_client(client, pkg)
+            res_pkg = self.__recive_package_from_client(client)
+
+            if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
+                #
+                client.close()
+                return -1
+            #
+                
+        return 0
+
+
+    def __recive_package(self, client):
+        packages = []
+
+        while True:
+            pkg = self.__recive_package_from_client(client)
+
+            if pkg.get_method_type() == LAST_PACKAGE_TYPE:
+                self.__send_package_to_client(client, Package(SUCCESSFUL_PACKAGE_RESULT))
+                break
+            
+            packages.append(pkg)
+            #
+
+            self.__send_package_to_client(client, Package(SUCCESSFUL_PACKAGE_RESULT))
+        
+        return join_to_one_package(packages), 0
+
+
+    def __send_package_to_client(self, client_sock, package):
+        client_sock.send(
+            serialization(package)
+        )
+
+        return 0
+
+
+    def __recive_package_from_client(self, client_sock):
+        pkg = deserialization(
+            client_sock.recv(nvars.SERVER_DATA_BUF_SIZE)
+        )
+        return pkg
 
     
     def __create_new_record_request(self, package):
@@ -227,25 +270,13 @@ class TCPServer:
 
 
 
-
-    def __send_data(self, client_sock, package):
-        client_sock.send(
-            serialization(package)
-        )
-
-
-    def __recive_data(self, client_sock):
-        pkg = deserialization(
-            client_sock.recv(nvars.SERVER_DATA_BUF_SIZE)
-        )
-        return pkg
+   
     
 
     
 
     
         
-
 
 def main():
     print("___RUN_SERVER___\n\n")
