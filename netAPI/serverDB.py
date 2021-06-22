@@ -35,14 +35,21 @@ class TCPServer:
 
         self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-        self.__sock.bind((
-            nvars.SERVER_IP_ADDRESS,
-            nvars.SERVER_PORT
-        ))
+        self.__bind_scoket()
 
         
 
-    
+    def __bind_scoket(self):
+        try:
+            self.__sock.bind((
+                nvars.SERVER_IP_ADDRESS,
+                nvars.SERVER_PORT
+            ))
+
+        except socket.error as e:
+            loger.net_write_log(nvars.NET_SCOKET_BIND_ERROR_TYPE_EVENT, str(e))
+            exit(-1)
+
 
     def main_loop(self):
         self.__sock.listen(nvars.SERVER_MAX_CONNECTIONS)
@@ -50,10 +57,18 @@ class TCPServer:
         while True:
             try:
                 client_sock, addr = self.__sock.accept()
-                print("___NEW_CONNECT___\n")
+                loger.net_write_log(nvars.NET_NEW_CONNECT_EVENT, "ip address: {addr}".format(addr=addr))
                     
             except KeyboardInterrupt:
                 client_sock.close()
+                self.__sock.close()
+                loger.net_write_log(nvars.NET_CLOSE_CONNECTION_EVENT, "KeyboardInterrupt task")
+                break
+            
+            except Exception:
+                loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, nvars.NET_UNDEFINE_ERROR)
+                client_sock.close()
+                self.__sock.close()
                 break
 
             else:
@@ -61,15 +76,23 @@ class TCPServer:
                 request_pkg, res = self.__recive_package(client_sock)
 
                 if res != 0:
-                    print("recive error")
-                    exit(-1)
+                    loger.net_write_log(nvars.NET_CREATE_NEW_TASK_EVENT, "{type_error}: {addr}".format(
+                        type_error=nvars.NET_SCOKET_RECIVE_PACKAGE_ERROR, addr=addr)
+                    )
+                    continue
 
-                self.__create_new_task(client_sock, request_pkg)
+                else:
+                    self.__create_new_task(client_sock, request_pkg)
+                    loger.net_write_log(nvars.NET_CLOSE_CONNECTION_EVENT, "ip address: {addr}".format(addr=addr))
+
 
 
 
     def __create_new_task(self, client_sock, request_pkg):
-        print("main_thread : {thread_id}".format(thread_id=current_thread()))
+        loger.net_write_log(nvars.NET_CREATE_NEW_TASK_EVENT, "thread_id : {thread_id}".format(
+            thread_id=current_thread())
+        )
+
         new_task = Thread(
             target=self.__processing_request, 
             args=(client_sock, request_pkg)
@@ -78,19 +101,20 @@ class TCPServer:
         new_task.start()
         new_task.join()
                     
+        loger.net_write_log(nvars.NET_EXEC_NEW_TASK_EVENT, nvars.NET_PROCESSING_REQUEST)
+
+        
         client_sock.close()
-        print("___CLOSE CONNECTION___\n")
+        
+        
 
 
 
     def __processing_request(self, client_sock, package):
 
-        print("___NEW_TASK___ : {thread_id}".format(thread_id=current_thread()))
-
         response_pkg = self.__exec_request(package)
         self.__send_package(client_sock, response_pkg) 
 
-        print("___EXIT_TASK___\n")
         exit(0)
 
 
@@ -101,7 +125,7 @@ class TCPServer:
         method_type = package.get_method_type()
         strRecord = ""
 
-        print('method_type: ',method_type)
+        loger.net_write_log(nvars.NET_EXEC_METHOD_TYPE_TASK_EVENT, ": {method_type}".format(method_type=method_type))
 
     
         if method_type == CREATE_RECORD_PACKAGE_METHOD_TYPE:
@@ -133,6 +157,9 @@ class TCPServer:
             return make_successful_package(package.get_data())
 
         else:
+            loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, "{error_type}: {method_type}".format(
+                error_type=nvars.NET_REQUEST_UNDEFINE_METHOD_TYPE_EVENT, method_type=method_type
+            ))
             return make_erorr_package("Undefine method type")
 
 
@@ -145,10 +172,8 @@ class TCPServer:
             res_pkg = self.__recive_package_from_client(client)
 
             if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
-                #
                 client.close()
                 return -1
-            #
                 
         return 0
 
@@ -164,7 +189,6 @@ class TCPServer:
                 break
             
             packages.append(pkg)
-            #
 
             self.__send_package_to_client(client, Package(SUCCESSFUL_PACKAGE_RESULT))
         
@@ -172,18 +196,34 @@ class TCPServer:
 
 
     def __send_package_to_client(self, client_sock, package):
-        client_sock.send(
-            serialization(package)
-        )
+        try:
+            client_sock.send(
+                serialization(package)
+            )
 
+        except socket.error as e:
+            loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, "socket.send method erorr: => {error_type}".format(
+                error_type=e)
+            )
+            exit(-1)
+        
         return 0
 
 
     def __recive_package_from_client(self, client_sock):
-        pkg = deserialization(
-            client_sock.recv(nvars.SERVER_DATA_BUF_SIZE)
-        )
-        return pkg
+        try:
+            pkg = deserialization(
+                client_sock.recv(nvars.SERVER_DATA_BUF_SIZE)
+            )
+            return pkg
+
+        except socket.error as e:
+            loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, "socket.recv method erorr: => {error_type}".format(
+                error_type=e)
+            )
+            exit(-1)
+
+        
 
     
     def __create_new_record_request(self, package):
@@ -261,12 +301,10 @@ class TCPServer:
 
     def __lock_db(self):
         self.__dbLock.acquire()
-        print("lock_db")
 
 
     def __unlock_db(self):
         self.__dbLock.release()
-        print("unlock_db")
 
 
 
@@ -279,7 +317,7 @@ class TCPServer:
         
 
 def main():
-    print("___RUN_SERVER___\n\n")
+    loger.net_write_log(nvars.NET_START_SERVER_EVENT, "___RUN__SERVER___")
     server = TCPServer()
     server.main_loop()
 

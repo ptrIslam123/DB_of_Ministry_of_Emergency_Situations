@@ -57,7 +57,7 @@ def make_successful_package(data=str("")):
 
 
 def split_str_data(iterable, n, fillvalue=''):
-    #iterable = iterable.decode('utf-8') # опционально!
+    #iterable = iterable.decode('utf-8') 
     args = [iter(iterable)] * n
 
     ans = list(izip_longest(fillvalue=fillvalue, *args))
