@@ -63,12 +63,14 @@ class TCPServer:
                 client_sock.close()
                 self.__sock.close()
                 loger.net_write_log(nvars.NET_CLOSE_CONNECTION_EVENT, "KeyboardInterrupt task")
+                print("___SERVER_KILL___\n")
                 break
             
             except Exception:
                 loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, nvars.NET_UNDEFINE_ERROR)
                 client_sock.close()
                 self.__sock.close()
+                print("___SERVER_FAIL__\n")
                 break
 
             else:
@@ -317,6 +319,7 @@ class TCPServer:
         
 
 def main():
+    print("___STRAT_SERVER___\n")
     loger.net_write_log(nvars.NET_START_SERVER_EVENT, "___RUN__SERVER___")
     server = TCPServer()
     server.main_loop()
