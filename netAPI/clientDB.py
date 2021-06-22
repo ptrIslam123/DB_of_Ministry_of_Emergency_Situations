@@ -7,7 +7,7 @@ import sys
 
 import netVars as nvars
 from package import *
-
+import test_client as tclient
 
 sys.path.append('../src/')
 import errorHandler
@@ -102,7 +102,7 @@ class TCPClinet:
             loger.sys_write_log(nvars.NET_CRITICAL_ERROR_EVENT, "socket.recv method error: {error_type}".format(
                 error_type=str(e)
             ))
-            return -1
+            return make_erorr_package(str(e))
 
 
 
@@ -120,21 +120,18 @@ def make_TCPClient():
 
 
 def main():
-    client = make_TCPClient()
+    client = TCPClinet(
+        nvars.SERVER_IP_ADDRESS, 
+        nvars.SERVER_PORT
+    )
 
     if client.connect() != 0:
-        print("Client connect  erorr!")
+        print("connect error!")
         exit(-1)
 
-    client.send_package(make_icmp_packaget("привет мир!"))
-    pkg, res = client.recive_package()
+    pkg = tclient.test_get_all_records_from_db(client)
+    tclient.print_package(pkg)
 
-    if res != 0:
-        print("error!")
-        return
-    
-    print("method_type: ", pkg.get_method_type())
-    print(pkg.get_data())
 
 if __name__ == "__main__":
     main()

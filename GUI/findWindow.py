@@ -113,53 +113,56 @@ class FindRecordsWindow(BaseWindow):
 
 
     def __find_records_on_server(self, date, time):
-        clinet = make_TCPClient()
+        client = make_TCPClient()
+        
+        if client.connect() != 0:
+            return CLIENT_CONNECT_ERORR_TYPE, self.get_table_name(), None
 
-        package = Package()
-        package.set_method_type(FIND_RECORDS_PACKAGE_METHOD_TYPE)
-        package.set_data("{date}\n{time}".format(date=date, time=time))
+
+        package = Package(
+            FIND_RECORDS_PACKAGE_METHOD_TYPE,
+            "{date}\n{time}".format(date=date, time=time)
+        )
+        #package.set_method_type(FIND_RECORDS_PACKAGE_METHOD_TYPE)
+        #package.set_data("{date}\n{time}".format(date=date, time=time))
         
 
-        clinet.send_data(
-            package
-        )
+        client.send_package(package)
+        res_pkg, res = client.recive_package()
 
-        res_pkg = clinet.recive_data()
+       
+        client.destroy_connect()
+        return res, self.get_table_name(), res_pkg.get_data()
 
-        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
-            return res_pkg.get_method_type(), self.get_table_name(), None
-
-        else:
-            clinet.destroy_connect()
-            return 0, self.get_table_name(), res_pkg.get_data()
 
 
     def __write_all_records_in_the_textEdit(self):
-        records = self.__get_all_records_on_server()
-        self.__records_tedit.setText(records)
+        records, res = self.__get_all_records_on_server()
+
+        if res != 0:
+            self.__status_inf_ledit.setText(
+                self.__errHandler.handle(res, "error in the geting all records on the server")
+            )
+
+        else:
+            self.__records_tedit.setText(records)
 
 
     def __get_all_records_on_server(self):
         client = make_TCPClient()
-        
-        package = Package()
-        package.set_method_type(GET_ALL_RECORDS_FROM_DB_PACKAGE_TYPE)
-        
-        client.send_data(
-            package    
-        )
 
-        res_pkg = client.recive_data()
+        if client.connect() != 0:
+            pass
         
-        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
-            err = self.__errHandler.handle(res_pkg.get_method_type())
-            self.__status_inf_ledit.setText(err)
-            loger.net_write_log(vars.ERROR_LOG_TYPE ,err)
-            return "None"
+        package = make_get_all_records_from_db_package()
+        
+        client.send_package(package)
+        res_pkg, res = client.recive_package()
+        
+        client.destroy_connect()
+        return res_pkg.get_data(), res
 
-        else:
-            client.destroy_connect()
-            return res_pkg.get_data()
+
 
     def __clean_and_close_window(self):
         self.__date_ledit.setText("")

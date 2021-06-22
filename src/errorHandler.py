@@ -18,5 +18,5 @@ class ErrorHandler:
         pass
 
 
-    def handle(self, err_code, obj, descrt=""):
+    def handle(self, err_code, obj, descrt=str()):
         return "Error"

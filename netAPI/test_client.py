@@ -1,6 +1,55 @@
 #! /usr/bin/env python
 #-*-coding: utf-8-*-
 
+
+from clientDB import *
+
+
+
+def perror(error_msg):
+    print(error_msg)
+    exit(-1)
+
+
+def print_package(pkg):
+    print("\n{")
+    print("method_type: ", pkg.get_method_type())
+    print(pkg.get_data())
+    print("}\n")
+
+
+
+
+
+def test_get_all_records_from_db(client):
+    client.send_package(
+        make_get_all_records_from_db_package()
+    )
+
+    pkg, res = client.recive_package()
+    
+    if res != 0:
+        perror("recive package error")
+    
+    else:
+        return pkg
+
+
+
+def test_icmp(client, msg):
+    client.send_package(
+        make_icmp_packaget(msg)
+    )
+
+    pkg, res = client.recive_package()
+    if res != 0:
+        perror("recive package erorr from server")
+
+    else:
+        return pkg
+
+
+'''
 import socket
 from package import *
 
@@ -80,25 +129,6 @@ while True:
             break
 
         print("[Server] type: ", pkg.get_method_type(), 'data: ', pkg.get_data())
-
-    except KeyboardInterrupt:
-        client.close()
-        break
-
-
-
-client.close()
-
-
-'''
-while True:
-    try:
-        client.send(serialization(
-            Package(ICMP_PACKAGE_TYPE, raw_input(">"))
-        ))
-
-        pkg = deserialization(client.recv(1024))
-        print("type: ", pkg.get_method_type(), 'data: ', pkg.get_data())
 
     except KeyboardInterrupt:
         client.close()

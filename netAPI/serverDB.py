@@ -58,9 +58,10 @@ class TCPServer:
             try:
                 client_sock, addr = self.__sock.accept()
                 loger.net_write_log(nvars.NET_NEW_CONNECT_EVENT, "ip address: {addr}".format(addr=addr))
-                    
+                print("___NEW_CONNECT___\n")
+
             except KeyboardInterrupt:
-                client_sock.close()
+                #client_sock.close()
                 self.__sock.close()
                 loger.net_write_log(nvars.NET_CLOSE_CONNECTION_EVENT, "KeyboardInterrupt task")
                 print("___SERVER_KILL___\n")
@@ -68,7 +69,7 @@ class TCPServer:
             
             except Exception:
                 loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, nvars.NET_UNDEFINE_ERROR)
-                client_sock.close()
+                #client_sock.close()
                 self.__sock.close()
                 print("___SERVER_FAIL__\n")
                 break
@@ -86,7 +87,7 @@ class TCPServer:
                 else:
                     self.__create_new_task(client_sock, request_pkg)
                     loger.net_write_log(nvars.NET_CLOSE_CONNECTION_EVENT, "ip address: {addr}".format(addr=addr))
-
+                    print("___CLOSE_CONNECTION___\n")
 
 
 
@@ -125,9 +126,11 @@ class TCPServer:
         self.__dbDriver = DBDriver()
 
         method_type = package.get_method_type()
-        strRecord = ""
-
+        strRecord = str("")
+        
+        
         loger.net_write_log(nvars.NET_EXEC_METHOD_TYPE_TASK_EVENT, ": {method_type}".format(method_type=method_type))
+        print("___EXECUTE REQUEST.METHOD_TYPE()___: ", method_type)
 
     
         if method_type == CREATE_RECORD_PACKAGE_METHOD_TYPE:
@@ -156,7 +159,9 @@ class TCPServer:
             )()
 
         elif method_type == ICMP_PACKAGE_TYPE:
-            return make_successful_package(package.get_data())
+            return self.__exec_task_to_safely_mode(
+                self.__make_icmp_package, package
+            )()
 
         else:
             loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, "{error_type}: {method_type}".format(
@@ -186,6 +191,10 @@ class TCPServer:
         while True:
             pkg = self.__recive_package_from_client(client)
 
+            if pkg.get_method_type() == ERROR_REQUEST_PACKAGE_TYPE:
+                loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, pkg.get_data())
+                break
+
             if pkg.get_method_type() == LAST_PACKAGE_TYPE:
                 self.__send_package_to_client(client, Package(SUCCESSFUL_PACKAGE_RESULT))
                 break
@@ -203,13 +212,15 @@ class TCPServer:
                 serialization(package)
             )
 
+            return make_successful_package()
+
         except socket.error as e:
             loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, "socket.send method erorr: => {error_type}".format(
                 error_type=e)
             )
-            exit(-1)
+            return make_erorr_package(str(e))
         
-        return 0
+        
 
 
     def __recive_package_from_client(self, client_sock):
@@ -223,7 +234,7 @@ class TCPServer:
             loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, "socket.recv method erorr: => {error_type}".format(
                 error_type=e)
             )
-            exit(-1)
+            return make_erorr_package(str(e))
 
         
 
@@ -282,10 +293,16 @@ class TCPServer:
         return Package(SUCCESSFUL_PACKAGE_RESULT)
 
 
+
     def __get_all_record_request(self):
         res = self.__dbDriver.get_all_records_into_table()
         
         return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+
+
+
+    def __make_icmp_package(self, package):
+        return make_successful_package(package.get_data())
 
 
 

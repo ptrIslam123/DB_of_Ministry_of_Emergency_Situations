@@ -52,6 +52,10 @@ def make_icmp_packaget(msg):
     return Package(ICMP_PACKAGE_TYPE, msg)
 
 
+def make_get_all_records_from_db_package():
+    return Package(GET_ALL_RECORDS_FROM_DB_PACKAGE_TYPE, "GET_ALL_RECORDS_FROM_DB_PACKAGE_TYPE")
+
+
 def make_successful_package(data=str("")):
     return Package(SUCCESSFUL_PACKAGE_RESULT, data=data)
 
@@ -85,7 +89,7 @@ def split_to_list_packages(package, size_package):
 
     packages.append(
         Package(LAST_PACKAGE_TYPE, "")
-    ) 
+    )
     return packages
 
     

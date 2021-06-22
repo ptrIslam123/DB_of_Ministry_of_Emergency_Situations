@@ -198,8 +198,8 @@ def initialization_application(app):
 def main():
     app = QtGui.QApplication(sys.argv)
 
-    if initialization_application(app) is False:
-        sys.exit(-1)
+    #if initialization_application(app) is False:
+    #    sys.exit(-1)
 
     
 
