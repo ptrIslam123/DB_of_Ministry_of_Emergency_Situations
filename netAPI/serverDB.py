@@ -315,15 +315,15 @@ class TCPServer:
         try:
             srtRecord   = package.get_data()
             data        = srtRecord.split('\n')
-                
-            res, _ = self.__dbDriver.remove_records_by_date_and_time(
+            
+            res, table_name = self.__dbDriver.remove_records_by_date_and_time(
                 data[0], data[1]
             )
 
             if res != 0:
                 return make_erorr_package("Server: error remove records")
                 
-            return Package(SUCCESSFUL_PACKAGE_RESULT)
+            return Package(SUCCESSFUL_PACKAGE_RESULT, table_name)
 
         except Exception as e:
             error = "in the __remove_record_request method error => {error_type}".format(

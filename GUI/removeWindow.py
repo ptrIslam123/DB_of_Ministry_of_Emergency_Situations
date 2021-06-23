@@ -105,17 +105,18 @@ class RemoveRecordsWindow(BaseWindow):
     def __remove_record_on_server(self, date, time):
         client = make_TCPClient()
 
-        package = Package()
-        package.set_method_type(REMOVE_RECORD_PACKAGE_METHOD_TYPE)
-        package.set_data("{date}\n{time}".format(date=date, time=time))
-        
-        client.send_data(
-            package
+        if client.connect() != 0:
+            pass
+
+        package = Package(
+            REMOVE_RECORD_PACKAGE_METHOD_TYPE,
+            "{date}\n{time}".format(date=date, time=time)   
         )
+        
+        client.send_package(package)
+        res_pkg, res = client.recive_package()
 
-        res_pkg = client.recive_data()
-
-        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
+        if res != 0:
             return res_pkg.get_method_type(), self.get_table_name()
 
         else:
