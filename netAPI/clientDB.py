@@ -129,9 +129,10 @@ def main():
         print("connect error!")
         exit(-1)
 
-    pkg = tclient.test_find_record_by_date_and_time_request(
-        client, "06.14.2021", "10:53"
-    )
+    record = tclient.test_make_record()
+    package = Package(CREATE_RECORD_PACKAGE_METHOD_TYPE, record.get_str_record())
+
+    pkg = tclient.test_create_new_record(client, package)
     tclient.print_package(pkg)
 
 

@@ -3,7 +3,21 @@
 
 
 from clientDB import *
+import sys
 
+sys.path.append('../src/')
+
+from record import Record
+
+
+
+def test_make_record():
+    rec = Record()
+    rec.set_date("22.22.25")
+    rec.set_time("22:25")
+    rec.set_rank("1")
+
+    return rec
 
 
 def perror(error_msg):
@@ -18,6 +32,15 @@ def print_package(pkg):
     print("}\n")
 
 
+
+def test_create_new_record(client, package):
+    client.send_package(package)
+    res_pkg, res = client.recive_package()
+
+    if res != 0:
+        perror("recive package error")
+
+    return res_pkg
 
 
 

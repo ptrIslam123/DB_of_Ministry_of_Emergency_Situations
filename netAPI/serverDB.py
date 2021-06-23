@@ -115,11 +115,15 @@ class TCPServer:
 
     def __processing_request(self, client_sock, package):
 
-        response_pkg = self.__exec_request(package)
-        print("___PROCESSED_REQUEST___")
-        self.__send_package(client_sock, response_pkg) 
-        print("___SENDED_RESPONSE___")
-        exit(0)
+        try:
+            response_pkg = self.__exec_request(package)
+            self.__send_package(client_sock, response_pkg)
+
+            print("___REQUEST_SUCCESSFUL_PROCESSING___")
+            exit(0)
+
+        except Exception as e:
+            print(str(e))
 
 
     def __exec_request(self, package):
@@ -241,64 +245,108 @@ class TCPServer:
 
     
     def __create_new_record_request(self, package):
-        strRecod    = package.get_data()
-        data        = strRecod.split('\n')
+        try:
+            strRecod    = package.get_data()
+            data        = strRecod.split('\n')
+            
+            self.__record.convListToRecord(data)
+            _, table_name = self.__dbDriver.write_new_record(self.__record)
 
-        self.__record.convListToRecord(data)
-        res = self.__dbDriver.write_new_record(self.__record)
+            return Package(SUCCESSFUL_PACKAGE_RESULT, table_name)
+        
+        except Exception as e:
+            error = "in the __create_new_record_request method error => {error_type}".format(
+                    error_type=str(e)
+            )
 
-        return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+            loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, error)
+            return make_erorr_package(error)
 
 
     
     def __find_record_request(self, package):
-        strRecod    = package.get_data()
-        data        = strRecod.split('\n')
+        try:
+            strRecod    = package.get_data()
+            data        = strRecod.split('\n')
 
-        status, _ , res = self.__dbDriver.find_records_by_date_and_time(data[0], data[1])
-        if status != 0:
-            loger.sys_write_log(
-                vars.ERROR_LOG_TYPE ,
-                self.__errHandler.handle(ERROR_FIND_RECORDS_IN_DB_TYPE)
+            status, _ , res = self.__dbDriver.find_records_by_date_and_time(data[0], data[1])
+            if status != 0:
+                loger.sys_write_log(
+                    vars.ERROR_LOG_TYPE ,
+                    self.__errHandler.handle(ERROR_FIND_RECORDS_IN_DB_TYPE)
+                )
+                return make_erorr_package("Server: error find records")
+                
+            else:
+                return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+
+        except Exception as e:
+            error = "in the __find_record_request method error => {error_type}".format(
+                    error_type=str(e)
             )
-            return make_erorr_package("Server: error find records")
-            
-        else:
-            return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+
+            loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, error)
+            return make_erorr_package(error)
 
 
     def __update_record_request(self, package):
-        srtRecord   = package.get_data()
-        data        = srtRecord.split('\n')
-            
-            
-        res, _ = self.__dbDriver.update_records_by_date_and_time(data)
+        try:
+            srtRecord   = package.get_data()
+            data        = srtRecord.split('\n')
+                
+                
+            res, _ = self.__dbDriver.update_records_by_date_and_time(data)
 
-        if res != 0:
-            return make_erorr_package("Server: error updating records")
+            if res != 0:
+                return make_erorr_package("Server: error updating records")
 
-        return Package(SUCCESSFUL_PACKAGE_RESULT)
+            return Package(SUCCESSFUL_PACKAGE_RESULT)
+
+        except Exception as e:
+            error = "in the __update_record_request method error => {error_type}".format(
+                    error_type=str(e)
+            )
+
+            loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, error)
+            return make_erorr_package(error)
 
     
     def __remove_record_request(self, package):
-        srtRecord   = package.get_data()
-        data        = srtRecord.split('\n')
-            
-        res, _ = self.__dbDriver.remove_records_by_date_and_time(
-            data[0], data[1]
-        )
+        try:
+            srtRecord   = package.get_data()
+            data        = srtRecord.split('\n')
+                
+            res, _ = self.__dbDriver.remove_records_by_date_and_time(
+                data[0], data[1]
+            )
 
-        if res != 0:
-            return make_erorr_package("Server: error remove records")
-            
-        return Package(SUCCESSFUL_PACKAGE_RESULT)
+            if res != 0:
+                return make_erorr_package("Server: error remove records")
+                
+            return Package(SUCCESSFUL_PACKAGE_RESULT)
+
+        except Exception as e:
+            error = "in the __remove_record_request method error => {error_type}".format(
+                    error_type=str(e)
+            )
+
+            loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, error)
+            return make_erorr_package(error)
 
 
 
     def __get_all_record_request(self):
-        res = self.__dbDriver.get_all_records_into_table()
-        
-        return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+        try:
+            res = self.__dbDriver.get_all_records_into_table()
+            return Package(SUCCESSFUL_PACKAGE_RESULT, res)
+
+        except Exception as e:
+            error = "in the __get_all_record_request method error => {error_type}".format(
+                    error_type=str(e)
+            )
+
+            loger.net_write_log(nvars.NET_CRITICAL_ERROR_EVENT, error)
+            return make_erorr_package(error)
 
 
 

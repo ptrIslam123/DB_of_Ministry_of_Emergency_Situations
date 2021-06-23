@@ -212,15 +212,19 @@ class CreateRecordWindow(BaseWindow):
     def __send_record_on_server(self, record):
         client = make_TCPClient()
 
-        package = Package()
-        package.set_method_type(CREATE_RECORD_PACKAGE_METHOD_TYPE)
-        package.set_data(record.get_str_record())
+        if client.connect() != 0:
+            return CLIENT_CONNECT_ERORR_TYPE, self.get_table_name()
+
+        package = Package(
+            CREATE_RECORD_PACKAGE_METHOD_TYPE, 
+            record.get_str_record()
+        )
         
-        client.send_data(package)
+        
+        client.send_package(package)
+        _, res = client.recive_package()
 
-        res_type = client.recive_data().get_method_type()
-
-        if res_type != SUCCESSFUL_PACKAGE_RESULT:
+        if res != 0:
             return ERROR_REQUEST_PACKAGE_TYPE, self.get_table_name()
 
         else:
