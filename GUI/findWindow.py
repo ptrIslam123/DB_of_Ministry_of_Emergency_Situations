@@ -123,12 +123,14 @@ class FindRecordsWindow(BaseWindow):
             FIND_RECORDS_PACKAGE_METHOD_TYPE,
             "{date}\n{time}".format(date=date, time=time)
         )
-        #package.set_method_type(FIND_RECORDS_PACKAGE_METHOD_TYPE)
-        #package.set_data("{date}\n{time}".format(date=date, time=time))
         
 
         client.send_package(package)
         res_pkg, res = client.recive_package()
+
+
+        if res != 0:
+            return ERROR_RECIVE_POACKAGE_FROM_SERVER, self.get_table_name(), None
 
        
         client.destroy_connect()
@@ -152,7 +154,7 @@ class FindRecordsWindow(BaseWindow):
         client = make_TCPClient()
 
         if client.connect() != 0:
-            pass
+            return None, errorHandler.CLIENT_CONNECT_ERORR_TYPE
         
         package = make_get_all_records_from_db_package()
         

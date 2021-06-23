@@ -116,8 +116,9 @@ class TCPServer:
     def __processing_request(self, client_sock, package):
 
         response_pkg = self.__exec_request(package)
+        print("___PROCESSED_REQUEST___")
         self.__send_package(client_sock, response_pkg) 
-
+        print("___SENDED_RESPONSE___")
         exit(0)
 
 

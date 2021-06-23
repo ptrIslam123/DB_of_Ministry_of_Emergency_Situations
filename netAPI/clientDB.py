@@ -129,7 +129,9 @@ def main():
         print("connect error!")
         exit(-1)
 
-    pkg = tclient.test_get_all_records_from_db(client)
+    pkg = tclient.test_find_record_by_date_and_time_request(
+        client, "06.14.2021", "10:53"
+    )
     tclient.print_package(pkg)
 
 
