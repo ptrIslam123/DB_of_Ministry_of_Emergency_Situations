@@ -106,7 +106,7 @@ class RemoveRecordsWindow(BaseWindow):
         client = make_TCPClient()
 
         if client.connect() != 0:
-            pass
+            return NET_CLIENT_CONNECT_ERROR_TYPE__EVENT, None
 
         package = Package(
             REMOVE_RECORD_PACKAGE_METHOD_TYPE,

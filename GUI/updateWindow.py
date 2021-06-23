@@ -223,17 +223,19 @@ class UpdateRecordsWindow(BaseWindow):
 
         client = make_TCPClient()
 
-        package = Package()
-        package.set_method_type(UPDATE_RECORD_PACKAGE_METHOD_TYPE)
-        package.set_data(strRecord)
+        if client.connect() != 0:
+            pass
 
-        client.send_data(
-            package
+        package = Package(
+            UPDATE_RECORD_PACKAGE_METHOD_TYPE,
+            strRecord
         )
+        
 
-        res_pkg = client.recive_data()
+        client.send_package(package)
+        res_pkg, res = client.recive_package()
 
-        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
+        if res != 0:
             return res_pkg.get_method_type(), self.get_table_name()
 
         else:
@@ -275,17 +277,18 @@ class UpdateRecordsWindow(BaseWindow):
     def __find_record_on_server(self, date, time):
         client = make_TCPClient()
 
-        package = Package()
-        package.set_method_type(FIND_RECORDS_PACKAGE_METHOD_TYPE)
-        package.set_data("{date}\n{time}".format(date=date, time=time))
+        if client.connect() != 0:
+            return NET_CLIENT_CONNECT_ERROR_TYPE__EVENT, None
 
-        client.send_data(
-            package
+        package = Package(
+            FIND_RECORDS_PACKAGE_METHOD_TYPE,
+            "{date}\n{time}".format(date=date, time=time)
         )
 
-        res_pkg = client.recive_data()
+        client.send_package(package)
+        res_pkg, res = client.recive_package()
 
-        if res_pkg.get_method_type() != SUCCESSFUL_PACKAGE_RESULT:
+        if res != 0:
             return res_pkg.get_method_type(), self.get_table_name(), None
 
         else:

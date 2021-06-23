@@ -295,12 +295,12 @@ class TCPServer:
             data        = srtRecord.split('\n')
                 
                 
-            res, _ = self.__dbDriver.update_records_by_date_and_time(data)
+            res, table_name = self.__dbDriver.update_records_by_date_and_time(data)
 
             if res != 0:
                 return make_erorr_package("Server: error updating records")
 
-            return Package(SUCCESSFUL_PACKAGE_RESULT)
+            return make_successful_package(table_name)
 
         except Exception as e:
             error = "in the __update_record_request method error => {error_type}".format(
