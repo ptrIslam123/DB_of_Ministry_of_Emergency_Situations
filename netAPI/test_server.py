@@ -97,28 +97,3 @@ while True:
                         break
 
 
-
-'''
-while True:
-        try:
-                client, addr = server.accept()
-
-        except KeyboardInterrupt:
-                server.close()
-                break
-
-        else:
-                try:
-                        while True:
-                                
-                                pkg = deserialization(client.recv(1024))
-                                print("type: ", pkg.get_method_type(), 'data: ', pkg.get_data())
-                                
-                                client.send(serialization(Package(
-                                        ICMP_PACKAGE_TYPE, "Ok"
-                                )))
-                                
-                except KeyboardInterrupt:
-                        client.close()
-                        break
-'''
