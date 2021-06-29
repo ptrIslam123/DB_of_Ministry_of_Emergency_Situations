@@ -3,6 +3,8 @@
 
 import hashlib
 import pickle
+from sys import argv
+import os
 from vars import PASSWD_FILE_PATH
 
 
@@ -70,7 +72,7 @@ def read_passwd_from_file():
 def make_first_user(login, password):
     user = Passwd()
 
-    user.registration_new_user(login, passwd)
+    user.registration_new_user(login, password)
     write_passwd_in_file(user)
 
     return 0
@@ -78,7 +80,16 @@ def make_first_user(login, password):
 
 
 def main():
-    if make_first_user('root', '12345') != 0:
+
+    if os.path.exists(PASSWD_FILE_PATH) == False:
+        with open(PASSWD_FILE_PATH, "w") as file:
+            pass
+    
+    _ , user_name, passwd = argv
+
+    
+
+    if make_first_user(user_name, passwd) != 0:
         print("fail!")
         exit(-1)
     
