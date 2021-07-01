@@ -48,7 +48,7 @@ def make_erorr_package(message_err):
     return Package(ERROR_REQUEST_PACKAGE_TYPE, message_err)
 
 
-def make_icmp_packaget(msg):
+def make_icmp_package(msg):
     return Package(ICMP_PACKAGE_TYPE, msg)
 
 

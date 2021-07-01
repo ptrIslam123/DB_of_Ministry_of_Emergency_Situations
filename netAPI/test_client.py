@@ -78,7 +78,7 @@ def test_find_record_by_date_and_time_request(client, date, time):
 
 def test_icmp(client, msg):
     client.send_package(
-        make_icmp_packaget(msg)
+        make_icmp_package(msg)
     )
 
     pkg, res = client.recive_package()

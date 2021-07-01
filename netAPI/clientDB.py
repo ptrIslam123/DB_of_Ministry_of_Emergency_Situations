@@ -129,12 +129,13 @@ def main():
         print("connect error!")
         exit(-1)
 
-    record = tclient.test_make_record()
-    package = Package(CREATE_RECORD_PACKAGE_METHOD_TYPE, record.get_str_record())
+    client.send_package(make_icmp_package("hello fack!"))
+    res_pkg, res = client.recive_package()
 
-    pkg = tclient.test_create_new_record(client, package)
-    tclient.print_package(pkg)
+    if res != 0:
+        tclient.perror("recive package error!")
 
+    print(res_pkg.get_data())
 
 if __name__ == "__main__":
     main()
