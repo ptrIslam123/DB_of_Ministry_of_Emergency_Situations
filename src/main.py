@@ -10,11 +10,27 @@ from sqliteDriver import *
 
 def main():
     r = RecordTable()
+    r.insert(
+        "date",
+        "time",
+        "district_departue",
+        "address",
+        "entrance",
+        "flat",
+        "floor",
+        "phone_number",
+        "reported",
+        "visit_type",
+        "additional_data",
+        "sender_technics",
+        "rank",
+        "message"
+    )
 
     db = DBDriver()
-    res = db.listTostr(r.select_all_records())
-    print("[\n{res}\n]".format(res=res))
-    print("successful!")
+    #res = db.listTostr(r.select_all_records())
+    #print("[\n{res}\n]".format(res=res))
+    #print("successful!")
     
 
 
