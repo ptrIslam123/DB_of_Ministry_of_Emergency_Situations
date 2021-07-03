@@ -129,12 +129,7 @@ def main():
         print("connect error!")
         exit(-1)
 
-    client.send_package(make_icmp_package("hello fack!"))
-    res_pkg, res = client.recive_package()
-
-    if res != 0:
-        tclient.perror("recive package error!")
-
+    res_pkg = tclient.test_icmp(client, "hello world!")
     print(res_pkg.get_data())
 
 if __name__ == "__main__":

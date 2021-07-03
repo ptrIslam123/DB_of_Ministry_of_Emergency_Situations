@@ -262,4 +262,33 @@ class RecordTable:
             """.format(__table_name=self.__table_name)
         )
 
-        return self.__sqlDriver.fetchall()
+        data = self.__sqlDriver.fetchall()
+
+        if len(data) == 0:
+            return self.__make_null_record()
+
+        return data
+
+
+    def __make_null_record(self):
+        data = []
+
+        data.append({
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null",
+            "Null"
+        })
+
+        return data
+        

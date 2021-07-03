@@ -8,9 +8,15 @@ from vars import *
 
 from sqliteDriver import *
 
+
+
+
+
+
 def main():
     r = RecordTable()
-
+   
+    
     db = DBDriver()
     res = db.listTostr(r.select_all_records())
     print("[\n{res}\n]".format(res=res))
