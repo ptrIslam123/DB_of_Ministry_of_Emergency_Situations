@@ -196,7 +196,7 @@ class Record:
 
     
     def get_cur_time_str(self):
-        return "{:%H:%M}".format(datetime.datetime.now().time())
+        return "{:%H:%M:%S}".format(datetime.datetime.now().time())
 
 
     def set_district_departue(self, val):
