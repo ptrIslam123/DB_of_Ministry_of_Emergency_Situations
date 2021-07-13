@@ -8,6 +8,9 @@ mkdir sqlDB
 touch sqlDB/main.db
 
 
+# Create report direcotory for reports doc
+mkdir reports
+
 # chenge current directopy 
 cd src/
 USER_LOGIN="root" # default user login
